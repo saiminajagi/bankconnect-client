@@ -10,7 +10,6 @@ import { SignupServiceService} from '../services/signup-service.service';
 })
 export class AdminaccountsetupComponent implements OnInit {
 
-// tslint:disable-next-line: ban-types
   sent: Number = 0;
   signupForm: FormGroup;
 
