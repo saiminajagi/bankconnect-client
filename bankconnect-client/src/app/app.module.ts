@@ -14,6 +14,8 @@ import { AdminprofileComponent } from './adminprofile/adminprofile.component';
 import { IdbpintegrateComponent } from './idbpintegrate/idbpintegrate.component';
 import { NavComponent } from './nav/nav.component';
 import { GetAdminProfileResolverService } from './adminprofile/get-adminprofile-resolver.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CreatebankaccountComponent } from './createbankaccount/createbankaccount.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { GetAdminProfileResolverService } from './adminprofile/get-adminprofile-
     AdminaccountsetupComponent,
     AdminprofileComponent,
     IdbpintegrateComponent,
-    NavComponent
+    NavComponent,
+    DashboardComponent,
+    CreatebankaccountComponent
   ],
   imports: [
     BrowserModule,
