@@ -33,6 +33,7 @@ routes.route('/sendmail')
     var lname = req.body.lname;
     var useremail = req.body.email;
     var pass = req.body.pass;
+    var admin = req.body.admin;
     //generate a code.
     var date = new Date();
     var timestamp = date.getTime();
@@ -43,6 +44,7 @@ routes.route('/sendmail')
         username: username,
         fname : fname,
         lname : lname,
+        admin : admin,
         ts : timestamp,
         email : useremail,
         confirmation : false,

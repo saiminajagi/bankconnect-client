@@ -14,6 +14,14 @@
     <div class="col-sm-4">
       <form [formGroup]="signupForm" (ngSubmit) = "onSubmit()">
         <div class="form-group">
+          <label for="exampleInputAdminName">First Name</label>
+          <input type="text" class="form-control" formControlName="fname" placeholder="Enter First Name">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputAdminName">Last Name</label>
+          <input type="text" class="form-control" formControlName="lname" placeholder="Enter Last Name">
+        </div>
+        <div class="form-group">
               <label for="exampleInputAdminName">Admin Name</label>
               <input type="text" class="form-control" formControlName="admin" placeholder="Enter Admin Name">
         </div>

@@ -20,11 +20,15 @@ export class AdminaccountsetupComponent implements OnInit {
       admin:['',[Validators.required]],
       email:['',[Validators.required]],
       pass:['',[Validators.required]],
+      fname:['',[Validators.required]],
+      lname:['',[Validators.required]],
     });
   }
 
   onSubmit(){
     var myObj = {
+      fname : this.signupForm.controls.fname.value,
+      lname : this.signupForm.controls.lname.value,
       admin : this.signupForm.controls.admin.value,
       email: this.signupForm.controls.email.value,
       pass: this.signupForm.controls.pass.value,
