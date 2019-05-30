@@ -25,5 +25,21 @@ export class SignupServiceService {
     });
   }
 
+  sendBankAccountDetails(user: any): Observable<any>{
+    return this.http.post<any>('route/bankdetails', user,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+
+  sendIDBPIntegrationDetails(user: any): Observable<any>{
+    return this.http.post<any>('route/idbpdetails', user,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+
 
 }
