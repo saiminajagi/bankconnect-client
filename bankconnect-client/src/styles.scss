@@ -26,6 +26,7 @@ $bankconnect-client-theme: mat-light-theme($bankconnect-client-primary, $bankcon
 // that you are using.
 @include angular-material-theme($bankconnect-client-theme);
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
 /* You can add global styles to this file, and also import other style files */
 

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { SignupServiceService } from './services/signup-service.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,8 @@ import { AdminaccountsetupComponent } from './adminaccountsetup/adminaccountsetu
 import { AdminprofileComponent } from './adminprofile/adminprofile.component';
 import { IdbpintegrateComponent } from './idbpintegrate/idbpintegrate.component';
 import { NavComponent } from './nav/nav.component';
+import { GetAdminProfileResolverService } from './adminprofile/get-adminprofile-resolver.service';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +27,7 @@ import { NavComponent } from './nav/nav.component';
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [SignupServiceService, GetAdminProfileResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
