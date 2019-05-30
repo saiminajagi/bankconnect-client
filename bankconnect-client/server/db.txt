@@ -1,0 +1,3 @@
+db.apis.insert({name:"account",cbs:"Finnacle",versions:["10.2.0","9.8.3","9.4.4"]});
+
+db.cbservices.insert({name:"Finnacle",versions:["10.2.0","9.8.3","9.4.4"]});

@@ -1,0 +1,33 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "description": "bank connect client",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "tushar",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.19.0",
+    "connect-busboy": "0.0.2",
+    "ejs": "^2.6.1",
+    "express": "^4.17.0",
+    "express-fileupload": "^1.1.4",
+    "express-formidable": "^1.2.0",
+    "express-session": "^1.16.1",
+    "file-base64": "^1.0.0",
+    "formidable": "^1.2.1",
+    "fs": "0.0.1-security",
+    "gridfs-stream": "^1.1.1",
+    "mongodb": "^3.2.5",
+    "mongoose": "^5.5.10",
+    "multer": "^1.4.1",
+    "nodemailer": "^6.2.1",
+    "path": "^0.12.7",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {}
+}
