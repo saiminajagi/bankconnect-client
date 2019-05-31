@@ -16,11 +16,13 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.signupService.checkBankConnect()
     .subscribe((data)=>{
+      console.log("bank_connected:"+data );
       this.bank_connected = data;
     },(err)=> console.log(err));
 
     this.signupService.checkintegrated()
     .subscribe((data)=>{
+      console.log("integrated:"+data );
       this.integrated = data;
     },(err)=> console.log(err));
   }
