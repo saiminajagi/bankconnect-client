@@ -1,4 +1,3 @@
-<p>
     <div class="bank-connected" *ngIf="!bank_connected; else elseBlock">
         <a routerLink="/createbankaccount"> Create Bank Connect </a>
     </div>
@@ -6,4 +5,3 @@
     <ng-template #elseBlock class="integration" *ngIf="!integrated">
         <a *ngIf="!integrated" routerLink="/idbpintegrate"> integrate with IDBP </a>
     </ng-template>
-</p>

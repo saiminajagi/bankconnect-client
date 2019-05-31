@@ -17,15 +17,15 @@ export class CreatebankaccountComponent implements OnInit {
   ngOnInit() {
     this.createBankAccountForm = this.fb.group({
       bankname:['',[Validators.required]],
-      username:['',[Validators.required]],
+      email:['',[Validators.required]],
       pass:['',[Validators.required]],
     });
   }
 
   onSubmit(){
     var myObj = {
-      bankname : this.createBankAccountForm.controls.admin.value,
-      username: this.createBankAccountForm.controls.email.value,
+      bankname : this.createBankAccountForm.controls.bankname.value,
+      email: this.createBankAccountForm.controls.email.value,
       pass: this.createBankAccountForm.controls.pass.value,
     };
 

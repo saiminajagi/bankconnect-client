@@ -96,9 +96,9 @@ routes.route('/bankdetails')
 
     var newbank = new bankmodel({
     bankname : req.body.bankname,
-    username : req.body.username,
-    pass = req.body.pass,
-    email = sess.email
+    //username : req.body.username,
+    pass : req.body.pass,
+    email : req.body.email
     });
     newbank.save();
 

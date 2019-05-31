@@ -26,9 +26,10 @@ export class IdbpintegrateComponent implements OnInit {
 
   onSubmit(){
     var myObj = {
-      admin : this.integrationInputForm.controls.admin.value,
-      email: this.integrationInputForm.controls.email.value,
-      pass: this.integrationInputForm.controls.pass.value,
+      sip : this.integrationInputForm.controls.admin.value,
+      sport: this.integrationInputForm.controls.email.value,
+      tlsname: this.integrationInputForm.controls.pass.value,
+      tlsversion: this.integrationInputForm.controls.pass.value,
     };
 
     this.signservice.sendIDBPIntegrationDetails(myObj)
