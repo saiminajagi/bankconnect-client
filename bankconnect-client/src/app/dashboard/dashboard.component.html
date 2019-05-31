@@ -1,9 +1,11 @@
     <div class="bank-connected" *ngIf="!bank_connected">
-        <p> Admin Profile has been successfully setup. Please click the following link to </p>
-        <a routerLink="/createbankaccount"> Create Bank Connect </a>
+        <h3> Admin Profile has been successfully setup.</h3><br>
+        <p>Please click continue <b>Create bank Account</b></p>
+        <button class="btn btn-primary" routerLink="/createbankaccount">Continue</button>
     </div>
 
     <div class="integration" *ngIf="integrated">
-        <p> Bank Account has been successfully set up. Please click the following link to</p>
-        <a routerLink="/idbpintegrate"> integrate with IDBP </a>
+        <h3> Bank Account has been successfully created.</h3><br>
+        <p>Please click continue <b>integrate with IDBP</b></p>
+        <button class="btn btn-primary" routerLink="/idbpintegrate">Continue</button>
     </div>
