@@ -1,3 +1,42 @@
-<p>
-  createbankaccount works!
-</p>
+
+<div class="confirmation" *ngIf="sent; else elseBlock">
+  <p> An Email has been sent to your Bank email. Please click on the link in your email to continue.</p>
+  <p><b> You can CLOSE this window now</b></p>
+</div>
+
+<ng-template #elseBlock>
+  <div class="row">
+    <div class="col-sm-4">
+
+    </div>
+    <div class="col-sm-4">
+      <form [formGroup]="createBankAccountForm" (ngSubmit) = "onSubmit()">
+        <div class="form-group">
+              <label for="exampleInputBankName1">Bank Name</label>
+              <input type="text" class="form-control" formControlName="bankname" id="exampleInputBankName1" placeholder="Enter Bank Name">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputUsername1">Email address</label>
+          <input type="text" class="form-control" formControlName="username" id="exampleInputUsername1" aria-describedby="emailHelp" placeholder="Enter Username">
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPass1">Password</label>
+          <input type="password" class="form-control" formControlName="pass" id="exampleInputPass1" placeholder="Enter Password">
+        </div>
+
+      <!--
+        <div class="form-group">
+          <label for="exampleInputPass2">Re-Type Password</label>
+          <input type="password" class="form-control" formControlName="pass2" id="exampleInputPass2" placeholder="Re-Type Password">
+        </div> -->
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <div class="col-sm-4">
+
+    </div>
+  </div>
+
+</ng-template>

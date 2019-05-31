@@ -4,6 +4,7 @@ import { AdminaccountsetupComponent } from './adminaccountsetup/adminaccountsetu
 import { AdminprofileComponent } from './adminprofile/adminprofile.component';
 import { IdbpintegrateComponent } from './idbpintegrate/idbpintegrate.component';
 import { GetAdminProfileResolverService } from './adminprofile/get-adminprofile-resolver.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatebankaccountComponent } from './createbankaccount/createbankaccount.component';
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   { path: 'accountsetup', component: AdminaccountsetupComponent},
   { path: 'adminprofile', component: AdminprofileComponent, resolve : { admin_profile : GetAdminProfileResolverService}},
   { path: 'idbpintegrate', component: IdbpintegrateComponent},
-  { path: 'createbankaccount', component: CreatebankaccountComponent }
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'createbankaccount', component: CreatebankaccountComponent}
 ];
 
 @NgModule({
