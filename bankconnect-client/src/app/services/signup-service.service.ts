@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Banks } from '../domain/banks';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 
@@ -9,6 +10,16 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 export class SignupServiceService {
 
   constructor(private http: HttpClient) { }
+
+  getallBanks(): Banks[] {
+    let allbanks = [
+        new Banks('HDFC'),
+        new Banks('RBL'),
+        new Banks('Federal Bank'),
+        new Banks('Canara Bank')
+    ]
+    return allbanks;
+}
 
   sendAdminSignUpDetails(user: any): Observable<any>{
     return this.http.post<any>('route/sendmail', user,{
@@ -26,7 +37,7 @@ export class SignupServiceService {
   }
   checkBankConnect():Observable<any>{
     return this.http.get<any>('/route/bankdetails',{
-      headers: 
+      headers:
       new HttpHeaders({'Content-Type':'application/json'})
     });
   }
@@ -51,7 +62,7 @@ export class SignupServiceService {
 
   checkintegrated():Observable<any>{
     return this.http.get<any>('route/idbpdetails',{
-      headers : 
+      headers :
       new HttpHeaders({ 'Content-Type':'application/json'})
     });
   }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { SignupServiceService} from '../services/signup-service.service';
+import { Banks } from '../domain/banks';
+
 
 @Component({
   selector: 'app-createbankaccount',
@@ -11,12 +13,13 @@ export class CreatebankaccountComponent implements OnInit {
 
   sent: Number = 0;
   createBankAccountForm: FormGroup;
+  allBanks: Banks[];
 
   constructor(private fb: FormBuilder, private signservice: SignupServiceService) { }
 
   ngOnInit() {
     this.createBankAccountForm = this.fb.group({
-      bankname:['',[Validators.required]],
+      bankname:['null',[Validators.required]],
       username:['',[Validators.required]],
       pass:['',[Validators.required]],
     });
@@ -24,10 +27,11 @@ export class CreatebankaccountComponent implements OnInit {
 
   onSubmit(){
     var myObj = {
-      bankname : this.createBankAccountForm.controls.admin.value,
+      bankname: this.createBankAccountForm.controls.bankname.value.bankName,
       username: this.createBankAccountForm.controls.email.value,
       pass: this.createBankAccountForm.controls.pass.value,
     };
+    this.allBanks = this.signservice.getallBanks();
 
     this.signservice.sendBankAccountDetails(myObj)
   .subscribe(
