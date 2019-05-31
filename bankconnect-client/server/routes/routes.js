@@ -81,7 +81,7 @@ routes.route('/confirm/:ts/:id')
 });
 
 //======================== BANK DETAILS =============================
-
+ 
 routes.route('/bankdetails')
 .get((req,res)=>{
     usermodel.find({email:sess.email},(err,doc)=>{
