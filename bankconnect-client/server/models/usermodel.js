@@ -5,12 +5,15 @@ var userschema = mongoose.Schema({
     ts : String,
     email : String,
     confirmation : Boolean,
+    bankConnected : Boolean,
     password: String,
     fname : String,
     lname: String,
-    admin : String
+    admin : String,
+    integrated : Boolean
 },{
     timestamp : true
 });
 
 module.exports = mongoose.model('User',userschema);
+

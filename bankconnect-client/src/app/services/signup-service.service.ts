@@ -25,5 +25,17 @@ export class SignupServiceService {
     });
   }
 
+  checkBankConnect():Observable<any>{
+    return this.http.get<any>('/route/bankdetails',{
+      headers: 
+      new HttpHeaders({'Content-Type':'application/json'})
+    });
+  }
 
+  checkintegrated():Observable<any>{
+    return this.http.get<any>('route/idbpdetails',{
+      headers : 
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    });
+  }
 }
