@@ -14,9 +14,8 @@
         <div class="form-group">
           <label for="exampleFormControlSelect1">Select Bank</label>
           <select class="form-control" formControlName="bankname">
-            <option [ngValue]="null" disabled>Choose your bank</option>
-            <option *ngFor="let list of allBanks" [ngValue]="list">
-             {{ list.bankName }}
+            <option *ngFor="let list of allBanks" [ngValue]="list" value="{{list.value}}">
+             {{ list.viewValue }}
             </option>
           </select>
         </div>
