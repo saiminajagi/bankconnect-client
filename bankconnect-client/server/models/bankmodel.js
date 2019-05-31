@@ -4,7 +4,8 @@ var bankschema = mongoose.Schema({
     username: String,
     email : String,
     password: String,
-    bankname : String
+    bankname : String,
+    ts : String
 },{
     timestamp : true
 });

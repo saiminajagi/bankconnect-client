@@ -1,7 +1,9 @@
-    <div class="bank-connected" *ngIf="!bank_connected; else elseBlock">
+    <div class="bank-connected" *ngIf="!bank_connected">
+        <p> Admin Profile has been successfully setup. Please click the following link to </p>
         <a routerLink="/createbankaccount"> Create Bank Connect </a>
     </div>
 
-    <ng-template #elseBlock class="integration" *ngIf="!integrated">
-        <a *ngIf="!integrated" routerLink="/idbpintegrate"> integrate with IDBP </a>
-    </ng-template>
+    <div class="integration" *ngIf="integrated">
+        <p> Bank Account has been successfully set up. Please click the following link to</p>
+        <a routerLink="/idbpintegrate"> integrate with IDBP </a>
+    </div>

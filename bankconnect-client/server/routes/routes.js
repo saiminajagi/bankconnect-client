@@ -8,7 +8,7 @@ var axios = require('axios');
 
 var usermodel = require('../models/usermodel');
 var bankmodel = require('../models/bankmodel');
-var apimodel = require('../models/apimodel');
+var idbpmodel = require('../models/idbpmodel');
 
 var routes = express.Router();
 
@@ -94,16 +94,17 @@ routes.route('/bankdetails')
     var sess;
     sess = req.session;
 
+    var date = new Date();
+    var timestamp = date.getTime();
+
     var newbank = new bankmodel({
     bankname : req.body.bankname,
     //username : req.body.username,
     pass : req.body.pass,
-    email : req.body.email
+    email : req.body.email,
+    ts : timestamp
     });
     newbank.save();
-
-    var date = new Date();
-    var timestamp = date.getTime();
 
     sendmail_bank(sess.email,timestamp);
     var msg = "Email sent.. Please check your email to continue the process'+ `<br>` + 'you can close this window";
@@ -131,13 +132,24 @@ routes.route('/bank_confirm/:ts/:id')
 routes.route('/idbpdetails')
 .get((req,res)=>{
     usermodel.find({email:sess.email},(err,doc)=>{
-        if(doc[0].bankConnected)
+        if(doc[0].bankConnected && !doc[0].integrated)
             res.json(1)
         else res.json(0);
     })
 })
 .post(urlencodedParser,(req,res)=>{
+    var newidbp = new idbpmodel({
+        sport : req.body.sport,
+        sip : req.boody.sip,
+        tlsname : req.body.tlsname,
+        tlsversion : req.body.tlsversion
+    });
+    newidbp.save();
 
+    usermodel.find({email : sess.email},{$set: { integrated : true}},(err,doc)=>{
+        console.log("IDBP Integrated");
+    });
+    res.redirect('/dashboard');
 })
 
 routes.route('/integrated')
@@ -160,7 +172,7 @@ routes.route('/integrated')
 })
 
 //============================ PROFILE ===========================================
-routes.route('/profile')
+routes.route('/adminprofile')
 .get((req,res)=>{
     var sess = req.session;
 
@@ -207,7 +219,7 @@ function sendmail(email,ts){
 }
 
 function sendmail_bank(email,ts){
-    var link = `http://localhost:3000/bank_confirm/confirm/${ts}/${email}`;
+    var link = `http://localhost:3000/route/bank_confirm/${ts}/${email}`;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
