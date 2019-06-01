@@ -1,43 +1,51 @@
-<h2><b>IDBP Integration Step</b></h2>
-<br>
-<h4>Please Provide</h4>
-<br>
-
-<div class="container">
-  <form [formGroup]="integrationInputForm" (ngSubmit)="onSubmit()">
-    <div class="row">
-          <div class="col-2"></div>
-          <div class="col-2"></div>
-          <div class="col-2">
-              <h6><b>Server Details</b></h6><br>
-              <div class="form-group">
-                  <label for="exampleInputServerIPPort">Port</label>
-                  <input type="text" class="form-control" formControlName="serverport" id="exampleInputServerIPPort" placeholder="Enter Port">
-              </div>
-              <div class="form-group">
-                  <label for="exampleInputServerIP">IP address</label>
-                  <input type="text" class="form-control" formControlName="serverip" id="exampleInputServerIP" placeholder="Enter IP">
-              </div>
-          </div>
-          <div class="col-2">
-              <h6><b>TLS Profile</b></h6><br>
-              <div class="form-group">
-                  <label for="exampleInputTLSName">TLS Name</label>
-                  <input type="text" class="form-control" formControlName="tlsname" id="exampleInputTLSName" placeholder="Enter Name">
-              </div>
-              <div class="form-group">
-                  <label for="exampleInputTLSversion">Version</label>
-                  <input type="text" class="form-control" formControlName="tlsversion" id="exampleInputTLSversion" placeholder="Version">
-              </div>
-              <div class="form-group">
-                  <label for="exampleInputUploadCertificate">Upload certificate</label>
-                  <input type="file" class="form-control" formControlName="tlscertificate" id="exampleInputUploadCertificate" placeholder="Browse">
-              </div>
-          </div>
-          <div class="col-2"></div>
-          <div class="col-2"></div>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+<div class="confirmation" *ngIf="sent; else elseBlock">
+  <div class="forpadding">
+      <h3><b>Secure token Generated</b></h3><br>
+      <p> Copy this to integrate with bank connect</p>
+      <p><b>{{token}}</b></p>
+  </div>
 </div>
+
+<ng-template #elseBlock>
+    <h2><b>IDBP Integration Step</b></h2>
+    <br>
+    <h4>Please Provide</h4>
+    <br>
+      <form [formGroup]="integrationInputForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+              <div class="col-2"></div>
+              <div class="col-2"></div>
+              <div class="col-2">
+                  <h6><b>Server Details</b></h6><br>
+                  <div class="form-group">
+                      <label for="exampleInputServerIP">IP address</label>
+                      <input type="text" class="form-control" formControlName="serverip" id="exampleInputServerIP" placeholder="Enter IP">
+                  </div>
+                  <div class="form-group">
+                      <label for="exampleInputServerIPPort">Port</label>
+                      <input type="text" class="form-control" formControlName="serverport" id="exampleInputServerIPPort" placeholder="Enter Port">
+                  </div>
+              </div>
+              <div class="col-2">
+                  <h6><b>TLS Profile</b></h6><br>
+                  <div class="form-group">
+                      <label for="exampleInputTLSName">TLS Name</label>
+                      <input type="text" class="form-control" formControlName="tlsname" id="exampleInputTLSName" placeholder="Enter Name">
+                  </div>
+                  <div class="form-group">
+                      <label for="exampleInputTLSversion">Version</label>
+                      <input type="text" class="form-control" formControlName="tlsversion" id="exampleInputTLSversion" placeholder="Version">
+                  </div>
+                  <!-- <div class="form-group">
+                      <label for="exampleInputUploadCertificate">Upload certificate</label>
+                      <input type="file" class="form-control" formControlName="tlscertificate" id="exampleInputUploadCertificate" placeholder="Browse">
+                  </div> -->
+              </div>
+              <div class="col-2"></div>
+              <div class="col-2"></div>
+        </div>
+        <p><b>Click to</b></p>
+        <button type="submit" class="btn btn-primary">Generate Secure Token</button>
+      </form>
+</ng-template>
+

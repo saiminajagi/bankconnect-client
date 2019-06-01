@@ -81,7 +81,7 @@ routes.route('/confirm/:ts/:id')
 });
 
 //======================== BANK DETAILS =============================
- 
+
 routes.route('/bankdetails')
 .get((req,res)=>{
     usermodel.find({email:sess.email},(err,doc)=>{
@@ -140,7 +140,7 @@ routes.route('/idbpdetails')
 .post(urlencodedParser,(req,res)=>{
     var newidbp = new idbpmodel({
         sport : req.body.sport,
-        sip : req.boody.sip,
+        sip : req.body.sip,
         tlsname : req.body.tlsname,
         tlsversion : req.body.tlsversion
     });
@@ -149,7 +149,9 @@ routes.route('/idbpdetails')
     usermodel.find({email : sess.email},{$set: { integrated : true}},(err,doc)=>{
         console.log("IDBP Integrated");
     });
-    res.redirect('/dashboard');
+
+    // res.redirect('/dashboard');
+    res.json('Details saved')
 })
 
 routes.route('/integrated')
