@@ -25,7 +25,7 @@ export class IdbpintegrateComponent implements OnInit {
   }
 
   onSubmit(){
-    this.token = Math.random().toString(36).substring(7);
+    this.token = 'weijd67wuyfiyi84fo4d39rdewdo0ur3';
     console.log(this.token);
     var myObj = {
       sip : this.integrationInputForm.controls.serverip.value,
