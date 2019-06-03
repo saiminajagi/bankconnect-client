@@ -17,6 +17,7 @@ import { GetAdminProfileResolverService } from './adminprofile/get-adminprofile-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatebankaccountComponent } from './createbankaccount/createbankaccount.component';
 import { SupportComponent } from './support/support.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { SupportComponent } from './support/support.component';
     NavComponent,
     DashboardComponent,
     CreatebankaccountComponent,
-    SupportComponent
+    SupportComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
