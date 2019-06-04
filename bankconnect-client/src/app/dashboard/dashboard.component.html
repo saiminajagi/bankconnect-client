@@ -1,10 +1,10 @@
-    <div class="bank-connected" *ngIf="!bank_connected">
+    <div class="bank-connected" *ngIf="adminaccount">
         <h3> Admin Profile has been successfully setup.</h3><br>
         <p>Please click continue to <b>integrate with IDBP</b></p>
         <button class="btn btn-primary" routerLink="/idbpintegrate">Continue</button>
     </div>
 
-    <div class="integration" *ngIf="integrated">
+    <div class="integration" *ngIf="bankaccount">
         <h3> Bank Account has been successfully created.</h3><br>
         <p>Please click continue to <b>integrate with IDBP</b></p>
         <button class="btn btn-primary" routerLink="/idbpintegrate">Continue</button>

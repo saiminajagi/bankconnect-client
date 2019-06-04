@@ -24,12 +24,6 @@ export class SignupServiceService {
       new HttpHeaders({ 'Content-Type':'application/json'})
     });
   }
-  checkBankConnect():Observable<any>{
-    return this.http.get<any>('/route/bankdetails',{
-      headers:
-      new HttpHeaders({'Content-Type':'application/json'})
-    });
-  }
 
 
   sendBankAccountDetails(user: any): Observable<any>{
@@ -49,8 +43,15 @@ export class SignupServiceService {
   }
 
 
-  checkintegrated():Observable<any>{
-    return this.http.get<any>('route/idbpdetails',{
+  checkadminaccount():Observable<any>{
+    return this.http.get<any>('route/checkadmin',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    });
+  }
+
+  checkbankaccount():Observable<any>{
+    return this.http.get<any>('route/checkbank',{
       headers :
       new HttpHeaders({ 'Content-Type':'application/json'})
     });

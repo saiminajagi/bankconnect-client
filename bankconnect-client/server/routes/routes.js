@@ -8,7 +8,6 @@ var axios = require('axios');
 
 var usermodel = require('../models/usermodel');
 var bankmodel = require('../models/bankmodel');
-var idbpmodel = require('../models/idbpmodel');
 
 var routes = express.Router();
 
@@ -45,9 +44,11 @@ routes.route('/sendmail')
         admin : admin,
         ts : timestamp,
         email : useremail,
-        bankConnected : false,
         confirmation : false,
-        integrated : false
+        sport: "default",
+        sip : "default",
+        tlsname : "default",
+        tlsversion: "default"
     });
     newuser.save((err)=>{
         if(err)
@@ -56,6 +57,8 @@ routes.route('/sendmail')
 
     sess = req.session;
     sess.email = useremail;
+    sess.admin = 1;
+    sess.bank = 0;
     sess.ts = timestamp;
 
     sendmail(useremail,timestamp);
@@ -65,7 +68,7 @@ routes.route('/sendmail')
 
 routes.route('/confirm/:ts/:id')
 .get((req,res)=>{
-
+  var sess = req.session;
     usermodel.find({email : req.params.id},(err,doc)=>{
         if(req.params.ts == doc[0].ts){
             usermodel.findOneAndUpdate({email : req.params.id},{$set : {confirmation : true}},{new : true},(err,doc)=>{
@@ -83,30 +86,32 @@ routes.route('/confirm/:ts/:id')
 //======================== BANK DETAILS =============================
 
 routes.route('/bankdetails')
-.get((req,res)=>{
-    usermodel.find({email:sess.email},(err,doc)=>{
-        if(doc[0].bankConnected)
-            res.json(1)
-        else res.json(0);
-    })
-})
 .post(urlencodedParser,(req,res)=>{
-    var sess;
-    sess = req.session;
 
+    var bankname = req.body.bankname;
+    var bankemail = req.body.email;
+    var bankpass = req.body.pass;
     var date = new Date();
     var timestamp = date.getTime();
 
     var newbank = new bankmodel({
-    bankname : req.body.bankname,
-    //username : req.body.username,
-    pass : req.body.pass,
-    email : req.body.email,
-    ts : timestamp
+        bankname: bankname,
+        email: bankemail,
+        password: bankpass,
+        ts: timestamp,
+        confirmation : false,
+        sport: "default",
+        sip : "default",
+        tlsname : "default",
+        tlsversion: "default"
     });
     newbank.save();
 
-    sendmail_bank(sess.email,timestamp);
+    var sess = req.session;
+    sess.email = bankemail;
+    sess.admin = 0;
+    sess.bank = 1;
+    sendmail_bank(req.body.email,timestamp);
     var msg = "Email sent.. Please check your email to continue the process'+ `<br>` + 'you can close this window";
     res.json(msg);
 })
@@ -114,9 +119,10 @@ routes.route('/bankdetails')
 //======================== CONFIRMATION ===================
 routes.route('/bank_confirm/:ts/:id')
 .get((req,res)=>{
+    var sess = req.session;
     bankmodel.find({email : req.params.id},(err,doc)=>{
         if(req.params.ts == doc[0].ts){
-            usermodel.findOneAndUpdate({email : req.params.id},{$set : {bankConnected : true}},{new : true},(err,doc)=>{
+            bankmodel.findOneAndUpdate({email : req.params.id},{$set : {confirmation : true}},{new : true},(err,doc)=>{
             });
             console.log("updated bank");
             res.redirect('/dashboard');
@@ -130,65 +136,103 @@ routes.route('/bank_confirm/:ts/:id')
 
 // ============================== ALL ABOUT IDBP ============================
 routes.route('/idbpdetails')
-.get((req,res)=>{
-    usermodel.find({email:sess.email},(err,doc)=>{
-        if(doc[0].bankConnected && !doc[0].integrated)
-            res.json(1)
-        else res.json(0);
-    })
-})
 .post(urlencodedParser,(req,res)=>{
-    var newidbp = new idbpmodel({
-        sport : req.body.sport,
-        sip : req.body.sip,
-        tlsname : req.body.tlsname,
-        tlsversion : req.body.tlsversion
-    });
-    newidbp.save();
 
-    usermodel.find({email : sess.email},{$set: { integrated : true}},(err,doc)=>{
-        console.log("IDBP Integrated");
-    });
+    var sport = req.body.sport;
+    var sip = req.body.sip;
+    var tlsname = req.body.tlsname;
+    var tlsversion = req.body.tlsversion;
 
-    // res.redirect('/dashboard');
-    res.json('Details saved')
-})
-
-routes.route('/integrated')
-.get((req,res)=>{
     var sess = req.session;
 
-    if(sess.email){
-        usermodel.find({email: sess.email},(err,doc)=>{
-            console.log(doc[0].integrated);
-            console.log(doc[0].confirmation);
-            if((!doc[0].integrated && !doc[0].confirmation)||(doc[0].integrated)){
-                console.log("sending 1");
-                res.json(1);
-            }
-            else res.json(0);
-        });
-    }else
-        res.json(1);
+    if(sess.admin){
+      usermodel.find({email:sess.email},(err,doc)=>{
+        if(err) console.log('he is not admin');
+        if(doc){
+          //means he is an admin
+          usermodel.findOneAndUpdate({ email : sess.email }, {sport : sport, sip: sip, tlsname:tlsname, tlsversion : tlsversion },{new : true},(err,doc)=>{
+            if(err) console.log('error in admin model');
+          });
+          res.json("updated details");
+          console.log('updated admin idbp details');
+        }
+      })
+    }else if(sess.bank){
+      bankmodel.find({email:sess.email},(err,doc)=>{
+        if(err) console.log('he is not bank');
+        if(doc){
+          //means he is bank
+          bankmodel.findOneAndUpdate({ email : sess.email }, {sport : sport, sip: sip, tlsname:tlsname, tlsversion : tlsversion },{new : true},(err,doc)=>{
+            if(err) console.log('error in bank model');
+          });
+          res.json("updated details");
+          console.log('updated bank idbp details');
+        }
+      })
+    }else{
+      res.json("please login first");
+    }
 
 })
+
 
 //============================ PROFILE ===========================================
 routes.route('/adminprofile')
 .get((req,res)=>{
     var sess = req.session;
 
-    usermodel.find({email: sess.email},(err,doc)=>{
-      var myObj = {
-        username: doc[0].username,
-        fname: doc[0].fname,
-        lname: doc[0].lname,
-        admin: doc[0].admin,
-        useremail: doc[0].email
-      }
-      res.json(myObj)
-    })
+    if(sess.admin){
+      usermodel.find({email: sess.email},(err,doc)=>{
+        if(err) console.log(err);
+        if(doc){
+          var type = "admin";
+          var myObj = {
+            username: doc[0].username,
+            fname: doc[0].fname,
+            lname: doc[0].lname,
+            admin: doc[0].admin,
+            useremail: doc[0].email,
+            usertype: type
+          }
+          res.json(myObj)
+        }
+      });
+    } else if(sess.bank){
+      bankmodel.find({email:sess.email},(err,doc)=>{
+        if(err) console.log(err);
+        if(doc){
+          var type = "bank";
+          var myObj = {
+            bankname: doc[0].bankname,
+            bankemail: doc[0].email,
+            usertype: type
+          }
+          res.json(myObj)
+        }
+      });
+    } else{
+      res.json("Please login to get profile");
+    }
+
+
 });
+
+routes.route('/checkadmin')
+.get((req, res)=>{
+  var sess = req.session;
+  if(sess.admin){
+    res.json(1);
+  } else{res.json(0);}
+});
+
+routes.route('/checkbank')
+.get((req, res)=>{
+  var sess = req.session;
+  if(sess.bank){
+    res.json(1);
+  } else{res.json(0);}
+});
+
 //==============================END OF ROUTING =======================================
 
 function sendmail(email,ts){

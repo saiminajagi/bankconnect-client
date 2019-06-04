@@ -1,17 +1,34 @@
 <h3><b>Your account details</b></h3>
 <br>
-<div class="container">
-  <div class="row">
-    <div class="col-4"></div>
-    <div class="col-4">
-        <ul>
-            <li><b>Admin Name: </b>{{show_admin_profile.admin}}</li>
-            <li><b>First Name: </b>{{show_admin_profile.fname}}</li>
-            <li><b>Last Name: </b>{{show_admin_profile.lname}}</li>
-            <li><b>Your Email: </b>{{show_admin_profile.useremail}}</li>
-        </ul>
+
+<div *ngIf="checkRole; else elseBlock">
+  <div class="container">
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4">
+          <ul>
+              <li><b>Admin Name: </b>{{x.admin}}</li>
+              <li><b>First Name: </b>{{x.fname}}</li>
+              <li><b>Last Name: </b>{{x.lname}}</li>
+              <li><b>Your Email: </b>{{x.useremail}}</li>
+          </ul>
+      </div>
+      <div class="col-4"></div>
     </div>
-    <div class="col-4"></div>
   </div>
 </div>
 
+<ng-template #elseBlock>
+  <div class="container">
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4">
+          <ul>
+              <li><b>Bank Name: </b>{{x.bankname}}</li>
+              <li><b>Bank email: </b>{{x.bankemail}}</li>
+          </ul>
+      </div>
+      <div class="col-4"></div>
+    </div>
+  </div>
+</ng-template>
