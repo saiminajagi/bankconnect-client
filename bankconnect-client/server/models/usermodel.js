@@ -9,8 +9,6 @@ var userschema = mongoose.Schema({
     fname : String,
     lname: String,
     admin : String,
-    integrated : Boolean,
-    apis : Array,
     sport: String,
     sip : String,
     tlsname : String,

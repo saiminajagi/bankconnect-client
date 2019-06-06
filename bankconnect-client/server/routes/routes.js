@@ -44,8 +44,6 @@ routes.route('/sendmail')
         ts : timestamp,
         email : useremail,
         confirmation : false,
-        integrated : false,
-        apis : null,
         sport: "default",
         sip : "default",
         tlsname : "default",
@@ -101,6 +99,8 @@ routes.route('/bankdetails')
         password: bankpass,
         ts: timestamp,
         confirmation : false,
+        integrated : false,
+        apis : null,
         sport: "default",
         sip : "default",
         tlsname : "default",
@@ -231,7 +231,7 @@ routes.route('/publishApi')
 .post(urlencodedParser,(req,res)=>{
     usermail = req.body.email;
     console.log("email at 5000 "+usermail);
-    usermodel.findOneAndUpdate({email:usermail},{$set:{$apis : req.body.apis}},{new: true},(err,doc)=>{
+    bankmodel.findOneAndUpdate({email:usermail},{$set:{$apis : req.body.apis}},{new: true},(err,doc)=>{
         if(err) console.log(err);
     });
 })

@@ -7,6 +7,8 @@ var bankschema = mongoose.Schema({
     bankname : String,
     ts : String,
     confirmation : Boolean,
+    integrated : Boolean,
+    apis : Array,
     sport: String,
     sip : String,
     tlsname : String,
