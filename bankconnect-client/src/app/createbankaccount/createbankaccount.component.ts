@@ -35,7 +35,7 @@ export class CreatebankaccountComponent implements OnInit {
       email: this.createBankAccountForm.controls.email.value,
       pass: this.createBankAccountForm.controls.pass.value,
     };
-    console.log(myObj);
+
     this.signservice.sendBankAccountDetails(myObj)
   .subscribe(
     (data : any) => {

@@ -8,23 +8,21 @@ import { SignupServiceService } from '../services/signup-service.service';
 })
 export class DashboardComponent implements OnInit {
 
-  bank_connected = 0;
-  integrated = 0;
+  adminaccount = 0;
+  bankaccount = 0;
 
   constructor(private signupService: SignupServiceService) { }
 
   ngOnInit() {
-    this.signupService.checkBankConnect()
+
+    this.signupService.checkadminaccount()
     .subscribe((data)=>{
-      console.log("bank_connected:"+data );
-      this.bank_connected = data;
+      this.adminaccount = data;
     },(err)=> console.log(err));
 
-    this.signupService.checkintegrated()
+    this.signupService.checkbankaccount()
     .subscribe((data)=>{
-      console.log("integrated:"+data );
-      this.integrated = data;
+      this.bankaccount = data;
     },(err)=> console.log(err));
   }
-
 }

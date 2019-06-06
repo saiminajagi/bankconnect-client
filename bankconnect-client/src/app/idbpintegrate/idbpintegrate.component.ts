@@ -10,6 +10,7 @@ import { SignupServiceService} from '../services/signup-service.service';
 export class IdbpintegrateComponent implements OnInit {
 
   sent: Number = 0;
+  token: String = '';
   integrationInputForm: FormGroup;
 
   constructor(private fb: FormBuilder, private signservice: SignupServiceService) { }
@@ -20,16 +21,17 @@ export class IdbpintegrateComponent implements OnInit {
       serverport:['',[Validators.required]],
       tlsname:['',[Validators.required]],
       tlsversion:['',[Validators.required]]
-      // tlscertificate:['']
     });
   }
 
   onSubmit(){
+    this.token = 'weijd67wuyfiyi84fo4d39rdewdo0ur3';
+    console.log(this.token);
     var myObj = {
-      sip : this.integrationInputForm.controls.admin.value,
-      sport: this.integrationInputForm.controls.email.value,
-      tlsname: this.integrationInputForm.controls.pass.value,
-      tlsversion: this.integrationInputForm.controls.pass.value,
+      sip : this.integrationInputForm.controls.serverip.value,
+      sport: this.integrationInputForm.controls.serverport.value,
+      tlsname: this.integrationInputForm.controls.tlsname.value,
+      tlsversion: this.integrationInputForm.controls.tlsversion.value
     };
 
     this.signservice.sendIDBPIntegrationDetails(myObj)

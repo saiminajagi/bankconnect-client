@@ -5,7 +5,12 @@ var bankschema = mongoose.Schema({
     email : String,
     password: String,
     bankname : String,
-    ts : String
+    ts : String,
+    confirmation : Boolean,
+    sport: String,
+    sip : String,
+    tlsname : String,
+    tlsversion: String
 },{
     timestamp : true
 });

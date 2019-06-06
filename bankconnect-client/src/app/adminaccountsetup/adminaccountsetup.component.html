@@ -1,8 +1,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="confirmation" *ngIf="sent; else elseBlock">
-    <h3><b><i class="fa fa-envelope" style="font-size:25px"></i>
-      An Email has been sent to your admin email. Please click on the link in your email to continue.</b></h3>
-    <p> You can CLOSE this window now</p>
+    <div class="forpadding">
+        <h3><b><i class="fa fa-envelope" style="font-size:25px"></i>
+          An Email has been sent to your admin email. Please click on the link in your email to continue.</b></h3>
+        <p> You can CLOSE this window now</p>
+    </div>
 </div>
 
 <ng-template #elseBlock>
