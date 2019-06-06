@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './adminprofile.component.html',
   styleUrls: ['./adminprofile.component.scss']
 })
+
 export class AdminprofileComponent implements OnInit {
 
   signupForm: FormGroup;
@@ -17,10 +18,10 @@ export class AdminprofileComponent implements OnInit {
 
   constructor(private signservice: SignupServiceService, private route: ActivatedRoute) {
     this.show_admin_profile = this.route.snapshot.data['admin_profile'];
-    var x = JSON.stringify(this.show_admin_profile);
+
     if(this.show_admin_profile.usertype == "admin"){
       this.checkRole = 1;
-    }
+    }else this.checkRole =0;
   }
 
   ngOnInit() {

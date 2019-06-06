@@ -183,9 +183,11 @@ routes.route('/adminprofile')
     var sess = req.session;
 
     if(sess.admin){
+        console.log("user is an admin");
       usermodel.find({email: sess.email},(err,doc)=>{
         if(err) console.log(err);
         if(doc){
+            console.log("admin found");
           var type = "admin";
           var myObj = {
             username: doc[0].username,
@@ -199,7 +201,9 @@ routes.route('/adminprofile')
         }
       });
     } else if(sess.bank){
+        console.log("user is a bank");
       bankmodel.find({email:sess.email},(err,doc)=>{
+        console.log("bank found");
         if(err) console.log(err);
         if(doc){
           var type = "bank";
@@ -231,7 +235,8 @@ routes.route('/publishApi')
 .post(urlencodedParser,(req,res)=>{
     usermail = req.body.email;
     console.log("email at 5000 "+usermail);
-    bankmodel.findOneAndUpdate({email:usermail},{$set:{$apis : req.body.apis}},{new: true},(err,doc)=>{
+    apis = req.body.apis;
+    bankmodel.findOneAndUpdate({email:usermail},{$set:{apis : req.body.apis}},{new: true},(err,doc)=>{
         if(err) console.log(err);
     });
 })
