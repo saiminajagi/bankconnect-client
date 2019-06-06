@@ -4,7 +4,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var axios = require('axios');
-
+var cors = require('cors');
 
 var usermodel = require('../models/usermodel');
 var bankmodel = require('../models/bankmodel');
@@ -16,7 +16,6 @@ var urlencodedParser = bodyParser.urlencoded({extended: true});
 routes.use(bodyParser.json());
 
 var sess;
-
 
 //YOU SHOULD USE 'urlencodedParser' TO GET THE POST DATA
 routes.route('/sendmail')
@@ -47,7 +46,8 @@ routes.route('/sendmail')
         email : useremail,
         bankConnected : false,
         confirmation : false,
-        integrated : false
+        integrated : false,
+        apis : null
     });
     newuser.save((err)=>{
         if(err)
@@ -187,10 +187,21 @@ routes.route('/adminprofile')
       res.json(myObj)
     })
 });
+
+
+routes.route('/publishApi')
+.post(urlencodedParser,(req,res)=>{
+    usermail = req.body.email;
+    console.log("email at 5000 "+usermail);
+    usermodel.findOneAndUpdate({email:usermail},{$set:{$apis : req.body.apis}},{new: true},(err,doc)=>{
+        if(err) console.log(err);
+    });
+})
+
 //==============================END OF ROUTING =======================================
 
 function sendmail(email,ts){
-    var link = `http://localhost:3000/route/confirm/${ts}/${email}`;
+    var link = `http://localhost:5000/route/confirm/${ts}/${email}`;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -219,7 +230,7 @@ function sendmail(email,ts){
 }
 
 function sendmail_bank(email,ts){
-    var link = `http://localhost:3000/route/bank_confirm/${ts}/${email}`;
+    var link = `http://localhost:5000/route/bank_confirm/${ts}/${email}`;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {

@@ -10,7 +10,8 @@ var userschema = mongoose.Schema({
     fname : String,
     lname: String,
     admin : String,
-    integrated : Boolean
+    integrated : Boolean,
+    apis : Array
 },{
     timestamp : true
 });

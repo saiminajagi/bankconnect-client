@@ -19,6 +19,20 @@ var app = express();
 app.use(express.static(path.join(__dirname,'..','dist','bankconnect-client')));
 
 app.use(session({secret : 'bcClientSecret',saveUninitialized: true,resave: true}));
+
+//allowing cross origin requests.
+app.use((req,res,next)=>{
+    res.header('Access-Control-Allow-Origin','*'); //(instead of *) == http://localhost:3000 if only this should have access.
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type,Accept,Authorization"
+    );
+    if(req.mehtod === 'OPTIONS'){
+        res.header('Access-Control-Allow-Methods','PUT, POST, PATCH, DELETE, GET');
+        return res.status(200).json({});
+    }
+    next();
+});
 app.use('/route',routes);
 app.use('/posts',posts);
 
@@ -48,5 +62,5 @@ setInterval(() => {
 }, 12000);
 
 
-app.listen(3000);
-console.log("listening to port 3000");
+app.listen(5000);
+console.log("listening to port 5000");
