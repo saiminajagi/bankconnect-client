@@ -240,6 +240,7 @@ routes.route('/publishApi')
         if(err) console.log(err);
     });
 })
+
 routes.route('/checkbank')
 .get((req, res)=>{
   var sess = req.session;
