@@ -127,4 +127,11 @@ export class SignupServiceService {
     })
   }
 
+  getConfirmation(){
+    return this.http.get<any>('/route/getConfirmation',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
 }
