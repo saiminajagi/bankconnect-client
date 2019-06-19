@@ -1,0 +1,114 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .buttons{
+    border-bottom: solid 2px black;
+    border: solid 1px transparent;
+    width : 180px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Source Sans Pro', sans-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: white;
+}
+
+.options{
+    border: solid 1px #047cc0;
+    width : 180px;
+    text-align: center;
+    text-transform: uppercase;
+    background: #047cc0;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+    text-decoration: none;
+}
+
+label{
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.btn{
+    margin-top: 15px;
+}
+
+.changepass{
+    display: none;
+}
+
+.profile{
+    display: none;
+}
+
+.partner{
+    display: none;
+}
+
+.bankconnectmessage{
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10%;
+}
+
+.example-radio-button{
+    margin-left:20px;
+}
+
+.custom-select{
+    margin-bottom: 20px;
+}
+
+mat-label{
+    font-weight: bold;
+}
+
+.choice{
+    margin-top: 30px;
+}
+.content{
+    border: solid 2px transparent;
+    box-shadow: 5px 5px 10px grey;
+    border-radius: 10px;
+    padding: 20px 20px 20px 20px;
+}
+
+h3{
+    margin-top: 20px;
+    border-bottom: solid 2px #047cc0;
+}
+
+.two{
+    margin-left: 50px;
+}
+
+.partner .card-header{
+  font-weight: bold;
+  text-align: center;
+}
+
+.partner .card{
+  margin-bottom: 20px;
+}
+
+.partner button{
+  margin-left: 15px;
+}
+
+.partner label{
+  font-weight: normal !important;
+
+}

@@ -5,6 +5,7 @@ var usermodel = require('./models/usermodel');
 
 var routes = require('./routes/routes');
 var posts = require('./routes/posts');
+var files = require('./routes/file');
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -35,6 +36,7 @@ app.use((req,res,next)=>{
 });
 app.use('/route',routes);
 app.use('/posts',posts);
+app.use('/file',files);
 
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'../dist/bankconnect-client/index.html'));
