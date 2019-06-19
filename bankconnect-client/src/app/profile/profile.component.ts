@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
       if(data == "admin")
         this.router.navigateByUrl('/profile');
       else if(data == "fintech"){
-        this.zone.run(() => this.router.navigateByUrl('/finprofile'));        
+        this.zone.run(() => this.router.navigateByUrl('/finprofile'));
         console.log("navigation did not work");
       }
       else if(data == "bank")
@@ -222,7 +222,7 @@ export class ProfileComponent implements OnInit {
     var myObj = {
       id : i,
       state : true, //false if declined
-      name : name,
+      org : name,
       email: email
     }
     this.signservice.pendingReq(myObj)

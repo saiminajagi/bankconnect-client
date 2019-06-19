@@ -15,6 +15,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { GetUserProfileResolverService } from './profile/profile-resolver.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { RefreshComponent } from './refresh/refresh.component';
+
 
 const routes: Routes = [
   { path : '' , redirectTo : 'home', pathMatch: 'full'},
@@ -23,6 +25,7 @@ const routes: Routes = [
   { path: 'adminprofile', component: AdminprofileComponent, resolve : { admin_profile : GetAdminProfileResolverService}},
   { path: 'idbpintegrate', component: IdbpintegrateComponent},
   { path: 'support', component: SupportComponent },
+  { path: 'refresh', component: RefreshComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'createbankaccount', component: CreatebankaccountComponent},
   { path: 'banklist', component: BanklistComponent},

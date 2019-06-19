@@ -10,6 +10,7 @@ var passwordHash = require('password-hash');
 var usermodel = require('../models/usermodel');
 var bankmodel = require('../models/bankmodel');
 var request = require('../models/requestmodel');
+var partner = require('../models/partnermodel');
 
 var routes = express.Router();
 
@@ -69,29 +70,29 @@ routes.route('/sendmail')
 
     newrequest.save();
 
-    sendmail(useremail,timestamp);
-    var msg = "Email sent.. Please check your email to continue the process'+ `<br>` + 'you can close this window";
+    //sendmail(useremail,timestamp);
+    var msg = "Thank you.. Please wait for approval to continue the process'+ `<br>` + 'you can close this window now";
     res.json(msg);
 });
 
-routes.route('/confirm/:ts/:id')
-.get((req,res)=>{
-  var sess = req.session;
-    usermodel.find({email : req.params.id},(err,doc)=>{
+// routes.route('/confirm/:ts/:id')
+// .get((req,res)=>{
+//   var sess = req.session;
+//     usermodel.find({email : req.params.id},(err,doc)=>{
 
-        if(req.params.ts === doc[0].ts){
-            usermodel.findOneAndUpdate({email : req.params.id},{$set : {confirmation : true}},{new : true},(err,doc)=>{
-            });
-            console.log("updated");
-            //res.redirect('/dashboard');
-            res.sendFile(path.join(__dirname,'fileupload.html'));
-        }
-        else{
-            usermodel.findByIdAndRemove({ts : req.params.ts});
-            res.json('confirmation failed');
-        }
-     }).limit(1).sort({ ts : -1});
-});
+//         if(req.params.ts === doc[0].ts){
+//             usermodel.findOneAndUpdate({email : req.params.id},{$set : {confirmation : true}},{new : true},(err,doc)=>{
+//             });
+//             console.log("updated");
+//             res.redirect('/dashboard');
+//             //res.sendFile(path.join(__dirname,'fileupload.html'));
+//         }
+//         else{
+//             usermodel.findByIdAndRemove({ts : req.params.ts});
+//             res.json('confirmation failed');
+//         }
+//      }).limit(1).sort({ ts : -1});
+// });
 
 //======================== BANK DETAILS =============================
 
@@ -314,16 +315,24 @@ routes.route('/pendingReq')
 
 .post(urlencodedParser,(req,res)=>{
   var state = req.body.state;
-  var name = req.body.name;
+  var org = req.body.org;
   var partneremail = req.body.email;
   var sess =req.session;
 
   if(state){
-      usermodel.findOneAndUpdate({name : org},{confirmation:true},{new:true},(err,doc)=>{});
+      usermodel.findOneAndUpdate({email : partneremail},{confirmation:true},{new:true},(err,doc)=>{});
+      var newpartner = new partner({
+        org : org,
+        email : partneremail,
+        active : true
+      });
 
+      newpartner.save();
   }
-  
-  request.findOneAndDelete({org: name},(err, doc)=> console.log(err));
+
+  request.findOneAndDelete({org: org},(err, doc)=> console.log(err));
+
+  sendmailtopartner(partneremail);
 });
 
 routes.route('/getBanks')
@@ -334,7 +343,7 @@ routes.route('/getBanks')
       for(var i=0;i<doc.length;++i){
         banks.push(doc[i]);
       }
-      
+
       res.json(banks);
     });
 })
@@ -436,6 +445,65 @@ function sendmail_bank(email,ts){
             subject: 'Email confirmation for Bank Connect',
             text: 'That was easy!',
             html : `${link}`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+        });
+}
+
+function sendmailtopartner(pemail){
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user : 'tushartdm117@gmail.com',
+            pass : 'fcb@rc@M$N321'
+        }
+        });
+
+        var mailOptions = {
+            from: 'tushartdm117@gmail.com',
+            to: `${pemail}`,
+            subject: 'Approval from Bank Connect Admin',
+            text: 'That was easy!',
+            html : `
+            <html>
+            <head>
+                <style>
+                    .maindiv{
+                        box-shadow: 5px 5px 10px grey;
+                        margin-left: 35%;
+                        border: solid 2px grey;
+                        width: 550px;
+                        margin-top: 20px;
+                        padding-left: 35px;
+                        padding-bottom: 20px;
+                        border-radius: 20px;
+                        padding-top: 10px;
+                    }
+                    h2{
+                        margin-left: 44%;
+                        color:rgb(91, 91, 204);
+                    }
+
+                    a{
+                        text-decoration: none;
+                        color:rgb(83, 134, 6)
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="maindiv">
+                    <h2> Bank Connect </h2>
+                    <p> Your request has been granted. Please login to see all the banks </p>
+                </div>
+            </body>
+        </html> `
         };
 
         transporter.sendMail(mailOptions, function(error, info){

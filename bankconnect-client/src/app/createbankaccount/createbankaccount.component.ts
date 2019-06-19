@@ -13,9 +13,9 @@ export class CreatebankaccountComponent implements OnInit {
   sent: Number = 0;
   createBankAccountForm: FormGroup;
   allBanks: Array<any> = [
-    {value: 'HDFC' , viewValue: 'HDFC'},
+    {value: 'YBL' , viewValue: 'YBL'},
+    {value: 'ICICI' , viewValue: 'ICICI'},
     {value: 'RBL' , viewValue: 'RBL'},
-    {value: 'Federal Bank' , viewValue: 'Federal Bank'},
     {value: 'Canara' , viewValue: 'Canara'}
   ];
 

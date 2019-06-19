@@ -25,6 +25,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { ApilistComponent } from './apilist/apilist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { GetUserProfileResolverService } from './profile/profile-resolver.service';
+import { RefreshComponent } from './refresh/refresh.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { GetUserProfileResolverService } from './profile/profile-resolver.servic
     SignupComponent,
     OverviewComponent,
     ApilistComponent,
-    ProfileComponent
+    ProfileComponent,
+    RefreshComponent
   ],
   imports: [
     BrowserModule,
