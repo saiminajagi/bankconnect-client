@@ -256,7 +256,7 @@ routes.route('/adminprofile')
       });
     } else if(sess.bank){
         console.log("user is a bank");
-      bankmodel.find({email:sess.email},(err,doc)=>{
+        bankmodel.find({email:sess.email},(err,doc)=>{
         console.log("bank found");
         if(err) console.log(err);
         if(doc){
