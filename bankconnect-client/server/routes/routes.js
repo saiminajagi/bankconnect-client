@@ -396,6 +396,15 @@ routes.route('/profile')
     })
 });
 
+routes.route('/getConfirmation')
+.get((req,res)=>{
+  var sess = req.session;
+  usermodel.find({email : sess.email},(err,doc)=>{
+    if(doc[0].confirmation)
+      res.json(1);
+    else res.json(0);
+  })
+})
 //==============================END OF ROUTING =======================================
 
 function sendmail(email,ts){
