@@ -13,11 +13,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  onClickSignUp(){
-    this.router.navigateByUrl('/accountsetup');
-  }
-  onClickCreateBankAccount(){
-    this.router.navigateByUrl('/createbankaccount');
-  }
+ 
 
 }
