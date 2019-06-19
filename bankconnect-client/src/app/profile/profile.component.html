@@ -1,0 +1,151 @@
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+<h3><b>{{title}}</b></h3>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 choice">
+      <!-- options -->
+      <button [ngClass]="pendingClass" (click)="show_pending()"> Pending Requests </button>
+      <button [ngClass]="partnerClass" (click)="show_partner()"> Partners </button>
+      <button [ngClass]="profileClass" (click)="show_profile()"> My Details</button>
+      <button [ngClass]="passClass" (click)="show_pass()"> Change Password</button>
+
+    </div>
+    <div class="col-lg-9 content">
+          <!-- ==================== PROFILE ============================ -->
+
+          <div class="profile">
+              <ul>
+                  <li><b>User Name: </b>{{show_user_profile.username}}</li>
+                  <li><b>First Name: </b>{{show_user_profile.fname}}</li>
+                  <li><b>Last Name: </b>{{show_user_profile.lname}}</li>
+                  <li><b>Email: </b>{{show_user_profile.useremail}}</li>
+              </ul>
+          </div>
+
+          <!-- ==================== PASSWORD ============================ -->
+
+          <div class="changepass">
+          <form [formGroup]="passForm" (ngSubmit)="onPassSubmit()">
+            <label> Current Password</label>
+            <input class="form-control" type="password" placeholder="Enter Current Password" formControlName="old">
+
+            <label> New Password</label>
+            <input class="form-control" type="password" placeholder="Enter New Password" formControlName="new">
+
+            <label> Re-Type New Password</label>
+            <input class="form-control" type="password" placeholder="Re-Type New Password" formControlName="renew">
+
+            <button class="btn btn-primary" style="margin-top: 15px;"> Change Password</button>
+          </form>
+          </div>
+
+          <!-- ==================== PENDING REQUESTS ============================ -->
+          <div class="pendingreq">
+            <table>
+                <tr>
+                  <th>Partner</th>
+                  <th>Accept</th>
+                  <th>Decline</th>
+                </tr>
+                  <tr *ngFor="let req of requests;let i = index">
+                    <td>{{req.org}}</td>
+                    <td><button class="accept btn btn-success" (click)="accept(i,req.org,req.email)"> Accept </button></td>
+                    <td><button class="accept btn btn-danger" (click)="decline(i,req.org,req.email)"> Decline </button></td>
+                  </tr>
+            </table>
+          </div>
+
+          <!-- =============================== PARTNERS ================================ -->
+          <div class="partner">
+            <div *ngFor="let partner of partners" class="part">
+              <form [formGroup]="rulesForm" (ngSubmit)="onRulesSubmit(partner.email,partner.name)">
+                  <div class="card">
+                      <!-- <div class="card-header">Organization : {{partner.name}}</div> -->
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                      <label>Payment Amount:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                      <input type="text" placeholder="{{partner.amnt}}" formControlName="amnt">
+                                    </div>
+                                </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-group">
+                              <div class="col-lg-6">
+                                <label> Payment Frequency:</label>
+                              </div>
+                              <div class="col-lg-6">
+                                <input type="text" placeholder="{{partner.freq}}" formControlName="freq">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                              <div class="form-group">
+                                <div class="col-lg-6">
+                                    <label>Account Number:</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" placeholder="{{partner.accno}}" formControlName="accno">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="form-group">
+                                <div class="col-lg-6">
+                                  <label> Maker ID:</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" placeholder="{{partner.mid}}" formControlName="mid">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                  <div class="col-lg-6">
+                                    <label>Approver ID:</label>
+                                  </div>
+                                  <div class="col-lg-6">
+                                    <input type="text" placeholder="{{partner.appid}}" formControlName="appid">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                  <div class="col-lg-6">
+                                    <label>Checker ID:</label>
+                                  </div>
+                                  <div class="col-lg-6">
+                                    <input type="text" placeholder="{{partner.cid}}" formControlName="cid">
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-row align-items-center">
+                              <label><b>Set/Update Payment Rules</b></label>
+                              <div class="col-auto" class="sbmt">
+                                  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<!-- *ngFor="let req of requests;let i = index" -->

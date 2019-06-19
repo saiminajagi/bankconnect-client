@@ -18,6 +18,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatebankaccountComponent } from './createbankaccount/createbankaccount.component';
 import { SupportComponent } from './support/support.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { BanklistComponent } from './banklist/banklist.component';
+import { SignupComponent } from './signup/signup.component';
+import { OverviewComponent } from './overview/overview.component';
+import { ApilistComponent } from './apilist/apilist.component';
+import { ProfileComponent } from './profile/profile.component';
+import { GetUserProfileResolverService } from './profile/profile-resolver.service';
 
 
 @NgModule({
@@ -30,7 +37,13 @@ import { HomeComponent } from './home/home.component';
     DashboardComponent,
     CreatebankaccountComponent,
     SupportComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent,
+    BanklistComponent,
+    SignupComponent,
+    OverviewComponent,
+    ApilistComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +53,7 @@ import { HomeComponent } from './home/home.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [SignupServiceService, GetAdminProfileResolverService],
+  providers: [SignupServiceService, GetAdminProfileResolverService, GetUserProfileResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

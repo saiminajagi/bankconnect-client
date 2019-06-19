@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-sm-6" *ngFor=" let api of apilist">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{api | uppercase}}</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <button class="Overview btn btn-primary" type="button" (click)="setApi(api)"> Overview </button>
+      </div>
+    </div>
+  </div>
+</div>

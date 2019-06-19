@@ -5,9 +5,11 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var axios = require('axios');
 var cors = require('cors');
+var passwordHash = require('password-hash');
 
 var usermodel = require('../models/usermodel');
 var bankmodel = require('../models/bankmodel');
+var request = require('../models/requestmodel');
 
 var routes = express.Router();
 
@@ -24,12 +26,14 @@ routes.route('/sendmail')
     console.log("entered /sendmail");
     console.log(req.body);
 
+    var hashpwd = passwordHash.generate(req.body.pass);
+
     var username = req.body.username;
     var fname = req.body.fname;
     var lname = req.body.lname;
     var useremail = req.body.email;
-    var pass = req.body.pass;
-    var admin = req.body.admin;
+    var pass = hashpwd;
+    var org = req.body.org;
     //generate a code.
     var date = new Date();
     var timestamp = date.getTime();
@@ -40,14 +44,12 @@ routes.route('/sendmail')
         username: username,
         fname : fname,
         lname : lname,
-        admin : admin,
+        org : org,
         ts : timestamp,
+        password : pass,
         email : useremail,
         confirmation : false,
-        sport: "default",
-        sip : "default",
-        tlsname : "default",
-        tlsversion: "default"
+        role : "fintech"
     });
     newuser.save((err)=>{
         if(err)
@@ -60,6 +62,13 @@ routes.route('/sendmail')
     sess.bank = 0;
     sess.ts = timestamp;
 
+    var newrequest = new request({
+      org: org,
+      email: useremail
+    });
+
+    newrequest.save();
+
     sendmail(useremail,timestamp);
     var msg = "Email sent.. Please check your email to continue the process'+ `<br>` + 'you can close this window";
     res.json(msg);
@@ -69,11 +78,13 @@ routes.route('/confirm/:ts/:id')
 .get((req,res)=>{
   var sess = req.session;
     usermodel.find({email : req.params.id},(err,doc)=>{
-        if(req.params.ts == doc[0].ts){
+
+        if(req.params.ts === doc[0].ts){
             usermodel.findOneAndUpdate({email : req.params.id},{$set : {confirmation : true}},{new : true},(err,doc)=>{
             });
             console.log("updated");
-            res.redirect('/dashboard');
+            //res.redirect('/dashboard');
+            res.sendFile(path.join(__dirname,'fileupload.html'));
         }
         else{
             usermodel.findByIdAndRemove({ts : req.params.ts});
@@ -176,6 +187,49 @@ routes.route('/idbpdetails')
 
 })
 
+routes.route('/loginconfirm')
+.post(urlencodedParser,(req,res)=>{
+    var sess = req.session;
+    usermodel.find({email: req.body.email},(err,doc)=>{
+        if(doc.length == 0){
+            var msg = "Invalid email";
+            var obj = {
+                status: 0,
+                msg : "entered invalid email"
+            }
+            res.json(obj);
+        }
+        else{
+            //check for password.
+            if(passwordHash.verify(req.body.pass,doc[0].password)){
+                //login successful
+                sess.email = req.body.email;
+                sess.role = doc[0].role;
+                var obj = {
+                    status: 1,
+                    msg : "Login Successful"
+                }
+                res.json(obj);
+            }else{
+                console.log("entered wrong pass");
+                var obj = {
+                    status: 0,
+                    msg : "Wrong Password.Please try again"
+                }
+                res.json(obj);
+            }
+        }
+    })
+});
+
+routes.route('/getUserType')
+.get((req,res)=>{
+    var sess = req.session;
+    console.log("sess.email: "+sess.email);
+    usermodel.find({email: sess.email},(err,doc)=>{
+        res.json(doc[0].role);
+    })
+})
 
 //============================ PROFILE ===========================================
 routes.route('/adminprofile')
@@ -218,8 +272,6 @@ routes.route('/adminprofile')
     } else{
       res.json("Please login to get profile");
     }
-
-
 });
 
 routes.route('/checkadmin')
@@ -247,6 +299,92 @@ routes.route('/checkbank')
   if(sess.bank){
     res.json(1);
   } else{res.json(0);}
+});
+
+routes.route('/pendingReq')
+.get((req,res)=>{
+    request.find({},(err,doc)=>{
+        var req = [];
+        for(i=0;i<doc.length;++i){
+            req.push(doc[i]);
+        }
+        res.json(req);
+    })
+})
+
+.post(urlencodedParser,(req,res)=>{
+  var state = req.body.state;
+  var name = req.body.name;
+  var partneremail = req.body.email;
+  var sess =req.session;
+
+  if(state){
+      usermodel.findOneAndUpdate({name : org},{confirmation:true},{new:true},(err,doc)=>{});
+
+  }
+  
+  request.findOneAndDelete({org: name},(err, doc)=> console.log(err));
+});
+
+routes.route('/getBanks')
+.get((req,res)=>{
+    bankmodel.find({},(err,doc)=>{
+
+      var banks = [];
+      for(var i=0;i<doc.length;++i){
+        banks.push(doc[i]);
+      }
+      
+      res.json(banks);
+    });
+})
+
+routes.route('/getApi')
+.post((req,res)=>{
+  console.log("the bank is: "+req.body.bank);
+  bankmodel.find({bankname: req.body.bank},(err,doc)=>{
+    res.json(doc[0].apis);
+  })
+})
+
+routes.route('/password')
+.post((req,res)=>{
+    var sess = req.session;
+
+    //check if the passwords are correct
+    usermodel.find({email : sess.email},(err,doc)=>{
+        if(passwordHash.verify(req.body.old,doc[0].pass)){
+            //check if the two passwords match
+            if(req.body.new == req.body.renew){
+                var hashpwd = passwordHash.generate(pass);
+                usermodel.findOneAndUpdate({email :  sess.email},{$set:{pass : hashpwd }},(err,doc)=>{
+                    if(err) console.log(err);
+                    res.json(1);
+                });
+            }else res.json(-1);
+        }else res.json(0);
+    });
+})
+
+routes.route('/setBank')
+.post(urlencodedParser, (req,res)=>{
+    var bank = req.body.bank;
+
+})
+routes.route('/profile')
+.get((req,res)=>{
+    var sess = req.session;
+
+    //check what kind of user he is..
+    usermodel.find({email: sess.email},(err,doc)=>{
+      var myObj = {
+        username: doc[0].username,
+        fname: doc[0].fname,
+        lname: doc[0].lname,
+        useremail: doc[0].email
+      }
+      res.json(myObj);
+    })
 });
 
 //==============================END OF ROUTING =======================================

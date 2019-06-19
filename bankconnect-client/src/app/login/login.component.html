@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <div class="container">
+      <h1>Welcome Back to IBM Bank Connect</h1><br>
+      <div class="row justify-content-center">
+      <div class="col-md-6">
+      <div class="card">
+      <header class="card-header">
+        <h4 class="card-title mt-2">Log In</h4>
+      </header>
+      <article class="card-body">
+          <form [formGroup]="loginForm" (ngSubmit) = "onSubmit()">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" formControlName="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputPass1">Password</label>
+                <input type="password" class="form-control" formControlName="pass" id="exampleInputPass1" placeholder="Enter Password">
+              </div>
+
+              <button type="submit" class="btn btn-primary sbmt">Submit</button>
+            </form>
+      </article> <!-- card-body end .// -->
+      <div class="border-top card-body text-center">Don't have an account? <a routerLink="/signup">Sign Up</a></div>
+      </div> <!-- card.// -->
+      </div> <!-- col.//-->
+
+      </div> <!-- row.//-->
+
+
+      </div>
+      <!--container end.//-->

@@ -17,7 +17,7 @@ export class AdminaccountsetupComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.fb.group({
-      admin:['',[Validators.required]],
+      org:['',[Validators.required]],
       email:['',[Validators.required]],
       pass:['',[Validators.required]],
       fname:['',[Validators.required]],
@@ -29,7 +29,7 @@ export class AdminaccountsetupComponent implements OnInit {
     var myObj = {
       fname : this.signupForm.controls.fname.value,
       lname : this.signupForm.controls.lname.value,
-      admin : this.signupForm.controls.admin.value,
+      org : this.signupForm.controls.org.value,
       email: this.signupForm.controls.email.value,
       pass: this.signupForm.controls.pass.value,
     };

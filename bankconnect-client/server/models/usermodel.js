@@ -8,11 +8,7 @@ var userschema = mongoose.Schema({
     password: String,
     fname : String,
     lname: String,
-    admin : String,
-    sport: String,
-    sip : String,
-    tlsname : String,
-    tlsversion: String
+    role: String
 },{
     timestamp : true
 });
