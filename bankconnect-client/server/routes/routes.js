@@ -405,6 +405,19 @@ routes.route('/getConfirmation')
     else res.json(0);
   })
 })
+
+routes.route('/checklogin')
+.get((req,res)=>{
+    var sess = req.session;
+
+    //change the adminmodel to usermodel.
+    if(sess.email){
+      usermodel.find({email: sess.email},(err,doc)=>{
+        res.json(doc[0].username)
+      });
+    }else {res.json(0); }
+})
+
 //==============================END OF ROUTING =======================================
 
 function sendmail(email,ts){

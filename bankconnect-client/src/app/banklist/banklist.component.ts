@@ -23,7 +23,7 @@ export class BanklistComponent implements OnInit {
   ngOnInit() {
     this.signservice.getBanks()
     .subscribe((data)=>{
-      console.log("data is: "+data);
+      console.log("data is: "+JSON.stringify(data));
       this.banklist = data;
     },(err)=> console.log(err));
 

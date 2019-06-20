@@ -1,42 +1,59 @@
-header {
-  background: linear-gradient(to bottom,#2e6cdf, #1c438b);
-
-  .logo {
-      font-weight: bold;
+.dropdown:hover>.dropdown-menu {
+	display: block;
+  }
+  
+  .dropdown{
+	border-radius:0;
+	border:0;
+  }
+  .dropdown-menu{
+	border:0;
+	top:80%;
+	border-radius:5px 5px 5px 5px;
+  }
+  
+  .seperateLi{
+	margin-left: 20px;
+  }
+  
+  .material-icons{
+	margin-right: 5px;
+  }
+  
+  .logo{
+	padding-left: 30px;
+	padding-right: 30px;
+	background-color: #3527f0;
+	border-radius: 2px;
+	color: white;
+	font-weight: bold;
+  }
+  
+  a{
+	text-decoration: none;
+	font-weight:normal;
+	font-family: 'Work Sans', sans-serif;
+	font-size: 18px;
+	transition: width 3s; 
   }
 
-  nav {
-      justify-self: right;
-
-      ul {
-          list-style-type: none;
-          margin: 0; padding: 0;
-
-          li {
-              float: left;
-
-              a {
-                  padding: 1.5em;
-                  text-transform: uppercase;
-                  font-size: .8em;
-
-                  &:hover {
-                      background: rgb(186, 184, 189);
-                  }
-              }
-          }
-      }
+  a:hover{
+	  border-bottom: solid 2px blue;
+	  font-weight: bold;
+	  font-family: 'Work Sans', sans-serif;
+	  font-size: 18px;
+  }
+  
+  i{
+	margin-right: 10px;
+  }
+  
+  .tdm-navbar{
+	  background: transparent;
   }
 
-  .navcontainer {
-    width: 80%;
-    margin: 0 auto;
-    padding: 1.3em;
-    display: grid;
-    grid-template-columns: 30% auto;
+  .logo-text{
+	  color:white;
+  }
 
-    a {
-        color: white;
-    }
-}
-}
+
