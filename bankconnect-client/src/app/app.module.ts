@@ -26,6 +26,7 @@ import { ApilistComponent } from './apilist/apilist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { GetUserProfileResolverService } from './profile/profile-resolver.service';
 import { RefreshComponent } from './refresh/refresh.component';
+import { FinprofileComponent } from './finprofile/finprofile.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { RefreshComponent } from './refresh/refresh.component';
     OverviewComponent,
     ApilistComponent,
     ProfileComponent,
-    RefreshComponent
+    RefreshComponent,
+    FinprofileComponent
   ],
   imports: [
     BrowserModule,

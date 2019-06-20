@@ -22,26 +22,28 @@
   
   .logo{
 	padding-left: 30px;
-	padding-right: 30px;
-	background-color: #3527f0;
-	border-radius: 2px;
+	padding-right: 10px;
+	background-color: #143f8c;
 	color: white;
-	font-weight: bold;
+	margin-left: -30px;
+	margin-right: 10px;
+	font-size: 15px;
+	font-family: 'Work Sans', sans-serif;
+	border-right: 20px solid transparent;
   }
   
-  a{
+  li a{
 	text-decoration: none;
 	font-weight:normal;
 	font-family: 'Work Sans', sans-serif;
-	font-size: 18px;
-	transition: width 3s; 
+	font-size: 15px;
   }
 
-  a:hover{
-	  border-bottom: solid 2px blue;
+  li a:hover{
+	  border-bottom: solid 2px #143f8c;
 	  font-weight: bold;
 	  font-family: 'Work Sans', sans-serif;
-	  font-size: 18px;
+	  font-size: 15px;
   }
   
   i{
@@ -54,6 +56,7 @@
 
   .logo-text{
 	  color:white;
+	  font-size: 15px;
   }
 
 
