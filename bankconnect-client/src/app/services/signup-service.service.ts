@@ -140,4 +140,19 @@ export class SignupServiceService {
       new HttpHeaders({ 'Content-Type':'application/json'})
     });
   }
+
+  logout(){
+    console.log("logout service called");
+    return this.http.get<any>('/route/logout',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    });
+  }
+
+  getPartners(){
+    return this.http.get<any>('/route/getPartners',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
 }

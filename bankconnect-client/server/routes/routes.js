@@ -302,6 +302,18 @@ routes.route('/checkbank')
   } else{res.json(0);}
 });
 
+routes.route('/getPartners')
+.get((req,res)=>{
+  partner.find({},(err,doc)=>{
+    var part = [];
+    for(i=0;i<doc.length;++i){
+      part.push(doc[i]);
+    }
+    res.json(part);
+  })
+})
+
+
 routes.route('/pendingReq')
 .get((req,res)=>{
     request.find({},(err,doc)=>{
@@ -418,6 +430,20 @@ routes.route('/checklogin')
     }else {res.json(0); }
 })
 
+routes.route('/logout')
+.get((req,res)=>{
+
+  console.log("logout route");
+  var sess = req.session;
+
+  sess.email = "null";
+  sess.bank = 0;
+  sess.admin = 0;
+  sess.role = "null";
+  sess.ts = 0;
+
+  res.redirect('/login');
+})
 //==============================END OF ROUTING =======================================
 
 function sendmail(email,ts){

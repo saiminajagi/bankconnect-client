@@ -29,4 +29,12 @@ export class NavComponent implements OnInit {
     }, (err) => console.log(err));
   }
 
+  onLogOut(){
+    console.log('logout reached');
+    this.signservice.logout()
+    .subscribe((data)=>{
+      this.login = 0;
+    },(err)=>console.log(err));
+    return true;
+  }
 }

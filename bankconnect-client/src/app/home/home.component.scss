@@ -36,6 +36,7 @@
     color: #fff;
   }
 
+// ======================== MY STYLES =================================
 .small-card{
     background: rgba(10, 27, 80, 1.0);
     border: 0.0625rem solid #384e86;
@@ -60,7 +61,8 @@
 .back{
     margin-top:25px;
     background: #153570;
-    background-image: linear-gradient(to right, #153570 , #0040ff);
+    background: #153570;
+    //background-image: linear-gradient(to right, #153570 , #0040ff);
 }
 
 .part1{
@@ -128,4 +130,9 @@ h2{
     font-family: 'Work Sans', sans-serif;
     font-weight: bold;
     font-size: 18px;
+}
+
+.services{
+    background: #1b4491;
+    color: white;   
 }
