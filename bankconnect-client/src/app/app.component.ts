@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  footerlogo: any = '../assets/footer-logo.png';
+
   title = 'bankconnect-client';
 }

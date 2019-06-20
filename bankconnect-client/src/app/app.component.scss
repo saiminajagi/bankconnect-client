@@ -1,0 +1,51 @@
+// ==================css======================
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -145px;
+}
+
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+
+.site-footer, .page-wrap:after {
+  height: 145px;
+}
+
+.site-footer {
+  background-color: #f8f8f8 !important;
+}
+
+.site-footer a{
+  color: #000000;
+  text-decoration: none !important;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+.site-footer ul.social li{
+	padding: 3px 0;
+}
+
+ul.social li a i {
+  margin-right: 5px;
+font-size:25px;
+-webkit-transition: .5s all ease;
+-moz-transition: .5s all ease;
+transition: .5s all ease;
+}
+
+.site-footer ul.social li:hover a i {
+font-size:30px;
+margin-top:-10px;
+}
+
+.site-footer ul.social li a{
+color:#000000;
+}
+
+.site-footer ul.social li a:hover{
+color:#000000;
+}
