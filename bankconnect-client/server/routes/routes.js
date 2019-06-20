@@ -59,7 +59,8 @@ routes.route('/sendmail')
 
     sess = req.session;
     sess.email = useremail;
-    sess.admin = 1;
+    sess.admin = 0;
+    sess.fintech = 1;
     sess.bank = 0;
     sess.ts = timestamp;
 
@@ -70,29 +71,10 @@ routes.route('/sendmail')
 
     newrequest.save();
 
-    //sendmail(useremail,timestamp);
     var msg = "Thank you.. Please wait for approval to continue the process'+ `<br>` + 'you can close this window now";
     res.json(msg);
 });
 
-// routes.route('/confirm/:ts/:id')
-// .get((req,res)=>{
-//   var sess = req.session;
-//     usermodel.find({email : req.params.id},(err,doc)=>{
-
-//         if(req.params.ts === doc[0].ts){
-//             usermodel.findOneAndUpdate({email : req.params.id},{$set : {confirmation : true}},{new : true},(err,doc)=>{
-//             });
-//             console.log("updated");
-//             res.redirect('/dashboard');
-//             //res.sendFile(path.join(__dirname,'fileupload.html'));
-//         }
-//         else{
-//             usermodel.findByIdAndRemove({ts : req.params.ts});
-//             res.json('confirmation failed');
-//         }
-//      }).limit(1).sort({ ts : -1});
-// });
 
 //======================== BANK DETAILS =============================
 
@@ -121,10 +103,11 @@ routes.route('/bankdetails')
     newbank.save();
 
     var sess = req.session;
-    sess.email = bankemail;
+    sess.email = req.body.email;
     sess.admin = 0;
     sess.bank = 1;
-    sendmail_bank(req.body.email,timestamp);
+    console.log("bank email is :"+sess.email);
+    sendmail_bank(bankemail,timestamp);
     var msg = "Email sent.. Please check your email to continue the process'+ `<br>` + 'you can close this window";
     res.json(msg);
 })
@@ -410,12 +393,18 @@ routes.route('/checklogin')
 .get((req,res)=>{
     var sess = req.session;
 
+    console.log("414: "+sess.email);
     //change the adminmodel to usermodel.
-    if(sess.email){
-      usermodel.find({email: sess.email},(err,doc)=>{
-        res.json(doc[0].username)
-      });
-    }else {res.json(0); }
+    if(sess.fintech || sess.admin){
+      usermodel.find({email:sess.email},(err,doc)=>{
+        res.json(doc[0].email);
+      })
+    }else if(sess.bank){
+      bankmodel.find({email:sess.email},(err,doc)=>{
+        res.json(doc[0].email);
+      })
+    }
+    else {res.json(0); }
 })
 
 //==============================END OF ROUTING =======================================
@@ -522,7 +511,7 @@ function sendmailtopartner(pemail){
             <body>
                 <div class="maindiv">
                     <h2> Bank Connect </h2>
-                    <p> Your request has been granted. Please login to see all the banks </p>
+                    <p> Your request has been granted. Please <a href="http://localhost:5000/login">login</a> to see all the banks </p>
                 </div>
             </body>
         </html> `

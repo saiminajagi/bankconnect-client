@@ -17,11 +17,13 @@ export class DashboardComponent implements OnInit {
 
     this.signupService.checkadminaccount()
     .subscribe((data)=>{
+      console.log(data+"at dasborad")
       this.adminaccount = data;
     },(err)=> console.log(err));
 
     this.signupService.checkbankaccount()
     .subscribe((data)=>{
+      console.log(data+"at bankaccount")
       this.bankaccount = data;
     },(err)=> console.log(err));
   }

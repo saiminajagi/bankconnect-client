@@ -28,6 +28,9 @@ import { GetUserProfileResolverService } from './profile/profile-resolver.servic
 import { RefreshComponent } from './refresh/refresh.component';
 import { FinprofileComponent } from './finprofile/finprofile.component';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
+
 
 @NgModule({
   declarations: [
@@ -55,7 +58,8 @@ import { FinprofileComponent } from './finprofile/finprofile.component';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [SignupServiceService, GetAdminProfileResolverService, GetUserProfileResolverService],
   bootstrap: [AppComponent]
