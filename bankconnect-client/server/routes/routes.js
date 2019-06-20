@@ -320,7 +320,6 @@ routes.route('/pendingReq')
 
   if(state){
       usermodel.findOneAndUpdate({name : org},{confirmation:true},{new:true},(err,doc)=>{});
-
   }
   
   request.findOneAndDelete({org: name},(err, doc)=> console.log(err));
@@ -396,6 +395,19 @@ routes.route('/getConfirmation')
     else res.json(0);
   })
 })
+
+routes.route('/checklogin')
+.get((req,res)=>{
+    var sess = req.session;
+
+    //change the adminmodel to usermodel.
+    if(sess.email){
+      usermodel.find({email: sess.email},(err,doc)=>{
+        res.json(doc[0].username)
+      });
+    }else {res.json(0); }
+})
+
 //==============================END OF ROUTING =======================================
 
 function sendmail(email,ts){
