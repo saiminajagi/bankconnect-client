@@ -320,9 +320,6 @@ routes.route('/pendingReq')
   var sess =req.session;
 
   if(state){
-<<<<<<< HEAD
-      usermodel.findOneAndUpdate({name : org},{confirmation:true},{new:true},(err,doc)=>{});
-=======
       usermodel.findOneAndUpdate({email : partneremail},{confirmation:true},{new:true},(err,doc)=>{});
       var newpartner = new partner({
         org : org,
@@ -331,7 +328,6 @@ routes.route('/pendingReq')
       });
 
       newpartner.save();
->>>>>>> 29329303755c527586e680b9dbfc1af450ebcd57
   }
 
   request.findOneAndDelete({org: org},(err, doc)=> console.log(err));
