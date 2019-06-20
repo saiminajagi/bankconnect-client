@@ -61,9 +61,9 @@
           <!-- =============================== PARTNERS ================================ -->
           <div class="partner">
             <div *ngFor="let partner of partners" class="part">
-              <form [formGroup]="rulesForm" (ngSubmit)="onRulesSubmit(partner.email,partner.name)">
+              <form [formGroup]="partnerForm" (ngSubmit)="onPartnerSubmit(partner.email,partner.name)">
                   <div class="card">
-                      <!-- <div class="card-header">Organization : {{partner.name}}</div> -->
+                      <div class="card-header">Organization : {{partner.org}}</div> 
                       <div class="card-body">
                         <div class="row">
                           <div class="col-lg-6">
@@ -140,6 +140,7 @@
                           </div>
                       </div>
                   </div>
+                  
               </form>
             </div>
           </div>

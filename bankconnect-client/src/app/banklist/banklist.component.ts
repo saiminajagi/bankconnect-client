@@ -8,15 +8,15 @@ import { SignupServiceService } from '../services/signup-service.service';
   styleUrls: ['./banklist.component.scss']
 })
 export class BanklistComponent implements OnInit {
-  confirmed:Number;
+  confirmed:Number = 1;
   banklist: Array<String> = [];
   
   constructor(private router: Router,private route: ActivatedRoute,private signservice : SignupServiceService) {
-    this.signservice.getConfirmation()
-    .subscribe((data)=>{
-      console.log(data);
-      this.confirmed = data;
-    },(err)=> console.log(err));
+    // this.signservice.getConfirmation()
+    // .subscribe((data)=>{
+    //   console.log(data);
+    //   this.confirmed = data;
+    // },(err)=> console.log(err));
 
    }
 

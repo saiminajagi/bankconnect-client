@@ -3,9 +3,12 @@
 </div>
 <ng-template #elseBlock>
   <div class="row">
-    <div class="col-sm-6" *ngFor=" let bank of banklist">
+    <div class="col-sm-4" *ngFor=" let bank of banklist">
       <div class="card">
         <div class="card-body">
+          <div class="img-class">
+              <img src="../../assets/icon-acquirers-one-color.svg" class="icon">
+          </div>
           <h5 class="card-title">{{bank.bankname | uppercase}}</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <button class="Overview btn btn-primary" type="button" (click)="setBank(bank.bankname)"> See Services </button>

@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
 
   roleForm: FormGroup;
   passForm : FormGroup;
-  rulesForm: FormGroup;
+  partnerForm: FormGroup;
 
   title = "PROFILE";
   profile=0;pass=0;pending=1;
@@ -72,10 +72,25 @@ export class ProfileComponent implements OnInit {
       renew : ['',[Validators.required,Validators]]
     });
 
+    this.partnerForm = this.formBuilder.group({
+      amnt : ['',[Validators.required,Validators]],
+      freq : ['',[Validators.required,Validators]],
+      accno : ['',[Validators.required,Validators]],
+      mid : ['',[Validators.required,Validators]],
+      appid : ['',[Validators.required,Validators]],
+      cid : ['',[Validators.required,Validators]]
+    });
+
     this.signservice.getRequests()
     .subscribe((data)=>{
       console.log(data);
       this.requests = data;
+    },(err)=>console.log(err));
+
+    this.signservice.getPartners()
+    .subscribe((data)=>{
+      console.log(data);
+      this.partners = data;
     },(err)=>console.log(err));
 
   }
@@ -91,6 +106,11 @@ export class ProfileComponent implements OnInit {
     .subscribe((data)=>{
       console.log(data + "from sendRoleDetails");
     },(err)=> console.log(err));
+  }
+
+  onPartnerSubmit(email,org){
+    var myObj = {
+    }
   }
 
   show_profile(){
@@ -176,7 +196,7 @@ export class ProfileComponent implements OnInit {
     };
 
 
-    this.title = "Pending Requests";
+    this.title = "PENDING REQUESTS";
     //show this and hide other divisions
     (document.querySelector('.profile') as HTMLElement).style.display = 'none';
     (document.querySelector('.changepass') as HTMLElement).style.display = 'none';
