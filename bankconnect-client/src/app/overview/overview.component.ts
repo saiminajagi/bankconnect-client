@@ -13,7 +13,7 @@ export class OverviewComponent implements OnInit {
   apiname:string;
   name = "default";
   desc = "default";
-  key_features = "defailt";
+  key_features = "default";
   use_cases = "default";
   apiDetails: any;
 
@@ -33,7 +33,7 @@ export class OverviewComponent implements OnInit {
       this.desc = data.desc;
       this.key_features = data.key_features;
       this.use_cases = data.use_cases;
-      
+
     },(err)=> console.log(err));
     })
    }

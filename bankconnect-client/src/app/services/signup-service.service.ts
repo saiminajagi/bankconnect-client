@@ -72,7 +72,7 @@ export class SignupServiceService {
 
   getApiDetails(obj:any):Observable<any>{
     var api = obj.api;
-    return this.http.get<any>(`http://localhost:3000/route/getapiDetails/${api}`,{
+    return this.http.get<any>(`http://idbpportal.bank.com:3000/route/getapiDetails/${api}`,{
       headers :
       new HttpHeaders({ 'Content-Type':'application/json'})
     })
