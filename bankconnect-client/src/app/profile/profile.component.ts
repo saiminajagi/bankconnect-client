@@ -4,6 +4,7 @@ import { SignupServiceService} from '../services/signup-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -45,7 +46,8 @@ export class ProfileComponent implements OnInit {
   public submitted = false;
 
   constructor(private signservice: SignupServiceService, private route: ActivatedRoute, private formBuilder: FormBuilder,
-    private router: Router, public location: Location, private zone : NgZone) {
+    private router: Router, public location: Location, private zone : NgZone,private http: HttpClient) 
+    {
       this.show_user_profile = this.route.snapshot.data['userprofile'];
       console.log(this.show_user_profile);
 
@@ -111,6 +113,26 @@ export class ProfileComponent implements OnInit {
   onPartnerSubmit(email,org){
     var myObj = {
     }
+  }
+
+  revoke(org){
+    var myObj = {
+      org:org
+    }
+
+    var bcres = this.http.post('/route/revoke',myObj,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    })
+    console.log("BC response: "+bcres);
+
+    var idbpres = this.http.post('/http://localhost:3000/route/revoke/',myObj,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    })
+    console.log("idbp response: "+idbpres);
   }
 
   show_profile(){

@@ -69,7 +69,7 @@
                           <div class="col-lg-6">
                                 <div class="form-group">
                                     <div class="col-lg-6">
-                                      <label>Payment Amount:</label>
+                                      <label>Total Hits:</label>
                                     </div>
                                     <div class="col-lg-6">
                                       <input type="text" placeholder="{{partner.amnt}}" formControlName="amnt">
@@ -79,7 +79,7 @@
                           <div class="col-lg-6">
                             <div class="form-group">
                               <div class="col-lg-6">
-                                <label> Payment Frequency:</label>
+                                <label> Successful hits:</label>
                               </div>
                               <div class="col-lg-6">
                                 <input type="text" placeholder="{{partner.freq}}" formControlName="freq">
@@ -91,7 +91,7 @@
                             <div class="col-lg-6">
                               <div class="form-group">
                                 <div class="col-lg-6">
-                                    <label>Account Number:</label>
+                                    <label>Failures:</label>
                                 </div>
                                 <div class="col-lg-6">
                                     <input type="text" placeholder="{{partner.accno}}" formControlName="accno">
@@ -101,7 +101,7 @@
                             <div class="col-lg-6">
                               <div class="form-group">
                                 <div class="col-lg-6">
-                                  <label> Maker ID:</label>
+                                  <label> Amount Transferred:</label>
                                 </div>
                                 <div class="col-lg-6">
                                     <input type="text" placeholder="{{partner.mid}}" formControlName="mid">
@@ -133,9 +133,9 @@
                               </div>
                           </div>
                           <div class="form-row align-items-center">
-                              <label><b>Set/Update Payment Rules</b></label>
+                              <label><b>REVOKE PARTNER</b></label>
                               <div class="col-auto" class="sbmt">
-                                  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                  <button (click)="revoke(partner.org)" class="btn btn-primary mb-2">Revoke</button>
                               </div>
                           </div>
                       </div>

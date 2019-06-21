@@ -7,6 +7,18 @@ var passwordHash = require('password-hash');
 var  multipart  =  require('connect-multiparty');
 var  multipartMiddleware  =  multipart({ uploadDir:  path.join(__dirname,'uploads') });
 var fs = require('fs');
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+	destination:function(req,file,cb){
+		cb(null,path.join(__dirname,'uploads'))
+	},
+	filename: function(req,file,cb){
+		cb(null,Date.now() + file.originalname);
+ 
+	}
+});
+var upload = multer({ storage:storage });
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -19,56 +31,62 @@ files.use(bodyParser.urlencoded({extended:true}));
 var sess;
 
 files.route('/upload')
-.post(multipartMiddleware,(req,res)=>{
-    console.log("entered here!");
-    var sess = req.session;
+.post(upload.any(),(req,res)=>{
+    console.log(req.files);
+    res.json("files recieved");
+})
 
-    var dirpath = path.join(__dirname,'uploads');
-    var recentfile,newtime;
+//files.route('/upload')
+// .post(multipartMiddleware,(req,res)=>{
+//     console.log("entered here!");
+//     var sess = req.session;
 
-    fs.readdir(dirpath, function(err, items){
-        for (var i=0; i<items.length; i++) {
-            if(i==0){
-                recentfile = path.join(__dirname,'uploads',items[i]);
-                newtime = fs.statSync(dirpath + "/" + items[0]).ctime.getTime();
-            }else{
-                if(fs.statSync(dirpath + "/" + items[i]).ctime.getTime() > newtime ){
-                    newtime = fs.statSync(dirpath + "/" + items[i]).ctime.getTime();
-                    recentfile = path.join(__dirname,'uploads',items[i]);
-                }   
-            }
-        }
+//     var dirpath = path.join(__dirname,'uploads');
+//     var recentfile,newtime;
 
-        //converting the recent file to base64 format
-        var b64 = new Buffer(fs.readFileSync(recentfile)).toString("base64");
+//     fs.readdir(dirpath, function(err, items){
+//         for (var i=0; i<items.length; i++) {
+//             if(i==0){
+//                 recentfile = path.join(__dirname,'uploads',items[i]);
+//                 newtime = fs.statSync(dirpath + "/" + items[0]).ctime.getTime();
+//             }else{
+//                 if(fs.statSync(dirpath + "/" + items[i]).ctime.getTime() > newtime ){
+//                     newtime = fs.statSync(dirpath + "/" + items[i]).ctime.getTime();
+//                     recentfile = path.join(__dirname,'uploads',items[i]);
+//                 }   
+//             }
+//         }
 
-        //now use the newb64path to upload the file into the database
-        MongoClient.connect('mongodb://localhost:27017/bcclient',{ useNewUrlParser: true },(err,client)=>{
-            if(err){ 
-                console.log("Please check you db connection parameters");
-              }else{
-                var db = client.db('bcclient');
-                var collection = db.collection('files');
-                collection.insertOne({user:sess.user,file:b64},(err,res)=>{
-                    if(err) console.log("error while inserting in db: "+err);
-                })
-              }
-        })
+//         //converting the recent file to base64 format
+//         var b64 = new Buffer(fs.readFileSync(recentfile)).toString("base64");
 
-        //displaying the base64 in the jpg format
-        fs.writeFile(path.join(__dirname,'demo.jpg'),new Buffer(b64,"base64"),(err)=>{});
-    });
+//         //now use the newb64path to upload the file into the database
+//         MongoClient.connect('mongodb://localhost:27017/bcclient',{ useNewUrlParser: true },(err,client)=>{
+//             if(err){ 
+//                 console.log("Please check you db connection parameters");
+//               }else{
+//                 var db = client.db('bcclient');
+//                 var collection = db.collection('files');
+//                 collection.insertOne({user:sess.user,file:b64},(err,res)=>{
+//                     if(err) console.log("error while inserting in db: "+err);
+//                 })
+//               }
+//         })
 
-    // var sub = "Bank Connect Client";
-    // var msg = `<p> Hello Business Manager. ${sess.org} has uploaded the necessary documents. Please Validate it.</p>`;
-    // var link = `http://localhost:3000/docs/${sess.user}/${sess.org}`;
-    // sendmail(sub,msg,link);
+//         //displaying the base64 in the jpg format
+//         fs.writeFile(path.join(__dirname,'demo.jpg'),new Buffer(b64,"base64"),(err)=>{});
+//     });
 
-    // res.json({
-    //     'message': 'File uploaded successfully'
-    // });
+//     // var sub = "Bank Connect Client";
+//     // var msg = `<p> Hello Business Manager. ${sess.org} has uploaded the necessary documents. Please Validate it.</p>`;
+//     // var link = `http://localhost:3000/docs/${sess.user}/${sess.org}`;
+//     // sendmail(sub,msg,link);
 
-    res.redirect('/banklist');
-});
+//     // res.json({
+//     //     'message': 'File uploaded successfully'
+//     // });
+
+//     res.redirect('/banklist');
+// });
 
 module.exports = files;

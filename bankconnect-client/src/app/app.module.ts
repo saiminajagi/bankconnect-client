@@ -30,8 +30,6 @@ import { FinprofileComponent } from './finprofile/finprofile.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +48,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ApilistComponent,
     ProfileComponent,
     RefreshComponent,
-    FinprofileComponent
+    FinprofileComponent,
   ],
   imports: [
     BrowserModule,

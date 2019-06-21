@@ -70,7 +70,6 @@ routes.route('/sendmail')
     });
 
     newrequest.save();
-
     var msg = "Thank you.. Please wait for approval to continue the process'+ `<br>` + 'you can close this window now";
     res.json(msg);
 });
@@ -432,6 +431,13 @@ routes.route('/logout')
   sess.ts = 0;
 
   res.redirect('/login');
+})
+
+routes.route('/revoke')
+.post(urlencodedParser,(req,res)=>{
+  partner.findOneAndUpdate({org:req.body.org},{active:false},{new:true},(err,doc)=>{});
+
+  res.json("partner revoked from bank conncet client");
 })
 //==============================END OF ROUTING =======================================
 

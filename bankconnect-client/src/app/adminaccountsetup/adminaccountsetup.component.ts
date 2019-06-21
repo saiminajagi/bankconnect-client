@@ -40,7 +40,7 @@ export class AdminaccountsetupComponent implements OnInit {
       console.log(data);
       this.sent = 1;
     },
-    (error: any) => console.log('error')
+    (error: any) => console.log(error)
   );
   }
 
