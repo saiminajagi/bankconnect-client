@@ -189,6 +189,11 @@ routes.route('/loginconfirm')
                 //login successful
                 sess.email = req.body.email;
                 sess.role = doc[0].role;
+                if(doc[0].role == "admin")
+                  sess.admin = 1;
+                else if(doc[0].role == "fintech")
+                  sess.fintech = 1;
+
                 var obj = {
                     status: 1,
                     msg : "Login Successful"
@@ -407,13 +412,21 @@ routes.route('/checklogin')
 
     console.log("414: "+sess.email);
     //change the adminmodel to usermodel.
-    if(sess.fintech || sess.admin){
+    if(sess.fintech ){
+      console.log("fintech here");
       usermodel.find({email:sess.email},(err,doc)=>{
-        res.json(doc[0].email);
+        res.json(doc[0].fname);
       })
-    }else if(sess.bank){
+    }else if(sess.admin){
+      console.log("admin here");
+      usermodel.find({email:sess.email},(err,doc)=>{
+        res.json(doc[0].fname);
+      })
+    }
+    else if(sess.bank){
+      console.log("bank here");
       bankmodel.find({email:sess.email},(err,doc)=>{
-        res.json(doc[0].email);
+        res.json(doc[0].bankname);
       })
     }
     else {res.json(0); }
@@ -442,13 +455,13 @@ function sendmail(email,ts){
         auth: {
             // user: process.env.GMAIL_USER,
             // pass: process.env.GMAIL_PASS
-            user : 'tushartdm117@gmail.com',
-            pass : 'fcb@rc@M$N321'
+            user : 'ibm.bankconnect@gmail.com',
+            pass : 'Modified@2017'
         }
         });
 
         var mailOptions = {
-            from: 'tushartdm117@gmail.com',
+            from: 'ibm.bankconnect@gmail.com',
             to: `${email}`,
             subject: 'Email confirmation for Bank Connect',
             text: 'That was easy!',
@@ -471,13 +484,13 @@ function sendmail_bank(email,ts){
         auth: {
             // user: process.env.GMAIL_USER,
             // pass: process.env.GMAIL_PASS
-            user : 'tushartdm117@gmail.com',
-            pass : 'fcb@rc@M$N321'
+            user : 'ibm.bankconnect@gmail.com',
+            pass : 'Modified@2017'
         }
         });
 
         var mailOptions = {
-            from: 'tushartdm117@gmail.com',
+            from: 'ibm.bankconnect@gmail.com',
             to: `${email}`,
             subject: 'Email confirmation for Bank Connect',
             text: 'That was easy!',
@@ -498,13 +511,13 @@ function sendmailtopartner(pemail){
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user : 'tushartdm117@gmail.com',
-            pass : 'fcb@rc@M$N321'
+            user : 'ibm.bankconnect@gmail.com',
+            pass : 'Modified@2017'
         }
         });
 
         var mailOptions = {
-            from: 'tushartdm117@gmail.com',
+            from: 'ibm.bankconnect@gmail.com',
             to: `${pemail}`,
             subject: 'Approval from Bank Connect Admin',
             text: 'That was easy!',
@@ -537,7 +550,7 @@ function sendmailtopartner(pemail){
             <body>
                 <div class="maindiv">
                     <h2> Bank Connect </h2>
-                    <p> Your request has been granted. Please <a href="http://localhost:5000/login">login</a> to see all the banks </p>
+                    <p> Your request has been granted. Please <a href="http://localhost:5000/login">login here</a> to see all the banks </p>
                 </div>
             </body>
         </html> `
