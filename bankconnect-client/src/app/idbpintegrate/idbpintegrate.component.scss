@@ -1,4 +1,4 @@
-h2,h4,h6,p{
+h2,h4,h6,p,strong{
   text-align: center;
 }
 
@@ -7,5 +7,14 @@ button{
 }
 
 .confirmation{
+  text-align: center;
+}
+
+.spinner-border{
+  color: #143f8c !important;
+}
+
+.secure-token-loading{
+  color: #143f8c;
   text-align: center;
 }

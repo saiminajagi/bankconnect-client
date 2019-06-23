@@ -1,22 +1,33 @@
 <div class="confirmation" *ngIf="sent; else elseBlock">
+  <!-- Loading -->
+  <div *ngIf="tokengeneratebutton; else tokenblock" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="secure-token-loading">
+          <strong>Generating secure token..</strong>
+      </div>
+  </div>
+  <ng-template #tokenblock>
+    <!-- showing token -->
   <div class="forpadding">
-      <h3><b>Secure token Generated</b></h3><br>
+      <h3><b>Secure token</b></h3><br>
       <p><b>{{token}}</b></p>
       <p> Copy this to integrate with IDBP</p>
   </div>
+  </ng-template>
 </div>
 
 <ng-template #elseBlock>
     <h2><b>IDBP Integration Step</b></h2>
     <br>
-    <h4>Please Provide</h4>
+    <h4>Please Provide IDBP Details</h4>
     <br>
       <form [formGroup]="integrationInputForm" (ngSubmit)="onSubmit()">
         <div class="row">
               <div class="col-2"></div>
               <div class="col-2"></div>
               <div class="col-2">
-                  <h6><b>Server Details</b></h6><br>
                   <div class="form-group">
                       <label for="exampleInputServerIP">IP address</label>
                       <input type="text" class="form-control" formControlName="serverip" id="exampleInputServerIP" placeholder="Enter IP">
@@ -27,7 +38,6 @@
                   </div>
               </div>
               <div class="col-2">
-                  <h6><b>TLS Profile</b></h6><br>
                   <div class="form-group">
                       <label for="exampleInputTLSName">TLS Name</label>
                       <input type="text" class="form-control" formControlName="tlsname" id="exampleInputTLSName" placeholder="Enter Name">

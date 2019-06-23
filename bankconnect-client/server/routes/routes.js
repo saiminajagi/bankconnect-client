@@ -6,6 +6,21 @@ var mongoose = require('mongoose');
 var axios = require('axios');
 var cors = require('cors');
 var passwordHash = require('password-hash');
+var handlebars = require('handlebars');
+var fs = require('fs');
+
+// to read html file
+var readHTMLFile = function(path, callback) {
+  fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+      if (err) {
+          throw err;
+          callback(err);
+      }
+      else {
+          callback(null, html);
+      }
+  });
+};
 
 var usermodel = require('../models/usermodel');
 var bankmodel = require('../models/bankmodel');
@@ -107,7 +122,7 @@ routes.route('/bankdetails')
     sess.admin = 0;
     sess.bank = 1;
     console.log("bank email is :"+sess.email);
-    sendmail_bank(bankemail,timestamp);
+    sendmail_bank(bankemail,timestamp, bankname);
     var msg = "Email sent.. Please check your email to continue the process'+ `<br>` + 'you can close this window";
     res.json(msg);
 })
@@ -332,7 +347,7 @@ routes.route('/pendingReq')
 
   request.findOneAndDelete({org: org},(err, doc)=> console.log(err));
 
-  sendmailtopartner(partneremail);
+  sendmailtopartner(partneremail, org);
 });
 
 routes.route('/getBanks')
@@ -446,10 +461,25 @@ routes.route('/logout')
 
   res.redirect('/login');
 })
+
+
+routes.route('/destroySession')
+.get((req,res)=>{
+  var sess = req.session;
+
+  sess.email ="null";
+  sess.bank = 0;
+  sess.admin =0;
+  sess.role= "null";
+  sess.ts = 0;
+
+  res.json("session destroyed");
+})
+
 //==============================END OF ROUTING =======================================
 
 function sendmail(email,ts){
-    var link = `http://localhost:5000/route/confirm/${ts}/${email}`;
+    var link = `http://ibm.bankconnect:5000/route/confirm/${ts}/${email}`;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -477,8 +507,8 @@ function sendmail(email,ts){
         });
 }
 
-function sendmail_bank(email,ts){
-    var link = `http://localhost:5000/route/bank_confirm/${ts}/${email}`;
+function sendmail_bank(email,ts, bankname){
+    var link = `http://ibm.bankconnect:5000/route/bank_confirm/${ts}/${email}`;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -489,25 +519,33 @@ function sendmail_bank(email,ts){
         }
         });
 
-        var mailOptions = {
+        readHTMLFile(path.join(__dirname, '../views/bankconnect-email-confirmation-for-bank.html'), function(err, html) {
+          var template = handlebars.compile(html);
+          var replacements = {
+              bankname: `${bankname}`,
+              link: `${link}`
+          };
+          var htmlToSend = template(replacements);
+          var mailOptions = {
             from: 'ibm.bankconnect@gmail.com',
             to: `${email}`,
             subject: 'Email confirmation for Bank Connect',
             text: 'That was easy!',
-            html : `${link}`
-        };
-
-        transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
+            html : htmlToSend
+          };
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+            });
         });
 }
 
-function sendmailtopartner(pemail){
+function sendmailtopartner(pemail, org){
 
+    var link = `http://ibm.bankconnect:5000/home`;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -516,52 +554,27 @@ function sendmailtopartner(pemail){
         }
         });
 
-        var mailOptions = {
+        readHTMLFile(path.join(__dirname, '../views/bankconnect-partner-approval.html'), function(err, html) {
+          var template = handlebars.compile(html);
+          var replacements = {
+               orgname: `${org}`,
+               link: `${link}`
+          }
+          var htmlToSend = template(replacements);
+          var mailOptions = {
             from: 'ibm.bankconnect@gmail.com',
             to: `${pemail}`,
             subject: 'Approval from Bank Connect Admin',
             text: 'That was easy!',
-            html : `
-            <html>
-            <head>
-                <style>
-                    .maindiv{
-                        box-shadow: 5px 5px 10px grey;
-                        margin-left: 35%;
-                        border: solid 2px grey;
-                        width: 550px;
-                        margin-top: 20px;
-                        padding-left: 35px;
-                        padding-bottom: 20px;
-                        border-radius: 20px;
-                        padding-top: 10px;
-                    }
-                    h2{
-                        margin-left: 44%;
-                        color:rgb(91, 91, 204);
-                    }
-
-                    a{
-                        text-decoration: none;
-                        color:rgb(83, 134, 6)
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="maindiv">
-                    <h2> Bank Connect </h2>
-                    <p> Your request has been granted. Please <a href="http://localhost:5000/login">login here</a> to see all the banks </p>
-                </div>
-            </body>
-        </html> `
-        };
-
-        transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
+            html : htmlToSend
+          };
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+            });
         });
 }
 

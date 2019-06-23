@@ -155,4 +155,11 @@ export class SignupServiceService {
       new HttpHeaders({ 'Content-Type':'application/json'})
     })
   }
+
+  destroySession(){
+    return this.http.get<any>('/route/destroySession',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
 }
