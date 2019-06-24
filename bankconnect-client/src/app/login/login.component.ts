@@ -17,6 +17,11 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private signservice: SignupServiceService,private router: Router) { }
 
   ngOnInit() {
+    this.signservice.destroySession()
+    .subscribe((data)=>{
+      console.log(data);
+    },(err)=>console.log(err));
+    
     this.loginForm = this.fb.group({
       email:['',[Validators.required]],
       pass:['',[Validators.required]],

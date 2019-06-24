@@ -33,6 +33,7 @@ export class NavComponent implements OnInit {
     console.log('logout reached');
     this.signservice.logout()
     .subscribe((data)=>{
+      console.log("data after logout "+data);
       this.login = 0;
     },(err)=>console.log(err));
     return true;

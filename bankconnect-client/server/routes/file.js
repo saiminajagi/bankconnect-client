@@ -9,13 +9,16 @@ var  multipartMiddleware  =  multipart({ uploadDir:  path.join(__dirname,'upload
 var fs = require('fs');
 var multer = require('multer');
 
+// models--------------------
+
+var partner = require('../models/partnermodel');
+
 var storage = multer.diskStorage({
 	destination:function(req,file,cb){
 		cb(null,path.join(__dirname,'uploads'))
 	},
 	filename: function(req,file,cb){
 		cb(null,Date.now() + file.originalname);
- 
 	}
 });
 var upload = multer({ storage:storage });
@@ -32,61 +35,62 @@ var sess;
 
 files.route('/upload')
 .post(upload.any(),(req,res)=>{
-    console.log(req.files);
-    res.json("files recieved");
+    var sess = req.session;
+    var files_array = [];
+    partner.findOneAndUpdate({email:sess.email},{files:true},{new:true},(err,doc)=>{});
+    
+    //convert the files to b64 format and store it in db
+    var dirpath = path.join(__dirname,'uploads');
+    fs.readdir(dirpath, function(err, items){
+        for (var i=0; i<items.length; i++) {
+            recentfile = path.join(__dirname,'uploads',items[i]);
+            var b64 = new Buffer(fs.readFileSync(recentfile)).toString("base64");
+
+            files_array.push(b64);
+            //this delets the file
+            fs.unlinkSync(recentfile);
+        }
+
+        MongoClient.connect('mongodb://localhost:27017/bcclient',{ useNewUrlParser: true },(err,client)=>{
+            if(err){ 
+                console.log("Please check you db connection parameters");
+            }else{
+                var db = client.db('bcclient');
+                var collection = db.collection('files');
+                collection.insertOne({email:sess.email,file:files_array[0]},(err,res)=>{
+                    if(err) console.log("error while inserting file in db: "+err);
+                })
+            }
+        })
+
+        MongoClient.connect('mongodb://localhost:27017/bcclient',{ useNewUrlParser: true },(err,client)=>{
+            if(err){ 
+                console.log("Please check you db connection parameters");
+            }else{
+                var db = client.db('bcclient');
+                var collection = db.collection('files');
+                collection.insertOne({email:sess.email,file:files_array[1]},(err,res)=>{
+                    if(err) console.log("error while inserting file in db: "+err);
+                })
+            }
+        })
+
+        //add the request to the bank connect.
+        MongoClient.connect('mongodb://localhost:27017/idbp',{ useNewUrlParser: true },(err,client)=>{
+            if(err){ 
+                console.log("Please check you db connection parameters");
+            }else{
+                var db = client.db('idbp');
+                var collection = db.collection('requests');
+                collection.insertOne({email:sess.email,org:,via:"client"},(err,res)=>{
+                    if(err) console.log("error while inserting file in db: "+err);
+                })
+            }
+        })
+        
+    });
+
+    res.redirect('/banklist');
 })
-
-//files.route('/upload')
-// .post(multipartMiddleware,(req,res)=>{
-//     console.log("entered here!");
-//     var sess = req.session;
-
-//     var dirpath = path.join(__dirname,'uploads');
-//     var recentfile,newtime;
-
-//     fs.readdir(dirpath, function(err, items){
-//         for (var i=0; i<items.length; i++) {
-//             if(i==0){
-//                 recentfile = path.join(__dirname,'uploads',items[i]);
-//                 newtime = fs.statSync(dirpath + "/" + items[0]).ctime.getTime();
-//             }else{
-//                 if(fs.statSync(dirpath + "/" + items[i]).ctime.getTime() > newtime ){
-//                     newtime = fs.statSync(dirpath + "/" + items[i]).ctime.getTime();
-//                     recentfile = path.join(__dirname,'uploads',items[i]);
-//                 }   
-//             }
-//         }
-
-//         //converting the recent file to base64 format
-//         var b64 = new Buffer(fs.readFileSync(recentfile)).toString("base64");
-
-//         //now use the newb64path to upload the file into the database
-//         MongoClient.connect('mongodb://localhost:27017/bcclient',{ useNewUrlParser: true },(err,client)=>{
-//             if(err){ 
-//                 console.log("Please check you db connection parameters");
-//               }else{
-//                 var db = client.db('bcclient');
-//                 var collection = db.collection('files');
-//                 collection.insertOne({user:sess.user,file:b64},(err,res)=>{
-//                     if(err) console.log("error while inserting in db: "+err);
-//                 })
-//               }
-//         })
-
-//         //displaying the base64 in the jpg format
-//         fs.writeFile(path.join(__dirname,'demo.jpg'),new Buffer(b64,"base64"),(err)=>{});
-//     });
-
-//     // var sub = "Bank Connect Client";
-//     // var msg = `<p> Hello Business Manager. ${sess.org} has uploaded the necessary documents. Please Validate it.</p>`;
-//     // var link = `http://localhost:3000/docs/${sess.user}/${sess.org}`;
-//     // sendmail(sub,msg,link);
-
-//     // res.json({
-//     //     'message': 'File uploaded successfully'
-//     // });
-
-//     res.redirect('/banklist');
-// });
 
 module.exports = files;

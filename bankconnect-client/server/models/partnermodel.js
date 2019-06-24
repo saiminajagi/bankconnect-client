@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var partner = mongoose.Schema({
     org : String,
     email : String,
-    active : Boolean
+    active : Boolean,
+    files : Boolean
 },{
     timestamp : true
 });

@@ -22,5 +22,18 @@ img{
 }
 
 .card-body{
-    border-left: solid 5px #153570;
+    border-left: solid 7px #153570;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px; 
+}
+
+.Overview{
+    background: #1e4a9b;
+    color: white;
+}
+
+.card-title{
+    //margin-left: 40%;
+    text-align: center;
+    margin-top: 15px;
 }

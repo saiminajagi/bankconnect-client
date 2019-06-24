@@ -155,4 +155,39 @@ export class SignupServiceService {
       new HttpHeaders({ 'Content-Type':'application/json'})
     })
   }
+
+  checkFileUpload(){
+    return this.http.get<any>('/route/checkFileUpload',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})})
+  }
+  
+  showFileForm(){
+    return this.http.get<any>('/route/showFileForm',{
+      headers :
+      //new HttpHeaders({ 'Content-Type':'application/json'})
+      new HttpHeaders({ 'Content-Type':'text/html' })
+    })
+  }
+
+  getPartnerDetails(){
+    return this.http.get<any>('/route/getPartnerDetails',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
+  sendReq(obj:any):Observable<any>{
+    return this.http.post<any>('http://localhost:3000/route/pendingReqClient',obj,{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
+  destroySession(){
+    return this.http.get<any>('/route/destroySession',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
 }

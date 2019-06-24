@@ -9,14 +9,14 @@
 <ng-template #elseBlock>
     <h2><b>IDBP Integration Step</b></h2>
     <br>
-    <h4>Please Provide</h4>
+    <h4>Please Provide IDBP Details</h4>
     <br>
       <form [formGroup]="integrationInputForm" (ngSubmit)="onSubmit()">
         <div class="row">
               <div class="col-2"></div>
               <div class="col-2"></div>
               <div class="col-2">
-                  <h6><b>Server Details</b></h6><br>
+                  
                   <div class="form-group">
                       <label for="exampleInputServerIP">IP address</label>
                       <input type="text" class="form-control" formControlName="serverip" id="exampleInputServerIP" placeholder="Enter IP">
@@ -27,7 +27,6 @@
                   </div>
               </div>
               <div class="col-2">
-                  <h6><b>TLS Profile</b></h6><br>
                   <div class="form-group">
                       <label for="exampleInputTLSName">TLS Name</label>
                       <input type="text" class="form-control" formControlName="tlsname" id="exampleInputTLSName" placeholder="Enter Name">

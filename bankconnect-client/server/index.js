@@ -37,7 +37,7 @@ app.use((req,res,next)=>{
 });
 app.use('/route',routes);
 app.use('/posts',posts);
-app.use('/file',files);
+app.use('/files',files);
 
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'../dist/bankconnect-client/index.html'));

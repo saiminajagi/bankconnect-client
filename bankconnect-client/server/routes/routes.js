@@ -2,15 +2,15 @@ var express = require('express');
 var nodemailer = require('nodemailer');
 var path = require('path');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var axios = require('axios');
-var cors = require('cors');
 var passwordHash = require('password-hash');
+var url = require('url');
+var requestmodule = require('request');
 
 var usermodel = require('../models/usermodel');
 var bankmodel = require('../models/bankmodel');
 var request = require('../models/requestmodel');
 var partner = require('../models/partnermodel');
+var files = require('../models/filemodel');
 
 var routes = express.Router();
 
@@ -50,7 +50,8 @@ routes.route('/sendmail')
         password : pass,
         email : useremail,
         confirmation : false,
-        role : "fintech"
+        role : "fintech",
+        files : false
     });
     newuser.save((err)=>{
         if(err)
@@ -70,6 +71,7 @@ routes.route('/sendmail')
     });
 
     newrequest.save();
+    sendmail(useremail,timestamp);
     var msg = "Thank you.. Please wait for approval to continue the process'+ `<br>` + 'you can close this window now";
     res.json(msg);
 });
@@ -175,12 +177,38 @@ routes.route('/loginconfirm')
     var sess = req.session;
     usermodel.find({email: req.body.email},(err,doc)=>{
         if(doc.length == 0){
-            var msg = "Invalid email";
-            var obj = {
-                status: 0,
-                msg : "entered invalid email"
+          //check if the user is a bank
+          bankmodel.find({email: req.body.email},(err,doc)=>{
+            if(doc.length == 0){
+              var msg = "Invalid email";
+              var obj = {
+                  status: 0,
+                  msg : "entered invalid email"
+              }
+              res.json(obj);
+            }else{
+              //he is a user.
+              if(passwordHash.verify(req.body.pass,doc[0].password)){
+                sess.email = req.body.email;
+                sess.role = doc[0].role;
+                sess.bank = 1; sess.admin =0; sess.fintech = 0;
+
+                var obj = {
+                  status: 1,
+                  msg : "Login Successful"
+                }
+                res.json(obj);
+              }else{
+                console.log("entered wrong pass");
+                var obj = {
+                    status: 0,
+                    msg : "Wrong Password.Please try again"
+                }
+                res.json(obj);
+              }
             }
-            res.json(obj);
+          })
+
         }
         else{
             //check for password.
@@ -262,6 +290,15 @@ routes.route('/adminprofile')
     }
 });
 
+routes.route('/sendFileForm/:email')
+.get((req,res)=>{
+  var sess = req.session;
+  sess.email = req.params.email;
+  
+  console.log(sess.email+" is filling a file form");
+  res.sendFile(path.join(__dirname,'fileupload.html'));
+})
+
 routes.route('/checkadmin')
 .get((req, res)=>{
   var sess = req.session;
@@ -323,7 +360,8 @@ routes.route('/pendingReq')
       var newpartner = new partner({
         org : org,
         email : partneremail,
-        active : true
+        active : true,
+        files : false
       });
 
       newpartner.save();
@@ -410,24 +448,28 @@ routes.route('/checklogin')
     var sess = req.session;
 
     console.log("414: "+sess.email);
-    //change the adminmodel to usermodel.
-    if(sess.fintech ){
-      console.log("fintech here");
-      usermodel.find({email:sess.email},(err,doc)=>{
-        res.json(doc[0].fname);
-      })
-    }else if(sess.admin){
-      console.log("admin here");
-      usermodel.find({email:sess.email},(err,doc)=>{
-        res.json(doc[0].fname);
-      })
+    if(sess.email){
+      //change the adminmodel to usermodel.
+        if(sess.fintech ){
+          console.log("fintech here");
+          usermodel.find({email:sess.email},(err,doc)=>{
+            res.json(doc[0].fname);
+          })
+        }else if(sess.admin){
+          console.log("admin here");
+          usermodel.find({email:sess.email},(err,doc)=>{
+            res.json(doc[0].fname);
+          })
+        }
+        else if(sess.bank){
+          console.log("bank here");
+          bankmodel.find({email:sess.email},(err,doc)=>{
+            res.json(doc[0].bankname);
+          })
+        }
+        else {res.json(0); }
     }
-    else if(sess.bank){
-      console.log("bank here");
-      bankmodel.find({email:sess.email},(err,doc)=>{
-        res.json(doc[0].bankname);
-      })
-    }
+    
     else {res.json(0); }
 })
 
@@ -437,8 +479,9 @@ routes.route('/logout')
   console.log("logout route");
   var sess = req.session;
 
-  sess.email = "null";
+  sess.email = 0;
   sess.bank = 0;
+  sess.fintech = 0;
   sess.admin = 0;
   sess.role = "null";
   sess.ts = 0;
@@ -452,10 +495,79 @@ routes.route('/revoke')
 
   res.json("partner revoked from bank conncet client");
 })
-//==============================END OF ROUTING =======================================
+
+routes.route('/checkFileUpload')
+.get((req,res)=>{
+  var sess = req.session;
+
+  partner.find({email : sess.email},(err,doc)=>{
+    if(doc.length){
+      if(doc[0].files){res.json(1)}
+      else res.json(0);
+    }
+  })
+})
+
+routes.route('/showFileForm')
+.get((req,res)=>{
+  console.log("came to 511:");
+  res.sendFile(path.join(__dirname,'fileupload.html'));
+})
+
+routes.route('/getPartnerDetails')
+.get((req,res)=>{
+  var sess = req.session;
+
+  partner.find({email:sess.email},(err,doc)=>{
+    res.json(doc[0]);
+  })
+})
+
+routes.route('/destroySession')
+.get((req,res)=>{
+  var sess = req.session;
+
+  sess.email = "null";
+  sess.bank = 0;
+  sess.admin = 0;
+  sess.role = "null";
+  sess.ts = 0;
+
+  res.json("session destroyed");
+})
+
+routes.route('/getFilesClient')
+.post(urlencodedParser,(req,res)=>{
+  //get the files of the client
+  var email = req.body.email;
+
+  files.find({email: email},(err,doc)=>{
+    console.log("no of docs: "+doc.length);
+    if(doc.length){
+      var fileArray = [];
+      for(var i=0;i<doc.length;++i){
+        fileArray.push(doc[0].file);
+      }
+      var myObj = {
+        files : fileArray,
+        email : req.body.email
+      }
+
+      res.json(myObj);
+    }else{
+      res.json("no files uploaded");
+    }
+  })
+})
+
+//    ************************************************************************************
+
+//    ==============================END OF ROUTING =======================================
+
+//    ************************************************************************************
 
 function sendmail(email,ts){
-    var link = `http://localhost:5000/route/confirm/${ts}/${email}`;
+    var link = `http://localhost:5000/route/sendFileForm/${email}`;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
