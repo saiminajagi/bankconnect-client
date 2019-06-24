@@ -12,6 +12,8 @@ export class IdbpintegrateComponent implements OnInit {
   sent: Number = 0;
   token: String = '';
   integrationInputForm: FormGroup;
+  public tokengeneratebutton = false;
+
 
   constructor(private fb: FormBuilder, private signservice: SignupServiceService) { }
 
@@ -35,13 +37,17 @@ export class IdbpintegrateComponent implements OnInit {
     };
 
     this.signservice.sendIDBPIntegrationDetails(myObj)
-  .subscribe(
+    .subscribe(
     (data : any) => {
       console.log(data);
       this.sent = 1;
-    },
-    (error: any) => console.log('error')
-  );
+      // show box message
+      this.tokengeneratebutton = true;
+      setTimeout(function() {
+        this.tokengeneratebutton = false;
+      }.bind(this), 3000);
+    },(error: any) => console.log('error'));
+
   }
 
 }
