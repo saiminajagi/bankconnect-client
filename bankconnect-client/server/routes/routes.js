@@ -235,7 +235,8 @@ routes.route('/loginconfirm')
                   sess.admin = 1;
                 else if(doc[0].role == "fintech")
                   sess.fintech = 1;
-
+                  console.log("organisation is: "+doc[0].org);
+                  sess.org = doc[0].org;
                 var obj = {
                     status: 1,
                     msg : "Login Successful"

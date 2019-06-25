@@ -82,12 +82,12 @@ files.route('/upload')
             }else{
                 var db = client.db('idbp');
                 var collection = db.collection('requests');
-                collection.insertOne({email:sess.email,org:,via:"client"},(err,res)=>{
+                console.log(sess.org);
+                collection.insertOne({email:sess.email,org:sess.org,via:"client"},(err,res)=>{
                     if(err) console.log("error while inserting file in db: "+err);
                 })
             }
         })
-        
     });
 
     res.redirect('/banklist');

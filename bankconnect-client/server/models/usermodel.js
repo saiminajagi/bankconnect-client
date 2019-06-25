@@ -8,7 +8,8 @@ var userschema = mongoose.Schema({
     password: String,
     fname : String,
     lname: String,
-    role: String
+    role: String,
+    org : String
 },{
     timestamp : true
 });
