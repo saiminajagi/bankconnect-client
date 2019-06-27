@@ -155,12 +155,6 @@ export class SignupServiceService {
       new HttpHeaders({ 'Content-Type':'application/json'})
     })
   }
-
-  checkFileUpload() {
-    return this.http.get<any>('/route/checkFileUpload',{
-      headers :
-      new HttpHeaders({ 'Content-Type':'application/json'})})
-  }
   
   showFileForm(){
     return this.http.get<any>('/route/showFileForm',{
@@ -178,16 +172,17 @@ export class SignupServiceService {
   }
 
   sendReq(obj:any):Observable<any>{
-    return this.http.post<any>('http://localhost:3000/route/pendingReqClient',obj,{
+    return this.http.post<any>('http://idbpportal.bank.com:3000/route/pendingReqClient',obj,{
       headers :
       new HttpHeaders({ 'Content-Type':'application/json'})
     })
   }
 
-  destroySession(){
-    return this.http.get<any>('/route/destroySession',{
+  subscribeApi(obj:any):Observable<any>{
+    return this.http.post('/route/subscribeApi',obj,{
       headers :
       new HttpHeaders({ 'Content-Type':'application/json'})
     })
   }
+  
 }

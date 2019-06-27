@@ -90,7 +90,7 @@ files.route('/upload')
         })
     });
 
-    res.redirect('/banklist');
+    res.redirect('/login');
 })
 
 module.exports = files;

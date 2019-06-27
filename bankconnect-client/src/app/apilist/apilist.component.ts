@@ -9,26 +9,44 @@ import { SignupServiceService } from '../services/signup-service.service';
 })
 export class ApilistComponent implements OnInit {
 
+  bank: String;
+
   Apilist: Array<String> = [];
-  constructor(private router: Router,private route: ActivatedRoute,private signservice : SignupServiceService) {
-    this.route.params.subscribe( params => {
-      console.log("bank name is: "+params['bankname']);
+  constructor(private router: Router, private route: ActivatedRoute, private signservice: SignupServiceService) {
+    this.route.params.subscribe(params => {
+      console.log("bank name is: " + params['bankname']);
       var myObj = {
-        bank : params['bankname']
+        bank: params['bankname']
       }
 
-    this.signservice.getApis(myObj)
-    .subscribe((data)=>{
-      console.log("data is: "+data);
-      this.Apilist = data;
-    },(err)=> console.log(err));
+      this.bank = params['bankname'];
+
+      this.signservice.getApis(myObj)
+        .subscribe((data) => {
+          console.log("data is: " + data);
+          this.Apilist = data;
+        }, (err) => console.log(err));
     })
-   }
+  }
 
   ngOnInit() {
   }
 
-  setApi(apiname){
+  setApi(apiname) {
     this.router.navigateByUrl(`/overview/${apiname}`);
+  }
+
+  subscribe(apiname) {
+    var myObj = {
+      api : apiname,
+      bank : this.bank
+    }
+
+    //should he request for the approval?
+    this.signservice.subscribeApi(myObj)
+    .subscribe((data)=>{
+      console.log(data);
+    },(err)=>console.log(err));
+
   }
 }
