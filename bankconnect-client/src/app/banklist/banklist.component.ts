@@ -50,7 +50,7 @@ export class BanklistComponent implements OnInit {
     .subscribe((data)=>{
       console.log(data);
       if(data == 0){
-        window.location.href = "http://localhost:5000/route/showFileForm";
+        window.location.href = "http://ibm.bankconnect:5000/route/showFileForm";
       }else{
         //send the request to the bank. if he accepts then send a mail with the necessary docs to him
         var myObj = {

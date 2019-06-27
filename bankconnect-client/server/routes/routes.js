@@ -306,14 +306,14 @@ routes.route('/adminprofile')
     }
 });
 
-routes.route('/sendFileForm/:email')
-.get((req,res)=>{
-  var sess = req.session;
-  sess.email = req.params.email;
+// routes.route('/sendFileForm/:email')
+// .get((req,res)=>{
+//   var sess = req.session;
+//   sess.email = req.params.email;
   
-  console.log(sess.email+" is filling a file form");
-  res.sendFile(path.join(__dirname,'fileupload.html'));
-})
+//   console.log(sess.email+" is filling a file form");
+//   res.sendFile(path.join(__dirname,'fileupload.html'));
+// })
 
 routes.route('/checkadmin')
 .get((req, res)=>{
@@ -491,18 +491,8 @@ routes.route('/checklogin')
 
 routes.route('/logout')
 .get((req,res)=>{
-
-  console.log("logout route");
-  var sess = req.session;
-
-  sess.email = 0;
-  sess.bank = 0;
-  sess.fintech = 0;
-  sess.admin = 0;
-  sess.role = "null";
-  sess.ts = 0;
-
-  res.redirect('/login');
+  req.session.destroy();
+  res.json('session destroyed');
 })
 
 routes.route('/revoke')
@@ -539,18 +529,6 @@ routes.route('/getPartnerDetails')
   })
 })
 
-routes.route('/destroySession')
-.get((req,res)=>{
-  var sess = req.session;
-
-  sess.email = 0;
-  sess.bank = 0;
-  sess.admin = 0;
-  sess.role = "null";
-  sess.ts = 0;
-
-  res.json("session destroyed");
-})
 
 routes.route('/getFilesClient')
 .post(urlencodedParser,(req,res)=>{
@@ -561,8 +539,9 @@ routes.route('/getFilesClient')
     console.log("no of docs: "+doc.length);
     if(doc.length){
       var fileArray = [];
+      //for loop not working
       for(var i=0;i<doc.length;++i){
-        fileArray.push(doc[0].file);
+        fileArray.push(doc[i].file);
       }
       var myObj = {
         files : fileArray,
