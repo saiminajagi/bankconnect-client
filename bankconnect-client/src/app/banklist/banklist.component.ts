@@ -15,11 +15,11 @@ export class BanklistComponent implements OnInit {
   org : String;
   
   constructor(private router: Router,private route: ActivatedRoute,private signservice : SignupServiceService) {
-    // this.signservice.getConfirmation()
-    // .subscribe((data)=>{
-    //   console.log(data);
-    //   this.confirmed = data;
-    // },(err)=> console.log(err));
+    this.signservice.getConfirmation()
+    .subscribe((data)=>{
+      console.log(data);
+      this.confirmed = data;
+    },(err)=> console.log(err));
    }
 
   ngOnInit() {
