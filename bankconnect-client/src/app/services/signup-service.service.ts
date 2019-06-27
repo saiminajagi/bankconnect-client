@@ -156,7 +156,7 @@ export class SignupServiceService {
     })
   }
 
-  checkFileUpload(){
+  checkFileUpload() {
     return this.http.get<any>('/route/checkFileUpload',{
       headers :
       new HttpHeaders({ 'Content-Type':'application/json'})})
