@@ -45,22 +45,13 @@ export class BanklistComponent implements OnInit {
 
   onboard(bankname){
     console.log("onboarding to :"+bankname);
-    this.signservice.checkFileUpload()
-    .subscribe((data)=>{
-      console.log(data);
-      if(data == 0){
-        window.location.href = "http://ibm.bankconnect:5000/route/showFileForm";
-      }else{
-        //send the request to the bank. if he accepts then send a mail with the necessary docs to him
-        var myObj = {
-          org : this.org,
-          email : this.email
-        }
-        this.signservice.sendReq(myObj)
-        .subscribe((data)=>console.log(data),(err)=>console.log(err));
 
-        console.log("files already uploaded");
-      }
-    },(err)=>console.log(err));
+    var myObj = {
+      org : this.org,
+      email : this.email,
+    }
+    this.signservice.sendReq(myObj)
+    .subscribe((data)=>console.log(data),(err)=>console.log(err));
   }
+
 }

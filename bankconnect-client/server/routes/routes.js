@@ -26,6 +26,7 @@ var bankmodel = require('../models/bankmodel');
 var request = require('../models/requestmodel');
 var partner = require('../models/partnermodel');
 var files = require('../models/filemodel');
+var subapi = require('../models/subapi');
 
 var routes = express.Router();
 
@@ -86,7 +87,6 @@ routes.route('/sendmail')
     });
 
     newrequest.save();
-    sendmail(useremail, timestamp);
     var msg = "Thank you.. Please wait for approval to continue the process'+ `<br>` + 'you can close this window now";
     res.json(msg);
   });
@@ -510,21 +510,8 @@ routes.route('/revoke')
     res.json("partner revoked from bank conncet client");
   })
 
-routes.route('/checkFileUpload')
-  .get((req, res) => {
-    var sess = req.session;
-
-    partner.find({ email: sess.email }, (err, doc) => {
-      if (doc.length) {
-        if (doc[0].files) { res.json(1) }
-        else res.json(0);
-      }
-    })
-  })
-
 routes.route('/showFileForm')
   .get((req, res) => {
-    console.log("came to 511:");
     res.sendFile(path.join(__dirname, 'fileupload.html'));
   })
 
@@ -535,6 +522,15 @@ routes.route('/getPartnerDetails')
     partner.find({ email: sess.email }, (err, doc) => {
       res.json(doc[0]);
     })
+  })
+
+routes.route('/showFileFormMail/:email/:org')
+  .get((req, res) => {
+    var sess = req.session;
+    sess.email = req.params.email;
+    sess.org = req.params.org;
+
+    res.sendFile(path.join(__dirname, 'fileupload.html'));
   })
 
 
@@ -561,6 +557,40 @@ routes.route('/getFilesClient')
         res.json("no files uploaded");
       }
     })
+  })
+
+routes.route('/subscribeApi')
+  .post(urlencodedParser, (req, res) => {
+    var sess = req.session;
+
+    var api = req.body.api;
+    var bank = req.body.bank;
+
+    subapi.find({ email: sess.email, bank: bank }, (err, doc) => {
+      //get all the current apis from that bank
+      if (doc.length == 0) {
+
+        var newsubapi = new subapi({
+          email: sess.email,
+          bank: bank,
+          apis: api
+        });
+        newsubapi.save();
+
+      } else {
+        var oldapis = [];
+        oldapis = doc[0].apis;
+        oldapis.push(api);
+
+        subapi.findOneAndUpdate({ email: sess.email, bank: bank }, { $set: { apis: oldapis } }, { new: true }, (err, doc) => {
+          // the api list is updated
+          if(err) console.log(err);
+        });
+      }
+
+    })
+
+    res.json("api has been subscribed");
   })
 
 //    ************************************************************************************
@@ -636,7 +666,7 @@ function sendmail_bank(email, ts, bankname) {
 
 function sendmailtopartner(pemail, org) {
 
-  var link = `http://ibm.bankconnect:5000/home`;
+  var link = `http://ibm.bankconnect:5000/route/showFileFormMail/${pemail}/${org}`;
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
