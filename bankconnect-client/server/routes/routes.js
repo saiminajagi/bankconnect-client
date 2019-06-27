@@ -122,6 +122,7 @@ routes.route('/bankdetails')
     sess.email = req.body.email;
     sess.admin = 0;
     sess.bank = 1;
+    sess.fintech = 0;
     console.log("bank email is :" + sess.email);
     sendmail_bank(bankemail, timestamp, bankname);
     var msg = "Email sent.. Please check your email to continue the process'+ `<br>` + 'you can close this window";
@@ -157,19 +158,7 @@ routes.route('/idbpdetails')
 
     var sess = req.session;
 
-    if (sess.admin) {
-      usermodel.find({ email: sess.email }, (err, doc) => {
-        if (err) console.log('he is not admin');
-        if (doc) {
-          //means he is an admin
-          usermodel.findOneAndUpdate({ email: sess.email }, { sport: sport, sip: sip, tlsname: tlsname, tlsversion: tlsversion }, { new: true }, (err, doc) => {
-            if (err) console.log('error in admin model');
-          });
-          res.json("updated details");
-          console.log('updated admin idbp details');
-        }
-      })
-    } else if (sess.bank) {
+    if(sess.bank){
       bankmodel.find({ email: sess.email }, (err, doc) => {
         if (err) console.log('he is not bank');
         if (doc) {
@@ -231,10 +220,10 @@ routes.route('/loginconfirm')
           //login successful
           sess.email = req.body.email;
           sess.role = doc[0].role;
-          if (doc[0].role == "admin")
-            sess.admin = 1;
-          else if (doc[0].role == "fintech")
-            sess.fintech = 1;
+          if (doc[0].role == "admin"){
+            sess.admin = 1; sess.fintech = 0; sess.bank = 0; }
+          else if (doc[0].role == "fintech"){
+            sess.fintech = 1; sess.admin = 0; sess.bank = 0; }
           console.log("organisation is: " + doc[0].org);
           sess.org = doc[0].org;
           var obj = {
@@ -258,28 +247,35 @@ routes.route('/getUserType')
   .get((req, res) => {
     var sess = req.session;
     console.log("sess.email: " + sess.email);
-    usermodel.find({ email: sess.email }, (err, doc) => {
-      res.json(doc[0].role);
-    })
+    if(sess.bank){
+      bankmodel.find({ email: sess.email }, (err, doc) => {
+        res.json('bank');
+      })
+    }else if(sess.admin || sess.fintech){
+      usermodel.find({ email: sess.email }, (err, doc) => {
+        res.json(doc[0].role);
+      })
+    }
+    else{
+      res.json('user role not matched');
+    }
   })
 
-//============================ PROFILE ===========================================
+//============================ADMIN PROFILE: For Fintech and Bank only===========================================
 routes.route('/adminprofile')
   .get((req, res) => {
     var sess = req.session;
 
-    if (sess.admin) {
-      console.log("user is an admin");
+    if (sess.fintech) {
+      console.log("user is an fintech");
       usermodel.find({ email: sess.email }, (err, doc) => {
         if (err) console.log(err);
         if (doc) {
-          console.log("admin found");
-          var type = "admin";
+          console.log("fintech found");
+          var type = "fintech";
           var myObj = {
-            username: doc[0].username,
             fname: doc[0].fname,
             lname: doc[0].lname,
-            admin: doc[0].admin,
             useremail: doc[0].email,
             usertype: type
           }
@@ -306,6 +302,38 @@ routes.route('/adminprofile')
     }
   });
 
+  // =========================PROFILE: For Regulatory board admin or Bank connect admin==============
+  routes.route('/profile')
+  .get((req, res) => {
+    var sess = req.session;
+
+    //check what kind of user he is..
+    usermodel.find({ email: sess.email }, (err, doc) => {
+      var myObj = {
+        username: doc[0].username,
+        fname: doc[0].fname,
+        lname: doc[0].lname,
+        useremail: doc[0].email
+      }
+      res.json(myObj);
+    })
+  });
+
+// to get to know who is using the session
+routes.route('/checkuserfordashboard')
+.get((req, res) => {
+  var sess = req.session;
+  if(sess.admin){
+    res.json('admin');
+  }else if(sess.fintech){
+    res.json('fintech');
+  }else if(sess.bank){
+    res.json('bank');
+  }else{
+    res.json(0)
+  }
+});
+
 // routes.route('/sendFileForm/:email')
 // .get((req,res)=>{
 //   var sess = req.session;
@@ -314,14 +342,6 @@ routes.route('/adminprofile')
 //   console.log(sess.email+" is filling a file form");
 //   res.sendFile(path.join(__dirname,'fileupload.html'));
 // })
-
-routes.route('/checkadmin')
-  .get((req, res) => {
-    var sess = req.session;
-    if (sess.admin) {
-      res.json(1);
-    } else { res.json(0); }
-  });
 
 
 routes.route('/publishApi')
@@ -333,14 +353,6 @@ routes.route('/publishApi')
       if (err) console.log(err);
     });
   })
-
-routes.route('/checkbank')
-  .get((req, res) => {
-    var sess = req.session;
-    if (sess.bank) {
-      res.json(1);
-    } else { res.json(0); }
-  });
 
 routes.route('/getPartners')
   .get((req, res) => {
@@ -433,22 +445,8 @@ routes.route('/setBank')
     var bank = req.body.bank;
 
   })
-routes.route('/profile')
-  .get((req, res) => {
-    var sess = req.session;
 
-    //check what kind of user he is..
-    usermodel.find({ email: sess.email }, (err, doc) => {
-      var myObj = {
-        username: doc[0].username,
-        fname: doc[0].fname,
-        lname: doc[0].lname,
-        useremail: doc[0].email
-      }
-      res.json(myObj);
-    })
-  });
-
+// confirmation to view banklist...only admin and fintech can view banklists, not the bankadmin
 routes.route('/getConfirmation')
   .get((req, res) => {
     var sess = req.session;
@@ -463,7 +461,9 @@ routes.route('/getConfirmation')
         }
 
       })
-    } else res.json(0);
+    }else if (sess.bank) {
+      res.json(0);
+    }else { res.json('no session to get the confirmation') }
 
   })
 
@@ -480,7 +480,7 @@ routes.route('/checklogin')
           res.json(doc[0].fname);
         })
       } else if (sess.admin) {
-        console.log("admin here");
+        console.log("Regulatory board admin here");
         usermodel.find({ email: sess.email }, (err, doc) => {
           res.json(doc[0].fname);
         })

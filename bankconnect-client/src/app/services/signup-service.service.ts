@@ -42,15 +42,8 @@ export class SignupServiceService {
     });
   }
 
-  checkadminaccount():Observable<any>{
-    return this.http.get<any>('route/checkadmin',{
-      headers :
-      new HttpHeaders({ 'Content-Type':'application/json'})
-    });
-  }
-
-  checkbankaccount():Observable<any>{
-    return this.http.get<any>('route/checkbank',{
+  checkuserfordashboard():Observable<any>{
+    return this.http.get<any>('route/checkuserfordashboard',{
       headers :
       new HttpHeaders({ 'Content-Type':'application/json'})
     });
@@ -161,7 +154,7 @@ export class SignupServiceService {
       headers :
       new HttpHeaders({ 'Content-Type':'application/json'})})
   }
-  
+
   showFileForm(){
     return this.http.get<any>('/route/showFileForm',{
       headers :

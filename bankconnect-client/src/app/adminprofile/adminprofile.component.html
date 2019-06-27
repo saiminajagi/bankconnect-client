@@ -1,16 +1,15 @@
 <h3><b>Your account details</b></h3>
 <br>
 
-<div *ngIf="checkRole; else elseBlock">
+<div *ngIf="fintech; else elseBlock">
   <div class="container">
     <div class="row">
       <div class="col-4"></div>
       <div class="col-4">
           <ul>
-              <li><b>Admin Name: </b>{{x.admin}}</li>
-              <li><b>First Name: </b>{{x.fname}}</li>
-              <li><b>Last Name: </b>{{x.lname}}</li>
-              <li><b>Your Email: </b>{{x.useremail}}</li>
+              <li><b>First Name: </b>{{show_admin_profile.fname}}</li>
+              <li><b>Last Name: </b>{{show_admin_profile.lname}}</li>
+              <li><b>Your Email: </b>{{show_admin_profile.useremail}}</li>
           </ul>
       </div>
       <div class="col-4"></div>
@@ -24,8 +23,8 @@
       <div class="col-4"></div>
       <div class="col-4">
           <ul>
-              <li><b>Bank Name: </b>{{this.show_admin_profile.bankname}}</li>
-              <li><b>Bank email: </b>{{this.show_admin_profile.bankemail}}</li>
+              <li><b>Bank Name: </b>{{show_admin_profile.bankname}}</li>
+              <li><b>Bank email: </b>{{show_admin_profile.bankemail}}</li>
           </ul>
       </div>
       <div class="col-4"></div>

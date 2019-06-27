@@ -13,10 +13,10 @@ export class BanklistComponent implements OnInit {
   active:Number;
   email: String;
   org : String;
-  
+
   constructor(private router: Router,private route: ActivatedRoute,private signservice : SignupServiceService) {
     this.signservice.getConfirmation()
-    .subscribe((data)=>{
+    .subscribe((data) => {
       console.log(data);
       this.confirmed = data;
     },(err)=> console.log(err));
@@ -34,7 +34,7 @@ export class BanklistComponent implements OnInit {
       console.log(data);
       this.org = data.org;
       this.email = data.email;
-      this.active = data.active;      
+      this.active = data.active;
     },(err)=>console.log(err));
 
   }

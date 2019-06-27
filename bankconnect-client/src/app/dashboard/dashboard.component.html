@@ -1,12 +1,23 @@
-<div *ngIf="bankaccount" class="integration">
+<br>
+<div class="msg">
+  Your dashboard appears here
+</div>
+
+<!-- ===================Govt/Regulatory board dahsborad============= -->
+<div *ngIf="admin">
+  <p>I'm regulatory board.</p>
+</div>
+
+<!-- ===================Bank Dashboard=================== -->
+<div *ngIf="bank" class="idbp-integration-msg">
   <h3> Bank Account has been successfully created.</h3><br>
   <p>Please click continue to <b>integrate with IDBP</b></p>
   <button class="btn btn-primary" routerLink="/idbpintegrate">Continue</button>
 </div>
 
-<div *ngIf="adminaccount" class="bank-connected">
-  <h3> Admin Profile has been successfully setup.</h3><br>
-  <p>Please click continue to <b>integrate with IDBP</b></p>
-  <button class="btn btn-primary" routerLink="/idbpintegrate">Continue</button>
+<!-- ==================Fintech Dashboard================== -->
+<div *ngIf="fintech">
+  <p><b>I'm a fintech</b></p>
+  <button class="btn btn-primary" routerLink="/banklist">View available Banks</button>
 </div>
 

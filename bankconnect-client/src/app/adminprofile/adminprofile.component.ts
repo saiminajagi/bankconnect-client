@@ -12,16 +12,17 @@ import { ActivatedRoute } from '@angular/router';
 export class AdminprofileComponent implements OnInit {
 
   signupForm: FormGroup;
-
-  checkRole: Number = 0;
+  public fintech = false;
   show_admin_profile:any;
 
   constructor(private signservice: SignupServiceService, private route: ActivatedRoute) {
     this.show_admin_profile = this.route.snapshot.data['admin_profile'];
 
-    if(this.show_admin_profile.usertype == "admin"){
-      this.checkRole = 1;
-    }else this.checkRole =0;
+    console.log('fintech profile received' + this.show_admin_profile);
+
+    if(this.show_admin_profile.usertype === 'fintech') {
+      this.fintech = true;
+    } else { this.fintech = false; }
   }
 
   ngOnInit() {

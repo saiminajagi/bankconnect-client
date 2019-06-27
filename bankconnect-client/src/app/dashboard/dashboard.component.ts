@@ -8,23 +8,23 @@ import { SignupServiceService } from '../services/signup-service.service';
 })
 export class DashboardComponent implements OnInit {
 
-  adminaccount = 0;
-  bankaccount = 0;
+  public admin = false;
+  public bank =  false;
+  public fintech = false;
 
   constructor(private signupService: SignupServiceService) { }
 
   ngOnInit() {
 
-    this.signupService.checkadminaccount()
+    this.signupService.checkuserfordashboard()
     .subscribe((data)=>{
-      console.log(data+"at dasborad")
-      this.adminaccount = data;
-    },(err)=> console.log(err));
-
-    this.signupService.checkbankaccount()
-    .subscribe((data)=>{
-      console.log(data+"at bankaccount")
-      this.bankaccount = data;
+      if (data === 'admin') {
+        this.admin = true;
+      } else if (data === 'fintech') {
+        this.fintech = true;
+      } else if (data === 'bank') {
+        this.bank = true;
+      } else { console.log('dashboard user not found'); }
     },(err)=> console.log(err));
   }
 }
