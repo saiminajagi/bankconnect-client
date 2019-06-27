@@ -20,7 +20,6 @@ export class BanklistComponent implements OnInit {
     //   console.log(data);
     //   this.confirmed = data;
     // },(err)=> console.log(err));
-
    }
 
   ngOnInit() {
