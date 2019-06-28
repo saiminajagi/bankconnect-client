@@ -74,20 +74,6 @@ files.route('/upload')
                 })
             }
         })
-
-        //add the request to the bank connect.
-        MongoClient.connect('mongodb://localhost:27017/idbp',{ useNewUrlParser: true },(err,client)=>{
-            if(err){ 
-                console.log("Please check you db connection parameters");
-            }else{
-                var db = client.db('idbp');
-                var collection = db.collection('requests');
-                console.log(sess.org);
-                collection.insertOne({email:sess.email,org:sess.org,via:"client"},(err,res)=>{
-                    if(err) console.log("error while inserting file in db: "+err);
-                })
-            }
-        })
     });
 
     res.redirect('/login');
