@@ -178,4 +178,11 @@ export class SignupServiceService {
     })
   }
 
+  addSubscribeApi(obj:any):Observable<any>{
+    return this.http.post('http://idbpportal.bank.com:3000/route/addSubscribeApi',obj,{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
 }

@@ -27,6 +27,11 @@ img{
     border-bottom-left-radius: 10px; 
 }
 
+.Onboard{
+    background: #1e4a9b;
+    color: white;
+}
+
 .Overview{
     background: #1e4a9b;
     color: white;
@@ -36,4 +41,9 @@ img{
     //margin-left: 40%;
     text-align: center;
     margin-top: 15px;
+}
+
+.Overview-disabled{
+    disabled: true;
+    background:orange;
 }
