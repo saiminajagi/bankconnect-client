@@ -462,8 +462,8 @@ routes.route('/getConfirmation')
 
       })
     }else if (sess.bank) {
-      res.json(0);
-    }else { res.json('no session to get the confirmation') }
+      res.json(1);
+    }else { res.json(0) }
 
   })
 
