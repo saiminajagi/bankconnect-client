@@ -1,33 +1,53 @@
-<h3><b>Your account details</b></h3>
+<h3><b>My profile</b></h3>
 <br>
-
 <div *ngIf="fintech; else elseBlock">
   <div class="container">
     <div class="row">
-      <div class="col-4"></div>
-      <div class="col-4">
-          <ul>
-              <li><b>First Name: </b>{{show_admin_profile.fname}}</li>
-              <li><b>Last Name: </b>{{show_admin_profile.lname}}</li>
-              <li><b>Your Email: </b>{{show_admin_profile.useremail}}</li>
-          </ul>
+      <div class="col-3"></div>
+      <div class="col-6">
+          <div class="step1">
+            <br>
+            <h4>Your account Details</h4>
+            <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 100%;">
+              <ul>
+                  <li><b>First Name: </b>{{show_admin_profile.fname}}</li>
+                  <li><b>Last Name: </b>{{show_admin_profile.lname}}</li>
+                  <li><b>Your Email: </b>{{show_admin_profile.useremail}}</li>
+              </ul>
+              <h5>Subscriptions</h5>
+              <div *ngFor="let data of ApiSubscriptionDetails">
+                <h6><b>Bank: {{data.bank}}</b></h6>
+                <ul *ngFor="let api of data.apis">
+                  <li>{{api}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
       </div>
-      <div class="col-4"></div>
+      <div class="col-3"></div>
     </div>
   </div>
 </div>
 
 <ng-template #elseBlock>
-  <div class="container">
-    <div class="row">
-      <div class="col-4"></div>
-      <div class="col-4">
-          <ul>
-              <li><b>Bank Name: </b>{{show_admin_profile.bankname}}</li>
-              <li><b>Bank email: </b>{{show_admin_profile.bankemail}}</li>
-          </ul>
+    <div class="container">
+        <div class="row">
+          <div class="col-3"></div>
+          <div class="col-6">
+              <div class="step1">
+                <br>
+                <h4>Your account Details</h4>
+                <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 100%;">
+                  <ul>
+                      <ul>
+                          <li><b>Bank Name: </b>{{show_admin_profile.bankname}}</li>
+                          <li><b>Bank email: </b>{{show_admin_profile.bankemail}}</li>
+                      </ul>
+                  </ul>
+                </div>
+              </div>
+          </div>
+          <div class="col-3"></div>
+        </div>
       </div>
-      <div class="col-4"></div>
-    </div>
-  </div>
 </ng-template>

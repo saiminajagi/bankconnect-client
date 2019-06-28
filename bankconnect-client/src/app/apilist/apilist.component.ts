@@ -10,6 +10,8 @@ import { SignupServiceService } from '../services/signup-service.service';
 export class ApilistComponent implements OnInit {
 
   bank: String;
+  public subscribed;
+  subscribetext;
 
   Apilist: Array<String> = [];
   constructor(private router: Router, private route: ActivatedRoute, private signservice: SignupServiceService) {
@@ -27,6 +29,9 @@ export class ApilistComponent implements OnInit {
           this.Apilist = data;
         }, (err) => console.log(err));
     })
+
+    this.subscribed = false;
+    this.subscribetext = 'Subscribe';
   }
 
   ngOnInit() {
@@ -41,6 +46,9 @@ export class ApilistComponent implements OnInit {
       api : apiname,
       bank : this.bank
     }
+
+    this.subscribed = true;
+    this.subscribetext = 'Subscribed';
 
     //should he request for the approval?
     this.signservice.subscribeApi(myObj)

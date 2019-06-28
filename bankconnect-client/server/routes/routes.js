@@ -593,6 +593,14 @@ routes.route('/subscribeApi')
     res.json("api has been subscribed");
   })
 
+  .get((req, res) => {
+    var sess = req.session;
+
+    subapi.find({ email: sess.email }, (err, doc) => {
+      res.json(doc);
+    })
+  })
+
 //    ************************************************************************************
 
 //    ==============================END OF ROUTING =======================================

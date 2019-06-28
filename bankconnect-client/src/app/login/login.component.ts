@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SignupServiceService} from '../services/signup-service.service';
+import { SignupServiceService } from '../services/signup-service.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,35 +11,52 @@ import { Router } from '@angular/router';
 
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
-  sent =0;
+  loginForm1: FormGroup; // fintech or bank
+  loginForm2: FormGroup; // regulatory board
+  sent = 0;
 
-  constructor(private fb: FormBuilder, private signservice: SignupServiceService,private router: Router) { }
+  constructor(private fb: FormBuilder, private signservice: SignupServiceService, private router: Router) { }
 
   ngOnInit() {
 
-    this.loginForm = this.fb.group({
-      email:['',[Validators.required]],
-      pass:['',[Validators.required]],
+    // from group for fintech/bank
+    this.loginForm1 = this.fb.group({
+      email1: ['', [Validators.required]],
+      pass1: ['', [Validators.required]],
+    });
+
+    // form group for regulatory board
+    this.loginForm2 = this.fb.group({
+      email2: ['', [Validators.required]],
+      pass2: ['', [Validators.required]],
     });
   }
 
-  onSubmit(){
-    var myObj = {
-      email: this.loginForm.controls.email.value,
-      pass: this.loginForm.controls.pass.value,
-    }
-    this.signservice.sendLoginDetails(myObj)
-    .subscribe(
-    (data : any) => {
-      if(data.status){
-        window.location.href = 'http://ibm.bankconnect:5000/home';
-      }else{
-        alert(data.msg);
+  onSubmit(id) {
+
+    if (id === 1) {
+      var myObj = {
+        email: this.loginForm1.controls.email1.value,
+        pass: this.loginForm1.controls.pass1.value
       }
-    },
-    (error: any) => console.log('error')
-  );
+    } else {
+      var myObj = {
+        email: this.loginForm2.controls.email2.value,
+        pass: this.loginForm2.controls.pass2.value
+      };
+    }
+
+    this.signservice.sendLoginDetails(myObj)
+      .subscribe(
+        (data: any) => {
+          if (data.status) {
+            window.location.href = 'http://ibm.bankconnect:5000/home';
+          } else {
+            alert(data.msg);
+          }
+        },
+        (error: any) => console.log('error')
+      );
   }
 
 }

@@ -13,6 +13,7 @@ export class BanklistComponent implements OnInit {
   active:Number;
   email: String;
   org : String;
+  public onboardclick = false;
 
   constructor(private router: Router,private route: ActivatedRoute,private signservice : SignupServiceService) {
     this.signservice.getConfirmation()
@@ -43,15 +44,29 @@ export class BanklistComponent implements OnInit {
     this.router.navigateByUrl(`/apilist/${bankname}`);
   }
 
-  onboard(bankname){
+  onboard(bankname, element, text){
     console.log("onboarding to :"+bankname);
 
     var myObj = {
       org : this.org,
       email : this.email,
     }
+    // to disable the onboard button and show approval pending text
+    element.textContent = text;
+    element.disabled = true;
+
+    //to display submit action completed
+    this.onboardclick = true;
+   //wait 3 Seconds and hide
+    setTimeout(function() {
+       this.onboardclick = false;
+       console.log(this.submitted);
+    }.bind(this), 3000);
+
     this.signservice.sendReq(myObj)
     .subscribe((data)=>console.log(data),(err)=>console.log(err));
+
+
   }
 
 }

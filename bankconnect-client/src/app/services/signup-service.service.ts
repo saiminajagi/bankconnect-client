@@ -178,4 +178,11 @@ export class SignupServiceService {
     })
   }
 
+  getsubscribedApis(){
+    return this.http.get<any>('/route/subscribeApi',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
 }

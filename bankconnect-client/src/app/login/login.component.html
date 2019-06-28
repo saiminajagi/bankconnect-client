@@ -1,34 +1,62 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <div class="container">
-      <h1>Welcome to IBM Bank Connect</h1><br>
-      <div class="row justify-content-center">
-      <div class="col-md-6">
+<div class="container">
+  <h1>Welcome to IBM Bank Connect</h1><br>
+  <div class="row justify-content-center">
+    <div class="col-md-6 login-form-1">
       <div class="card">
-      <header class="card-header">
-        <h4 class="card-title mt-2">Log In</h4>
-      </header>
-      <article class="card-body">
-          <form [formGroup]="loginForm" (ngSubmit) = "onSubmit()">
+        <header class="card-header">
+          <h4 class="card-title mt-2">Log In - Fintech/Bank</h4>
+        </header>
+        <article class="card-body">
+          <form [formGroup]="loginForm1" (ngSubmit)="onSubmit(1)">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" formControlName="email1" id="exampleInputEmail1"
+                aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputPass1">Password</label>
+              <input type="password" class="form-control" formControlName="pass1" id="exampleInputPass1"
+                placeholder="Enter Password">
+            </div>
+
+            <button type="submit" class="btn btn-primary sbmt">Submit</button>
+          </form>
+        </article> <!-- card-body end .// -->
+        <div class="border-top card-body text-center">Don't have an account? <a routerLink="/signup">Sign Up</a></div>
+      </div> <!-- card.// -->
+    </div> <!-- col.//-->
+
+    <!-- Login form 2 -->
+    <div class="col-md-6 login-form-2">
+        <div class="card">
+          <header class="card-header">
+            <h4 class="card-title mt-2">Log In - Regulatory board</h4>
+          </header>
+          <article class="card-body">
+            <form [formGroup]="loginForm2" (ngSubmit)="onSubmit(2)">
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" formControlName="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <label for="exampleInputEmail2">Email address</label>
+                <input type="email" class="form-control" formControlName="email2" id="exampleInputEmail2"
+                  aria-describedby="emailHelp" placeholder="Enter email">
               </div>
 
               <div class="form-group">
-                <label for="exampleInputPass1">Password</label>
-                <input type="password" class="form-control" formControlName="pass" id="exampleInputPass1" placeholder="Enter Password">
+                <label for="exampleInputPass2">Password</label>
+                <input type="password" class="form-control" formControlName="pass2" id="exampleInputPass2"
+                  placeholder="Enter Password">
               </div>
 
               <button type="submit" class="btn btn-primary sbmt">Submit</button>
             </form>
-      </article> <!-- card-body end .// -->
-      <div class="border-top card-body text-center">Don't have an account? <a routerLink="/signup">Sign Up</a></div>
-      </div> <!-- card.// -->
+          </article> <!-- card-body end .// -->
+          <div class="border-top card-body text-center">Govt body <a routerLink="/signup">Terms and conditions.</a></div>
+        </div> <!-- card.// -->
       </div> <!-- col.//-->
+  </div> <!-- row.//-->
 
-      </div> <!-- row.//-->
 
-
-      </div>
-      <!--container end.//-->
+</div>
+<!--container end.//-->
