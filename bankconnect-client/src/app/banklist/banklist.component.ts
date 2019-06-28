@@ -15,6 +15,10 @@ export class BanklistComponent implements OnInit {
   org : String;
   public onboardclick = false;
 
+  // onboardClass = {
+  //   "Overview" : false
+  // }
+
   constructor(private router: Router,private route: ActivatedRoute,private signservice : SignupServiceService) {
     this.signservice.getConfirmation()
     .subscribe((data) => {
@@ -44,8 +48,10 @@ export class BanklistComponent implements OnInit {
     this.router.navigateByUrl(`/apilist/${bankname}`);
   }
 
-  onboard(bankname, element, text){
+  onboard(i, bankname, element, text){
     console.log("onboarding to :"+bankname);
+
+    (document.querySelectorAll('.Onboard')[i] as HTMLElement).setAttribute('disabled','');
 
     var myObj = {
       org : this.org,
