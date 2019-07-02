@@ -69,27 +69,52 @@ setInterval(() => {
 }, 12000);
 
 setInterval(() => {
-    //get the banks
-    banks.find({}, (err, doc) => {
+  //here we have just the port number to recognise the bank but we need complete url later.
+  //var url = `http://idbpportal.bank.com:${doc[i].sport}/route/getTransactions`;
+  var url = `http://idbpportal.bank.com:3000/route/getTransactions`;
+  axios.get(`${url}`)
+    .then(resp => {
+      //console.log((resp.data.transactions));
+      var data = resp.data.transactions; //it is an array of transactions of bank and orgs.
+      //add these details to the database.
 
-        for (var i = 0; i < doc.length; ++i) {
-            var bank = doc[i].bankname;
-            //here we have just the port number to recognise the bank but we need complete url later.
-            var url = `http://idbpportal.bank.com:${doc[i].sport}/route/getTransactions`;
-            axios.get(`${url}`)
-                .then(resp => {
-                    console.log(JSON.stringify(resp));
-                    //add these details to the database.
-                    transaction.findOneAndUpdate({ bank: bank }, { hits: resp.hits, success: resp.success, fail: resp.fail, org: resp.org }, { new: true }, (err, doc) => {
-                    })
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
+
+      for (var i = 0; i < data.length;++i) {
+        //check whether the db already exists.
+        //console.log("bank and org: "+data[i].bank+ " " + data[i].org);
+
+        transaction.find({ bank: data[i].bank, org: data[i].org }, (err, doc) => {
+            if (doc.length) {
+              transaction.findOneAndUpdate({ bank: data[i].bank, org: data[i].org }, { hits: resp.hits, sucess: resp.sucess, fail: resp.fail, org: resp.org }, { new: true }, (err, doc) => {
+              })
+            } else {
+              //make a new entry
+              console.log("else condition "+data);
+              console.log(i);
+              var newtransaction = new transaction({
+                bank: data[i].bank,
+                org: data[i].org,
+                hits: data[i].hits,
+                sucess: data[i].sucess,
+                fail: data[i].fail
+              });
+
+              newtransaction.save();
+            }
+        })
+
+
+
+      }
 
     })
-}, 30000)
+    .catch(err => {
+      console.log(err);
+    })
+
+
+
+}, 3000)
 
 app.listen(5000);
 console.log("listening to port 5000");
