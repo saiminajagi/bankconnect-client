@@ -1,0 +1,60 @@
+.card{
+  margin: 0px 0px 18px 0px;
+}
+
+pre.highlight {
+  word-wrap: normal;
+  border-radius: 5px;
+  background: #3f3e3e;
+  color: #dedede;
+  border: 0px !important;
+  padding: 25px;
+  margin: 20px 0px;
+}
+
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.highlight .w {
+  color: #f8f8f2;
+}
+
+.highlight .s2 {
+  color: #c0b97b;
+}
+
+.highlight .mi {
+  color: #ae81ff;
+}
+
+.how-it-works{
+  text-align: center;
+  margin: 10px 0px 10px 0px;
+}
+.how-it-works-text img{
+  float: left;
+}
+
+.how-it-works-text p{
+  padding-left: 40px;
+  margin: 10px 0 5px 30px;
+}
+
+.test-api{
+  text-align: center;
+  margin: 0px 0px 10px 0px;
+}
+
+.btn-primary{
+  background: #325c80 !important;
+  color: #ffffff;
+  border: solid 1px #325c80 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}

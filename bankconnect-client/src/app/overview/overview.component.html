@@ -1,37 +1,75 @@
-
 <div class="jumbotron">
-    <h1 class="display-4">{{name}}</h1>
-    <p class="lead">{{desc}}</p>
+  <h1 class="display-4">{{name}}</h1>
+  <p class="lead">{{desc}}</p>
 </div>
-  <h2>Key Features</h2>
-  <br>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4" *ngFor=" let key of key_features">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{key | uppercase}}</h5>
-            <p class="card-text">Decription Goes here. With supporting text below as a natural lead-in to additional content.</p>
-          </div>
+<h2>Key Features</h2>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4" *ngFor=" let key of key_features">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{key | uppercase}}</h5>
+          <p class="card-text">Decription Goes here. With supporting text below as a natural lead-in to additional
+            content.</p>
         </div>
       </div>
     </div>
   </div>
-  <br>
+</div>
+<br>
 
-  <h2>Use Cases</h2>
-  
-  <br>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4" *ngFor=" let case of use_cases">
-        <div class="card" class="forborder">
-          <div class="card-body">
-            <h6 class="card-title">{{case | uppercase}}</h6>
-            <p class="card-text">Use case decription Goes here.</p>
-          </div>
+<h2>Use Cases</h2>
+
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4" *ngFor=" let case of use_cases">
+      <div class="card" class="forborder">
+        <div class="card-body">
+          <h6 class="card-title">{{case | uppercase}}</h6>
+          <p class="card-text">Use case decription Goes here.</p>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
+
+<div class="how-it-works">
+  <h2>How it works</h2>
+</div>
+<div class="row" style="background-color: #e9ecef; padding-top: 10px;">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-3">
+    <div class="how-it-works-text">
+        <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
+        <p>
+          Product Name and Account ID<br><small>Get an overview of your customer’s available accounts, identifiers, and account status—great for aggregation use cases.&nbsp;</small>
+        </p>
+    </div>
+    <br>
+    <div class="how-it-works-text">
+        <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
+        <p>
+            Account Balance and Credit Limit<br><small>Retrieve your customer’s available funds. Use balances and limits to display budget alerts, personalized recommendations, and more.&nbsp;</small>
+        </p>
+    </div>
+    <br>
+    <div class="how-it-works-text">
+        <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
+        <p>
+            Payment Due Date<br><small>Help your customer avoid late payments. Send notifications about upcoming due dates, or notify them ahead of time with automatic notifications.&nbsp;</small>
+        </p>
+    </div>
+  </div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-5">
+      <div class="highlight">
+              <pre class="highlight"> <code class="s2">{{ '{' }}<br> "accountGroupSummary" : [ <br>    {{ '{' }}   "accountGroup": "CREDIT",<br>        "accounts" : [<br>        {{ '{' }}<br>            "creditCardAccountSummary" : {{ '{' }}<br>                "productName" : "Bank Platinum Visa",<br>                "accountNickname" : "TRAVEL CARD",<br>                "displayAccountNumber" :"XXXXXXXXXXXX0364",<br>                "accountId" :"XXXXXXXXXXXXXXXXXX343d",<br>                "currencyCode" :"AUD",<br>                "accountStatus" : "ACTIVE",<br>                "creditLimit" : 25000.25,<br>                "minimumDueAmount" :256.5,<br>                "alternateCurrency" :"USD",<br>                "alternateCurrencyCurrentBalance" :1534.25,<br>                "cardHolderType" : "PRIMARY" <br>            {{ '}' }} <br>        {{ '}' }}] <br>    {{ '}' }}]<br>{{ '}' }}</code> </pre>
+      </div>
+      <div class="test-api">
+        <button type="button" class="btn btn-primary">Test this API</button>
+      </div>
+  </div>
+  <div class="col-sm-1"></div>
+</div>
