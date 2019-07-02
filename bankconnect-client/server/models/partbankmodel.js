@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+//is this model necessary? 
 var partnerbank = mongoose.Schema({
     org : String,
     email : String,
@@ -9,4 +10,4 @@ var partnerbank = mongoose.Schema({
     timestamp : true
 });
 
-module.exports = mongoose.model('partner',partner);
+module.exports = mongoose.model('partnerbank',partnerbank);

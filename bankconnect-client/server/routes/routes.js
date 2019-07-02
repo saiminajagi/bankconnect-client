@@ -27,6 +27,7 @@ var request = require('../models/requestmodel');
 var partner = require('../models/partnermodel');
 var files = require('../models/filemodel');
 var subapi = require('../models/subapi');
+var transaction = require('../models/transaction');
 
 var routes = express.Router();
 
@@ -505,7 +506,8 @@ routes.route('/logout')
 
 routes.route('/revoke')
   .post(urlencodedParser, (req, res) => {
-    partner.findOneAndUpdate({ org: req.body.org }, { active: false }, { new: true }, (err, doc) => { });
+    console.log("came to revoke the user "+req.body.email);
+    partner.findOneAndUpdate({ email: req.body.email }, { $set: { active: false} }, { new: true }, (err, doc) => { });
 
     res.json("partner revoked from bank conncet client");
   })
@@ -598,6 +600,23 @@ routes.route('/subscribeApi')
 
     subapi.find({ email: sess.email }, (err, doc) => {
       res.json(doc);
+    })
+  })
+
+  routes.route('/setToken')
+  .post(urlencodedParser,(req,res)=>{
+    partner.findOneAndUpdate({email:req.body.email},{token: req.body.token},{new: true},(err,doc)=>{});
+  })
+
+  routes.route('/getTransactions')
+  .get((req,res)=>{
+    transaction.find({},(err,doc)=>{
+      if(doc.length){
+        var transactions = [];
+        for(var i=0;i<doc.length;++i)
+            transactions.push(doc[i]);
+        res.json(transactions); 
+      }
     })
   })
 

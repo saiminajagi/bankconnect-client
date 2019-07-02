@@ -12,7 +12,7 @@ var bankschema = mongoose.Schema({
     sport: String,
     sip : String,
     tlsname : String,
-    tlsversion: String
+    tlsversion: String,
 },{
     timestamp : true
 });

@@ -16,6 +16,8 @@ import { GetUserProfileResolverService } from './profile/profile-resolver.servic
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { RefreshComponent } from './refresh/refresh.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { TransactionResolverService } from './analytics/analytics-resolver.service';
 
 
 const routes: Routes = [
@@ -33,7 +35,8 @@ const routes: Routes = [
   { path: 'apilist/:bankname', component: ApilistComponent},
   { path: 'profile', component: ProfileComponent, resolve:{userprofile: GetUserProfileResolverService}},
   { path: 'login', component: LoginComponent},
-  { path: 'signup', component:SignupComponent}
+  { path: 'signup', component:SignupComponent},
+  { path: 'analytics', component:AnalyticsComponent, resolve:{transactions: TransactionResolverService}}
 ];
 
 @NgModule({

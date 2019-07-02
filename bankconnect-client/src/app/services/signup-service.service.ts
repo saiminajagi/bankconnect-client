@@ -192,4 +192,39 @@ export class SignupServiceService {
     })
   }
 
+  sendRevokedPartners(){
+    return this.http.get('/route/getRevokedPartners',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
+  sendTokenDetails(obj:any):Observable<any>{
+    return this.http.post('/someroute',obj,{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
+  revoke(myObj:any):Observable<any>{
+    return this.http.post('/route/revoke', myObj, {
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
+  revokeInIDBP(myObj:any):Observable<any>{
+    return this.http.post('http://idbpportal.bank.com:3000/route/revoke',myObj,{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
+  getTransactions(){
+    return this.http.get('/route/getTransactions',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})      
+    })
+  }
+
 }

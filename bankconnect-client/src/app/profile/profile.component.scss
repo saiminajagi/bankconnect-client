@@ -27,11 +27,11 @@ table {
 }
 
 .options{
-    border: solid 1px #047cc0;
+    border: solid 1px #245abe;
     width : 180px;
     text-align: center;
     text-transform: uppercase;
-    background: #047cc0;
+    background: #245abe;
     color: white;
     font-family: 'Source Sans Pro', sans-serif;
     text-decoration: none;
@@ -88,7 +88,7 @@ mat-label{
 
 h3{
     margin-top: 20px;
-    border-bottom: solid 2px #047cc0;
+    border-bottom: solid 2px #245abe;
 }
 
 .two{
@@ -111,4 +111,14 @@ h3{
 .partner label{
   font-weight: normal !important;
 
+}
+
+.card-header-active{
+  background: #245abe !important;
+  color: white !important;
+}
+
+.card-header-revoked{
+  background: rgb(201, 18, 18) !important;
+  color: white;
 }

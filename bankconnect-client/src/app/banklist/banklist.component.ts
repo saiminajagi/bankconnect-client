@@ -10,7 +10,7 @@ import { SignupServiceService } from '../services/signup-service.service';
 export class BanklistComponent implements OnInit {
   confirmed:Number = 1;
   banklist: Array<String> = [];
-  active:Number;
+  active:Boolean;
   email: String;
   org : String;
   public onboardclick = false;
