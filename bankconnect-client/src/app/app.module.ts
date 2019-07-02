@@ -29,6 +29,8 @@ import { RefreshComponent } from './refresh/refresh.component';
 import { FinprofileComponent } from './finprofile/finprofile.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { TransactionResolverService } from './analytics/analytics-resolver.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ProfileComponent,
     RefreshComponent,
     FinprofileComponent,
+    AnalyticsComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     NgbModule
   ],
-  providers: [SignupServiceService, GetAdminProfileResolverService, GetUserProfileResolverService],
+  providers: [SignupServiceService, GetAdminProfileResolverService, GetUserProfileResolverService, TransactionResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

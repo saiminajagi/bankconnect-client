@@ -1,6 +1,12 @@
 <div *ngIf="!confirmed;else elseBlock">
-  Please Login to see all the banks
+  <div *ngIf="!active;else elseblock">
+    You have been revoked. You cannot view banks.
+  </div>
+  <ng-template #elseblock>
+    Please Login to see all the banks
+  </ng-template>
 </div>
+
 <ng-template #elseBlock>
   <div *ngIf="onboardclick" class="alert alert-success box-msg" role="alert">
     <strong>Request sent to bank.</strong>Approval pending.

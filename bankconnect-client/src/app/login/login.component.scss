@@ -9,3 +9,14 @@ h1{
 .card-title{
   text-align: center;
 }
+
+input:focus{
+  outline: 0 !important;
+  border: solid 2px #143f8c;
+  box-shadow: none !important;
+}
+
+.ch2{
+  background:#143f8c;
+  color: white;
+}

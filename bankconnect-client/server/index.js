@@ -1,7 +1,11 @@
 var express = require('express');
 var path = require('path');
 var session = require('express-session');
+var axios = require('axios');
+
 var usermodel = require('./models/usermodel');
+var banks = require('./models/bankmodel');
+var transaction = require('./models/transaction');
 
 var routes = require('./routes/routes');
 var posts = require('./routes/posts');
@@ -63,6 +67,29 @@ setInterval(() => {
         }
     });
 }, 12000);
+
+setInterval(() => {
+    //get the banks
+    banks.find({}, (err, doc) => {
+
+        for (var i = 0; i < doc.length; ++i) {
+            var bank = doc[i].bankname;
+            //here we have just the port number to recognise the bank but we need complete url later.
+            var url = `http://idbpportal.bank.com:${doc[i].sport}/route/getTransactions`;
+            axios.get(`${url}`)
+                .then(resp => {
+                    console.log(JSON.stringify(resp));
+                    //add these details to the database.
+                    transaction.findOneAndUpdate({ bank: bank }, { hits: resp.hits, success: resp.success, fail: resp.fail, org: resp.org }, { new: true }, (err, doc) => {
+                    })
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+
+    })
+}, 30000)
 
 app.listen(5000);
 console.log("listening to port 5000");

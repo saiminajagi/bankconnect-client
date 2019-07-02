@@ -63,7 +63,10 @@
             <div *ngFor="let partner of partners" class="part">
               <form [formGroup]="partnerForm" (ngSubmit)="onPartnerSubmit(partner.email,partner.name)">
                   <div class="card">
-                      <div class="card-header">Organization : {{partner.org}}</div> 
+                      <div class="card-header" 
+                        [ngClass]="{'card-header-active':partner.active, 'card-header-revoked':!partner.active}">
+                        Organization : {{partner.org}}
+                      </div> 
                       <div class="card-body">
                         <div class="row">
                           <div class="col-lg-6">
@@ -72,7 +75,7 @@
                                       <label>Total Hits:</label>
                                     </div>
                                     <div class="col-lg-6">
-                                      <input type="text" placeholder="{{partner.amnt}}" formControlName="amnt">
+                                      <input class="form-control" type="text" placeholder="{{partner.amnt}}" formControlName="amnt">
                                     </div>
                                 </div>
                           </div>
@@ -82,7 +85,7 @@
                                 <label> Successful hits:</label>
                               </div>
                               <div class="col-lg-6">
-                                <input type="text" placeholder="{{partner.freq}}" formControlName="freq">
+                                <input class="form-control" type="text" placeholder="{{partner.freq}}" formControlName="freq">
                               </div>
                             </div>
                           </div>
@@ -94,7 +97,7 @@
                                     <label>Failures:</label>
                                 </div>
                                 <div class="col-lg-6">
-                                    <input type="text" placeholder="{{partner.accno}}" formControlName="accno">
+                                    <input class="form-control" type="text" placeholder="{{partner.accno}}" formControlName="accno">
                                 </div>
                               </div>
                             </div>
@@ -104,7 +107,7 @@
                                   <label> Amount Transferred:</label>
                                 </div>
                                 <div class="col-lg-6">
-                                    <input type="text" placeholder="{{partner.mid}}" formControlName="mid">
+                                    <input class="form-control" type="text" placeholder="{{partner.mid}}" formControlName="mid">
                                 </div>
                               </div>
                             </div>
@@ -117,7 +120,7 @@
                                     <label>Approver ID:</label>
                                   </div>
                                   <div class="col-lg-6">
-                                    <input type="text" placeholder="{{partner.appid}}" formControlName="appid">
+                                    <input class="form-control" type="text" placeholder="{{partner.appid}}" formControlName="appid">
                                   </div>
                                 </div>
                               </div>
@@ -127,17 +130,23 @@
                                     <label>Checker ID:</label>
                                   </div>
                                   <div class="col-lg-6">
-                                    <input type="text" placeholder="{{partner.cid}}" formControlName="cid">
+                                    <input class="form-control" type="text" placeholder="{{partner.cid}}" formControlName="cid">
                                   </div>
                                 </div>
                               </div>
                           </div>
-                          <div class="form-row align-items-center">
-                              <label><b>REVOKE PARTNER</b></label>
+                          <div *ngIf="partner.active; else elseBlock" class="form-row align-items-center">
+                              <label><b>Revoke Partner</b></label>
                               <div class="col-auto" class="sbmt">
-                                  <button (click)="revoke(partner.org)" class="btn btn-primary mb-2">Revoke</button>
+                                  <button (click)="revoke(partner.org,partner.email)" class="btn btn-danger mb-2">Revoke</button>
                               </div>
                           </div>
+                          <ng-template #elseBlock>
+                            <label><b>Activate Partner</b></label>
+                              <div class="col-auto" class="sbmt">
+                                  <button (click)="activate(partner.org,partner.email)" class="btn btn-success mb-2">Activate</button>
+                              </div>
+                          </ng-template>
                       </div>
                   </div>
                   

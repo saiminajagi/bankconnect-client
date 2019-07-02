@@ -99,24 +99,26 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  revoke(org) {
+  revoke(org,email) {
     var myObj = {
-      org: org
+      org: org,
+      email : email
     }
 
-    var bcres = this.http.post('/route/revoke', myObj, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    })
-    console.log('BC response: ' + bcres);
+    this.signservice.revoke(myObj)
+    .subscribe((data)=>{
+      console.log(data);
+    },(err)=>console.log(err));
 
-    var idbpres = this.http.post('/http://localhost:3000/route/revoke/', myObj, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    })
-    console.log('idbp response: ' + idbpres);
+    this.signservice.revokeInIDBP(myObj)
+    .subscribe((data)=>{
+      console.log(data);
+    },(err)=>console.log(err));
+
+    this.router.navigateByUrl('/refresh', { skipLocationChange: true }).then(() => {
+      this.router.navigate([decodeURI(this.location.path())]);
+      this.show_partner();
+    });
   }
 
   show_profile() {
@@ -258,6 +260,24 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl('/refresh', { skipLocationChange: true }).then(() => {
       this.router.navigate([decodeURI(this.location.path())]);
     });
+
+    //send details to get a token
+    this.signservice.sendTokenDetails(myObj)
+    .subscribe((data)=>{
+      console.log("token is: "+data);
+      var obj={
+        token: data,
+        email: email
+      }
+
+      //set the token in the database of the fintech
+      this.http.post('/route/setToken',obj,{
+          headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      })
+      
+    })
   }
 
   decline(i, name, email) {

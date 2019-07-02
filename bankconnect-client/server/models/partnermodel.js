@@ -4,7 +4,8 @@ var partner = mongoose.Schema({
     org : String,
     email : String,
     active : Boolean,
-    files : Boolean
+    files : Boolean,
+    token : String
 },{
     timestamp : true
 });
