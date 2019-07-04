@@ -38,7 +38,7 @@ files.route('/upload')
     var sess = req.session;
     var files_array = [];
     partner.findOneAndUpdate({email:sess.email},{files:true},{new:true},(err,doc)=>{});
-    
+    usermodel.findOneAndUpdate({ email: sess.email }, { confirmation: true }, { new: true }, (err, doc) => { });
     //convert the files to b64 format and store it in db
     var dirpath = path.join(__dirname,'uploads');
     fs.readdir(dirpath, function(err, items){

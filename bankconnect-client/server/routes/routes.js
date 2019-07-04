@@ -385,7 +385,7 @@ routes.route('/pendingReq')
     var sess = req.session;
 
     if (state) {
-      usermodel.findOneAndUpdate({ email: partneremail }, { confirmation: true }, { new: true }, (err, doc) => { });
+      //usermodel.findOneAndUpdate({ email: partneremail }, { confirmation: true }, { new: true }, (err, doc) => { });
       var newpartner = new partner({
         org: org,
         email: partneremail,
@@ -767,7 +767,7 @@ function sendmailtopartner(pemail, org) {
     }
   });
 
-  readHTMLFile(path.join(__dirname, '../views/bankconnect-partner-approval.html'), function (err, html) {
+  readHTMLFile(path.join(__dirname, '../views/bankconnect-file-upload.html'), function (err, html) {
     var template = handlebars.compile(html);
     var replacements = {
       orgname: `${org}`,

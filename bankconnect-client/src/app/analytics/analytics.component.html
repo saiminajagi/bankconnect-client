@@ -1,37 +1,54 @@
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+
+<link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet">
+
 <div class="wrapper">
 
-    <div *ngFor="let tran of transactions" class="table">
-        <h3 style="display: inline"> {{tran.partnername | uppercase}} </h3> <button style="display: inline; float: right;" class="btn btn-danger" (click)="revoke(tran.partnername)">Revoke Partner</button>
-        <div class="row header">
-            <div class="cell">
-                Banks
+    <div *ngFor="let tran of transactions">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">{{tran.partnername | uppercase}}</h6>
+                <div class="table">
+                    <!-- <h4 style="display: inline"> {{tran.partnername | uppercase}} </h4> -->
+
+                    <div class="row header">
+                        <div class="cell">
+                            BANKS
+                        </div>
+                        <div class="cell" *ngFor="let tranitem of tran.transactions">
+                            {{ tranitem.bank }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell" data-title="Success">
+                            <b style="color: rgb(36, 184, 36)"> SUCCESS </b>
+                        </div>
+
+                        <div *ngFor="let tranitem of tran.transactions" class="cell" data-title="{{tranitem.bank}}">
+                            {{ tranitem.success }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell" data-title="Fail">
+                            <b style="color:rgb(219, 46, 46)"> FAIL </b>
+                        </div>
+
+                        <div *ngFor="let tranitem of tran.transactions" class="cell" data-title="{{tranitem.bank}}">
+                            {{ tranitem.fail }}
+                        </div>
+
+                    </div>
+                </div>
+                <!-- <button class="btn btn-danger revoke" (click)="revoke(tran.partnername)">Revoke
+                    {{tran.partnername}}</button> -->
             </div>
-            <div class="cell" *ngFor="let tranitem of tran.transactions">
-                {{ tranitem.bank }}
-            </div>
+
         </div>
-
-        <div class="row">
-            <div class="cell" data-title="Name">
-                SUCCESS
-            </div>
-
-            <div *ngFor="let tranitem of tran.transactions" class="cell" data-title="Occupation">
-                {{ tranitem.success }}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="cell" data-title="Name">
-                FAIL
-            </div>
-
-            <div *ngFor="let tranitem of tran.transactions" class="cell" data-title="Occupation">
-                {{ tranitem.fail }}
-            </div>
-
-        </div>
-
     </div>
+
+
 
 </div>
