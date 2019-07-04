@@ -39,7 +39,6 @@
   <h2>How it works</h2>
 </div>
 <div class="row" style="background-color: #e9ecef; padding-top: 10px;">
-  <div class="col-sm-1"></div>
   <div class="col-sm-3">
     <div class="how-it-works-text">
         <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
@@ -62,7 +61,6 @@
         </p>
     </div>
   </div>
-  <div class="col-sm-2"></div>
   <div class="col-sm-5">
       <div class="highlight">
               <pre class="highlight"> <code class="s2">{{ '{' }}<br> "accountGroupSummary" : [ <br>    {{ '{' }}   "accountGroup": "CREDIT",<br>        "accounts" : [<br>        {{ '{' }}<br>            "creditCardAccountSummary" : {{ '{' }}<br>                "productName" : "Bank Platinum Visa",<br>                "accountNickname" : "TRAVEL CARD",<br>                "displayAccountNumber" :"XXXXXXXXXXXX0364",<br>                "accountId" :"XXXXXXXXXXXXXXXXXX343d",<br>                "currencyCode" :"AUD",<br>                "accountStatus" : "ACTIVE",<br>                "creditLimit" : 25000.25,<br>                "minimumDueAmount" :256.5,<br>                "alternateCurrency" :"USD",<br>                "alternateCurrencyCurrentBalance" :1534.25,<br>                "cardHolderType" : "PRIMARY" <br>            {{ '}' }} <br>        {{ '}' }}] <br>    {{ '}' }}]<br>{{ '}' }}</code> </pre>
@@ -71,5 +69,12 @@
         <button type="button" (click)="apiTestResponse();" class="btn btn-primary">Test this API</button>
       </div>
   </div>
-  <div class="col-sm-1"></div>
+  <div class="col-sm-4">
+    <div *ngIf="onPressTestAPIbutton" class="highlight1">
+      <div class="alert alert-primary" role="alert">
+          <strong> API Response</strong> - check it out!
+      </div>
+      <pre class="highlight1"> <code class="s2">{{ '{' }}<br>    "data": {{ '{' }}<br>        "id": "{{ testAPIres.data.id }}",<br>        "email": "{{ testAPIres.data.email }}",<br>        "first_name": "{{ testAPIres.data.first_name }}",<br>        "last_name": "{{ testAPIres.data.last_name }}",<br>        "displayAccountNumber" :"XXXX876520364",<br>        "accountStatus" : "ACTIVE",<br>        "accountNickname" : "TRAVEL CARD",<br>    {{ '}' }}<br>{{ '}' }}</code> </pre>
+    </div>
+  </div>
 </div>

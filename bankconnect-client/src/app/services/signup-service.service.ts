@@ -229,7 +229,7 @@ export class SignupServiceService {
 
   // a dummy service call...to just populate the api response
   getDummyResponse(){
-    return this.http.get('"https://reqres.in//api/unknown/2',{
+    return this.http.get('https://reqres.in/api/users/2',{
       headers :
       new HttpHeaders({ 'Content-Type': 'application/json'})
     });

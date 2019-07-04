@@ -16,6 +16,8 @@ export class OverviewComponent implements OnInit {
   key_features = [];
   use_cases = [];
   apiDetails: any;
+  testAPIres: any;
+  public onPressTestAPIbutton = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private signservice: SignupServiceService) {
 
@@ -45,6 +47,8 @@ export class OverviewComponent implements OnInit {
     this.signservice.getDummyResponse()
     .subscribe((data) => {
       console.log(data);
+      this.testAPIres = data;
+      this.onPressTestAPIbutton = true;
     });
   }
 
