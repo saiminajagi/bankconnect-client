@@ -610,14 +610,79 @@ routes.route('/subscribeApi')
 
   routes.route('/getTransactions')
   .get((req,res)=>{
-    transaction.find({},(err,doc)=>{
+    //get the list of the fintechs
+    usermodel.find({ role: 'fintech'},(err,doc)=>{
+      var fintech_list = [];
       if(doc.length){
-        var transactions = [];
-        for(var i=0;i<doc.length;++i)
-            transactions.push(doc[i]);
-        res.json(transactions); 
+        for(var i=0;i<doc.length;++i){
+          var myObj = {
+            partnername: doc[i].org,
+            transactions : []
+          }
+          fintech_list.push(myObj);
+        }
+
+        //get the transactions
+        transaction.find({},(err,doc)=>{
+          if(doc.length){
+            var transaction_list = [];
+            for(var i=0;i<doc.length;++i)
+                transaction_list.push(doc[i]);
+            
+            for (let trans of transaction_list) {
+              //search for the fintech to which this transaction belongs to
+              for (let fintech of fintech_list) {
+                if (fintech.partnername == trans.org) {
+                  //push this transaction to fintechs transaction list
+                  fintech.transactions.push(trans);
+                  break;
+                }
+              }
+            }
+            res.json(fintech_list);
+          }
+  
+        })
+      }else{
+        res.json("no fintech found");
       }
     })
+    
+  })
+
+  routes.route('/setTransactions')
+  .post(urlencodedParser,(req,res)=>{
+
+    //we have got an array of transactions
+    console.log("came to set Transactions "+req.body.transactions);
+    for(var i=0; i<req.body.transactions.length; ++i){
+      transaction.find({ bank: data[i].bank, org: data[i].org }, (err, doc) => {
+        console.log("inside db func");
+        if (doc.length) {
+          transaction.findOneAndUpdate({ bank: data[i].bank, org: data[i].org }, { hits: data[i].hits, success: data[i].success, fail: data[i].fail, org: data[i].orgy }, { new: true }, (err, doc) => {
+          })
+        } else {
+          //make a new entry
+          console.log("else condition "+data);
+          console.log(i);
+          var newtransaction = new transaction({
+            bank: data[i].bank,
+            org: data[i].org,
+            hits: data[i].hits,
+            success: data[i].success,
+            fail: data[i].fail
+          });
+
+          newtransaction.save();
+        }
+    })
+    }
+    var myObj = {
+      msg : 'this is response from setTransactions'
+    }
+    
+    res.json(myObj);
+
   })
 
 //    ************************************************************************************

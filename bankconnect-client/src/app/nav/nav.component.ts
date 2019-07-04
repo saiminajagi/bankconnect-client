@@ -15,6 +15,7 @@ export class NavComponent implements OnInit {
   profileLink: string = "/profile";
   bank: string = '';
   appTitle = 'IBM BankConnect';
+  admin: Number;
   public profileRoute: string;
 
   constructor(private signservice: SignupServiceService, private router: Router, public location: Location, private zone: NgZone) { }
@@ -33,6 +34,7 @@ export class NavComponent implements OnInit {
             console.log('came to check the profile type: ' + data);
             if (data === 'admin') {
               this.profileRoute = 'profile';
+              this.admin = 1;
             } else if (data === 'fintech') {
               this.profileRoute = 'adminprofile';
             } else if (data === 'bank') {
@@ -46,7 +48,6 @@ export class NavComponent implements OnInit {
   }
 
   onLogOut() {
-    console.log('logout reached');
     this.signservice.logout()
       .subscribe((data) => {
         this.login = 0;

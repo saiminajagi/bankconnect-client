@@ -1,3 +1,37 @@
-<table>
-  
-</table>
+<div class="wrapper">
+
+    <div *ngFor="let tran of transactions" class="table">
+        <h3 style="display: inline"> {{tran.partnername | uppercase}} </h3> <button style="display: inline; float: right;" class="btn btn-danger" (click)="revoke(tran.partnername)">Revoke Partner</button>
+        <div class="row header">
+            <div class="cell">
+                Banks
+            </div>
+            <div class="cell" *ngFor="let tranitem of tran.transactions">
+                {{ tranitem.bank }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell" data-title="Name">
+                SUCCESS
+            </div>
+
+            <div *ngFor="let tranitem of tran.transactions" class="cell" data-title="Occupation">
+                {{ tranitem.success }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell" data-title="Name">
+                FAIL
+            </div>
+
+            <div *ngFor="let tranitem of tran.transactions" class="cell" data-title="Occupation">
+                {{ tranitem.fail }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
