@@ -41,4 +41,11 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
   }
 
+  apiTestResponse(){
+    this.signservice.getDummyResponse()
+    .subscribe((data) => {
+      console.log(data);
+    });
+  }
+
 }

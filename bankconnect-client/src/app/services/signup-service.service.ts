@@ -223,8 +223,16 @@ export class SignupServiceService {
   getTransactions(){
     return this.http.get('/route/getTransactions',{
       headers :
-      new HttpHeaders({ 'Content-Type':'application/json'})      
+      new HttpHeaders({ 'Content-Type':'application/json'})
     })
+  }
+
+  // a dummy service call...to just populate the api response
+  getDummyResponse(){
+    return this.http.get('"https://reqres.in//api/unknown/2',{
+      headers :
+      new HttpHeaders({ 'Content-Type': 'application/json'})
+    });
   }
 
 }

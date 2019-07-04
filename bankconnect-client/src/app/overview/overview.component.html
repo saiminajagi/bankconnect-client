@@ -68,7 +68,7 @@
               <pre class="highlight"> <code class="s2">{{ '{' }}<br> "accountGroupSummary" : [ <br>    {{ '{' }}   "accountGroup": "CREDIT",<br>        "accounts" : [<br>        {{ '{' }}<br>            "creditCardAccountSummary" : {{ '{' }}<br>                "productName" : "Bank Platinum Visa",<br>                "accountNickname" : "TRAVEL CARD",<br>                "displayAccountNumber" :"XXXXXXXXXXXX0364",<br>                "accountId" :"XXXXXXXXXXXXXXXXXX343d",<br>                "currencyCode" :"AUD",<br>                "accountStatus" : "ACTIVE",<br>                "creditLimit" : 25000.25,<br>                "minimumDueAmount" :256.5,<br>                "alternateCurrency" :"USD",<br>                "alternateCurrencyCurrentBalance" :1534.25,<br>                "cardHolderType" : "PRIMARY" <br>            {{ '}' }} <br>        {{ '}' }}] <br>    {{ '}' }}]<br>{{ '}' }}</code> </pre>
       </div>
       <div class="test-api">
-        <button type="button" class="btn btn-primary">Test this API</button>
+        <button type="button" (click)="apiTestResponse();" class="btn btn-primary">Test this API</button>
       </div>
   </div>
   <div class="col-sm-1"></div>
