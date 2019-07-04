@@ -68,53 +68,48 @@ setInterval(() => {
     });
 }, 12000);
 
-setInterval(() => {
-  //here we have just the port number to recognise the bank but we need complete url later.
-  //var url = `http://idbpportal.bank.com:${doc[i].sport}/route/getTransactions`;
-  var url = `http://idbpportal.bank.com:3000/route/getTransactions`;
-  axios.get(`${url}`)
+setTimeout(() => {
+    //here we have just the port number to recognise the bank but we need complete url later.
+    //var url = `http://idbpportal.bank.com:${doc[i].sport}/route/getTransactions`;
+    var url = `http://idbpportal.bank.com:3000/route/getTransactions`;
+    axios.get(`${url}`)
     .then(resp => {
-      //console.log((resp.data.transactions));
-      var data = resp.data.transactions; //it is an array of transactions of bank and orgs.
-      //add these details to the database.
-
-
-      for (var i = 0; i < data.length;++i) {
-        //check whether the db already exists.
-        //console.log("bank and org: "+data[i].bank+ " " + data[i].org);
-
-        transaction.find({ bank: data[i].bank, org: data[i].org }, (err, doc) => {
-            if (doc.length) {
-              transaction.findOneAndUpdate({ bank: data[i].bank, org: data[i].org }, { hits: resp.hits, sucess: resp.sucess, fail: resp.fail, org: resp.org }, { new: true }, (err, doc) => {
-              })
-            } else {
-              //make a new entry
-              console.log("else condition "+data);
-              console.log(i);
-              var newtransaction = new transaction({
-                bank: data[i].bank,
-                org: data[i].org,
-                hits: data[i].hits,
-                sucess: data[i].sucess,
-                fail: data[i].fail
-              });
-
-              newtransaction.save();
-            }
-        })
-
-
-
-      }
-
+        var data = resp.data.transactions; //it is an array of transactions of bank and orgs.
+        runLoop(data);
     })
     .catch(err => {
-      console.log(err);
+        console.log(err);
     })
 
+}, 30000)
 
+/* to refer more about aync & await visit : https://www.geeksforgeeks.org/using-async-await-in-node-js/  */
 
-}, 3000)
+//first declare the function which you want to run synchronously as 'async'.
+//inside the function declare the part as 'await' which you want to complete before you go to next loop. 
+runLoop = async (transactions)=>{
+    for(var tran of transactions){
+        //check whether the transation already exists
+        //before we go to next loop we want this function to complete its execution.
+        await transaction.find({ $and: [{ bank: tran.bank }, { org: tran.org }] }, (err, doc) => {
+            if(doc.length){
+                transaction.findOneAndUpdate({ $and: [{ bank: tran.bank }, { org: tran.org }] },{hits: tran.hits, success: tran.success, fail: tran.fail},{new: true},(err,doc)=>{
+                })
+            }else{
+                var newtransaction = new transaction({
+                    bank: tran.bank,
+                    org: tran.org,
+                    hits: tran.hits,
+                    success: tran.success,
+                    fail: tran.fail
+                });
+                newtransaction.save();
+            }
+        })
+        
+    }
+}
 
+    
 app.listen(5000);
 console.log("listening to port 5000");
