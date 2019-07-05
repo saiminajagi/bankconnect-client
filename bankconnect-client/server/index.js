@@ -23,6 +23,7 @@ mongoose.connect('mongodb://localhost:27017/bcclient',{useNewUrlParser: true},(e
 
 var app = express();
 app.use(express.static(path.join(__dirname,'..','dist','bankconnect-client')));
+app.use(express.static(path.join(__dirname,'routes','docs')));
 
 app.use(session({secret : 'bcClientSecret',saveUninitialized: true,resave: true}));
 

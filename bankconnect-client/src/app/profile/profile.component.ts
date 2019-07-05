@@ -40,9 +40,15 @@ export class ProfileComponent implements OnInit {
     'options': false
   };
 
+  pendingDocs = {
+    'buttons': true,
+    'options': false
+  };
+
   show_user_profile: any;
   requests: any;
   partners: any;
+  docs: any;
   public submitted = false;
 
   constructor(private signservice: SignupServiceService, private route: ActivatedRoute, private formBuilder: FormBuilder,
@@ -79,6 +85,12 @@ export class ProfileComponent implements OnInit {
         this.partners = data;
       }, (err) => console.log(err));
 
+    this.signservice.getPendingDocs()
+      .subscribe((data) => {
+        console.log(data);
+        this.docs = data;
+      }, (err) => console.log(err));
+
   }
 
   onPassSubmit() {
@@ -99,21 +111,21 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  revoke(org,email) {
+  revoke(org, email) {
     var myObj = {
       org: org,
-      email : email
+      email: email
     }
 
     this.signservice.revoke(myObj)
-    .subscribe((data)=>{
-      console.log(data);
-    },(err)=>console.log(err));
+      .subscribe((data) => {
+        console.log(data);
+      }, (err) => console.log(err));
 
     this.signservice.revokeInIDBP(myObj)
-    .subscribe((data)=>{
-      console.log(data);
-    },(err)=>console.log(err));
+      .subscribe((data) => {
+        console.log(data);
+      }, (err) => console.log(err));
 
     this.router.navigateByUrl('/refresh', { skipLocationChange: true }).then(() => {
       this.router.navigate([decodeURI(this.location.path())]);
@@ -125,6 +137,11 @@ export class ProfileComponent implements OnInit {
     this.profileClass = {
       'buttons': true,
       'options': true
+    };
+
+    this.pendingDocs = {
+      'buttons': true,
+      'options': false
     };
 
     this.passClass = {
@@ -149,7 +166,45 @@ export class ProfileComponent implements OnInit {
     (document.querySelector('.changepass') as HTMLElement).style.display = 'none';
     (document.querySelector('.pendingreq') as HTMLElement).style.display = 'none';
     (document.querySelector('.partner') as HTMLElement).style.display = 'none';
+    (document.querySelector('.docs') as HTMLElement).style.display = 'none';
   }
+
+  show_docs() {
+    this.profileClass = {
+      'buttons': true,
+      'options': false
+    };
+
+    this.passClass = {
+      'buttons': true,
+      'options': false
+    };
+
+    this.pendingClass = {
+      'buttons': true,
+      'options': false
+    };
+
+    this.partnerClass = {
+      'buttons': true,
+      'options': false
+    };
+
+    this.pendingDocs = {
+      'buttons': true,
+      'options': true
+    };
+
+    this.title = 'PROFILE';
+    //show this and hide other divisions
+    (document.querySelector('.profile') as HTMLElement).style.display = 'none';
+    (document.querySelector('.changepass') as HTMLElement).style.display = 'none';
+    (document.querySelector('.pendingreq') as HTMLElement).style.display = 'none';
+    (document.querySelector('.partner') as HTMLElement).style.display = 'none';
+    (document.querySelector('.docs') as HTMLElement).style.display = 'block';
+
+  }
+
 
   show_pass() {
     this.profileClass = {
@@ -167,6 +222,11 @@ export class ProfileComponent implements OnInit {
       'options': false
     };
 
+    this.pendingDocs = {
+      'buttons': true,
+      'options': false
+    };
+
     this.partnerClass = {
       'buttons': true,
       'options': false
@@ -179,6 +239,7 @@ export class ProfileComponent implements OnInit {
     (document.querySelector('.changepass') as HTMLElement).style.display = 'block';
     (document.querySelector('.pendingreq') as HTMLElement).style.display = 'none';
     (document.querySelector('.partner') as HTMLElement).style.display = 'none';
+    (document.querySelector('.docs') as HTMLElement).style.display = 'none';
 
   }
 
@@ -189,6 +250,11 @@ export class ProfileComponent implements OnInit {
     };
 
     this.passClass = {
+      'buttons': true,
+      'options': false
+    };
+
+    this.pendingDocs = {
       'buttons': true,
       'options': false
     };
@@ -210,6 +276,7 @@ export class ProfileComponent implements OnInit {
     (document.querySelector('.changepass') as HTMLElement).style.display = 'none';
     (document.querySelector('.pendingreq') as HTMLElement).style.display = 'block';
     (document.querySelector('.partner') as HTMLElement).style.display = 'none';
+    (document.querySelector('.docs') as HTMLElement).style.display = 'none';
 
   }
 
@@ -220,6 +287,11 @@ export class ProfileComponent implements OnInit {
     };
 
     this.passClass = {
+      'buttons': true,
+      'options': false
+    };
+
+    this.pendingDocs = {
       'buttons': true,
       'options': false
     };
@@ -241,6 +313,7 @@ export class ProfileComponent implements OnInit {
     (document.querySelector('.changepass') as HTMLElement).style.display = 'none';
     (document.querySelector('.pendingreq') as HTMLElement).style.display = 'none';
     (document.querySelector('.partner') as HTMLElement).style.display = 'block';
+    (document.querySelector('.docs') as HTMLElement).style.display = 'none';
 
   }
 
@@ -257,27 +330,25 @@ export class ProfileComponent implements OnInit {
       .subscribe((data) => { console.log(data); }
         , (err) => console.log(err));
 
+    //send the details to get a token
+    this.signservice.sendTokenDetails(myObj)
+      .subscribe((data) => {
+        console.log("token is: " + (data.Token));
+        var obj = {
+          token: data.Token,
+          email: email
+        }
+
+        this.signservice.setToken(obj)
+          .subscribe((data) => {
+            console.log(data);
+          }, (err) => console.log(err));
+
+      })
+
     this.router.navigateByUrl('/refresh', { skipLocationChange: true }).then(() => {
       this.router.navigate([decodeURI(this.location.path())]);
     });
-
-    //send details to get a token
-    this.signservice.sendTokenDetails(myObj)
-    .subscribe((data)=>{
-      console.log("token is: "+data);
-      var obj={
-        token: data,
-        email: email
-      }
-
-      //set the token in the database of the fintech
-      this.http.post('/route/setToken',obj,{
-          headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      })
-      
-    })
   }
 
   decline(i, name, email) {
@@ -294,6 +365,20 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl('/refresh', { skipLocationChange: true }).then(() => {
       this.router.navigate([decodeURI(this.location.path())]);
     });
+  }
+
+  view_docs(email,org){
+    //this.router.navigateByUrl(`/docs/${email}/${org}`);
+    var myObj = {
+      email : email,
+      org : org
+    }
+    this.signservice.setDocs(myObj)
+    .subscribe((data)=>{
+      console.log(data);
+    },(err)=>console.log(err));
+
+    window.location.href=`http://ibm.bankconnect:5000/route/showDocs/${email}/${org}`;
   }
 
 }

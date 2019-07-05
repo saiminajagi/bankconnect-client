@@ -200,9 +200,14 @@ export class SignupServiceService {
   }
 
   sendTokenDetails(obj:any):Observable<any>{
-    return this.http.post('/someroute',obj,{
+    var aud = obj.org;
+    return this.http.get('https://api.us.apiconnect.ibmcloud.com/cts-dev-dev/sb/generate-jwt',{
       headers :
-      new HttpHeaders({ 'Content-Type':'application/json'})
+      new HttpHeaders({ 'iss-claim':'IDRBT',
+                        'aud-claim':`${aud}`,
+                        'sub-claim':'Payment',
+                        'Content-type':'application/json'
+                      })
     })
   }
 
@@ -233,6 +238,27 @@ export class SignupServiceService {
       headers :
       new HttpHeaders({ 'Content-Type': 'application/json'})
     });
+  }
+
+  getPendingDocs(){
+    return this.http.get<any>('/route/getPendingDocs',{
+      headers :
+      new HttpHeaders({ 'Content-Type': 'application/json'})
+    })
+  }
+
+  setDocs(obj):Observable<any>{
+    return this.http.post<any>('/route/setDocs',obj,{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
+  setToken(obj):Observable<any>{
+    return this.http.post<any>('/route/setToken', obj, {
+        headers: 
+        new HttpHeaders({ 'Content-Type': 'application/json'})
+    })
   }
 
 }
