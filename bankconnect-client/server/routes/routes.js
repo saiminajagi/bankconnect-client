@@ -28,6 +28,7 @@ var partner = require('../models/partnermodel');
 var files = require('../models/filemodel');
 var subapi = require('../models/subapi');
 var transaction = require('../models/transaction');
+var pendingDoc = require('../models/docs');
 
 var routes = express.Router();
 
@@ -68,7 +69,8 @@ routes.route('/sendmail')
       email: useremail,
       confirmation: false,
       role: "fintech",
-      files: false
+      files: false,
+      token: "default"
     });
     newuser.save((err) => {
       if (err)
@@ -384,18 +386,6 @@ routes.route('/pendingReq')
     var partneremail = req.body.email;
     var sess = req.session;
 
-    if (state) {
-      //usermodel.findOneAndUpdate({ email: partneremail }, { confirmation: true }, { new: true }, (err, doc) => { });
-      var newpartner = new partner({
-        org: org,
-        email: partneremail,
-        active: true,
-        files: false
-      });
-
-      newpartner.save();
-    }
-
     request.findOneAndDelete({ org: org }, (err, doc) => console.log(err));
 
     sendmailtopartner(partneremail, org);
@@ -532,6 +522,7 @@ routes.route('/showFileFormMail/:email/:org')
     sess.email = req.params.email;
     sess.org = req.params.org;
 
+    console.log("org set as : "+sess.org);
     res.sendFile(path.join(__dirname, 'fileupload.html'));
   })
 
@@ -580,6 +571,13 @@ routes.route('/subscribeApi')
         newsubapi.save();
 
       } else {
+        //check whether the api is already subscribed
+        for(var i=0;i<doc[0].apis.length;++i){
+          if(api == doc[0].apis[i]){
+            res.json("api has already been subscribed");
+          }
+        }
+        
         var oldapis = [];
         oldapis = doc[0].apis;
         oldapis.push(api);
@@ -592,7 +590,7 @@ routes.route('/subscribeApi')
 
     })
 
-    res.json("api has been subscribed");
+    res.json("api has been subscribed successfully");
   })
 
   .get((req, res) => {
@@ -605,7 +603,11 @@ routes.route('/subscribeApi')
 
   routes.route('/setToken')
   .post(urlencodedParser,(req,res)=>{
-    partner.findOneAndUpdate({email:req.body.email},{token: req.body.token},{new: true},(err,doc)=>{});
+    console.log("email is: "+req.body.email);
+    console.log("token is: "+req.body.token);
+    usermodel.findOneAndUpdate({email:req.body.email},{token: req.body.token},{new: true},(err,doc)=>{
+      if(err) console.log(err);
+    });
   })
 
   routes.route('/getTransactions')
@@ -683,6 +685,70 @@ routes.route('/subscribeApi')
     
     res.json(myObj);
 
+  })
+
+routes.route('/getPendingDocs')
+  .get((req, res) => {
+    pendingDoc.find({}, (err, doc) => {
+      var docs = [];
+      for (i = 0; i < doc.length; ++i) {
+        docs.push(doc[i]);
+      }
+      res.json(docs);
+    })
+  })
+
+routes.route('/setDocs')
+  .post(urlencodedParser, (req, res) => {
+    var fs = require('fs');
+    var email = req.body.email;
+    console.log("user is :" + email);
+
+    files.find({ email: email }, (err, doc) => {
+      console.log(doc.length);
+      for (var i = 0; i < doc.length; ++i) {
+        if (i == 0)
+          var fpath = path.join(__dirname, 'docs', `pan.jpg`);
+        if (i == 1)
+          var fpath = path.join(__dirname, 'docs', `aadhaar.jpg`);
+
+        console.log("the path is :" + fpath);
+
+        fs.writeFile(fpath, new Buffer(doc[i].file, "base64"), (err) => { });
+      }
+    });
+
+    res.json("files set");
+  })
+
+routes.route('/showDocs/:email/:org')
+  .get((req, res) => {
+    var sess = req.session;
+
+    if (sess.email) {
+      sess.docemail = req.params.email;
+      sess.docorg = req.params.org;
+      console.log("came to showdocs");
+      res.sendFile(path.join(__dirname, 'docs', 'docs.html'));
+    } else {
+      res.redirect('/login');
+    }
+
+  })
+
+routes.route('/getRevokedPartners')
+  .post(urlencodedParser,(req, res) => {
+    // partner.find({token:doc[0].token}, (err, doc) => {
+    //   var myObj = {
+    //     status: true
+    //   }
+    //   res.json(myObj);
+    // })
+    console.log("came to 747");
+    var myObj = {
+      status: true
+    }
+    res.json(myObj);
   })
 
 //    ************************************************************************************

@@ -9,151 +9,167 @@
       <!-- options -->
       <button [ngClass]="pendingClass" (click)="show_pending()"> Pending Requests </button>
       <button [ngClass]="partnerClass" (click)="show_partner()"> Partners </button>
+      <button [ngClass]="pendingDocs" (click)="show_docs()"> Pending Docs </button>
       <button [ngClass]="profileClass" (click)="show_profile()"> My Details</button>
       <button [ngClass]="passClass" (click)="show_pass()"> Change Password</button>
 
     </div>
     <div class="col-lg-9 content">
-          <!-- ==================== PROFILE ============================ -->
+      <!-- ==================== PROFILE ============================ -->
 
-          <div class="profile">
-              <ul>
-                  <li><b>User Name: </b>{{show_user_profile.username}}</li>
-                  <li><b>First Name: </b>{{show_user_profile.fname}}</li>
-                  <li><b>Last Name: </b>{{show_user_profile.lname}}</li>
-                  <li><b>Email: </b>{{show_user_profile.useremail}}</li>
-              </ul>
-          </div>
-
-          <!-- ==================== PASSWORD ============================ -->
-
-          <div class="changepass">
-          <form [formGroup]="passForm" (ngSubmit)="onPassSubmit()">
-            <label> Current Password</label>
-            <input class="form-control" type="password" placeholder="Enter Current Password" formControlName="old">
-
-            <label> New Password</label>
-            <input class="form-control" type="password" placeholder="Enter New Password" formControlName="new">
-
-            <label> Re-Type New Password</label>
-            <input class="form-control" type="password" placeholder="Re-Type New Password" formControlName="renew">
-
-            <button class="btn btn-primary" style="margin-top: 15px;"> Change Password</button>
-          </form>
-          </div>
-
-          <!-- ==================== PENDING REQUESTS ============================ -->
-          <div class="pendingreq">
-            <table>
-                <tr>
-                  <th>Partner</th>
-                  <th>Accept</th>
-                  <th>Decline</th>
-                </tr>
-                  <tr *ngFor="let req of requests;let i = index">
-                    <td>{{req.org}}</td>
-                    <td><button class="accept btn btn-success" (click)="accept(i,req.org,req.email)"> Accept </button></td>
-                    <td><button class="accept btn btn-danger" (click)="decline(i,req.org,req.email)"> Decline </button></td>
-                  </tr>
-            </table>
-          </div>
-
-          <!-- =============================== PARTNERS ================================ -->
-          <div class="partner">
-            <div *ngFor="let partner of partners" class="part">
-              <form [formGroup]="partnerForm" (ngSubmit)="onPartnerSubmit(partner.email,partner.name)">
-                  <div class="card">
-                      <div class="card-header" 
-                        [ngClass]="{'card-header-active':partner.active, 'card-header-revoked':!partner.active}">
-                        Organization : {{partner.org}}
-                      </div> 
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-lg-6">
-                                <div class="form-group">
-                                    <div class="col-lg-6">
-                                      <label>Total Hits:</label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                      <input class="form-control" type="text" placeholder="{{partner.amnt}}" formControlName="amnt">
-                                    </div>
-                                </div>
-                          </div>
-                          <div class="col-lg-6">
-                            <div class="form-group">
-                              <div class="col-lg-6">
-                                <label> Successful hits:</label>
-                              </div>
-                              <div class="col-lg-6">
-                                <input class="form-control" type="text" placeholder="{{partner.freq}}" formControlName="freq">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                              <div class="form-group">
-                                <div class="col-lg-6">
-                                    <label>Failures:</label>
-                                </div>
-                                <div class="col-lg-6">
-                                    <input class="form-control" type="text" placeholder="{{partner.accno}}" formControlName="accno">
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-lg-6">
-                              <div class="form-group">
-                                <div class="col-lg-6">
-                                  <label> Amount Transferred:</label>
-                                </div>
-                                <div class="col-lg-6">
-                                    <input class="form-control" type="text" placeholder="{{partner.mid}}" formControlName="mid">
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                              <div class="col-lg-6">
-                                <div class="form-group">
-                                  <div class="col-lg-6">
-                                    <label>Approver ID:</label>
-                                  </div>
-                                  <div class="col-lg-6">
-                                    <input class="form-control" type="text" placeholder="{{partner.appid}}" formControlName="appid">
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-lg-6">
-                                <div class="form-group">
-                                  <div class="col-lg-6">
-                                    <label>Checker ID:</label>
-                                  </div>
-                                  <div class="col-lg-6">
-                                    <input class="form-control" type="text" placeholder="{{partner.cid}}" formControlName="cid">
-                                  </div>
-                                </div>
-                              </div>
-                          </div>
-                          <div *ngIf="partner.active; else elseBlock" class="form-row align-items-center">
-                              <label><b>Revoke Partner</b></label>
-                              <div class="col-auto" class="sbmt">
-                                  <button (click)="revoke(partner.org,partner.email)" class="btn btn-danger mb-2">Revoke</button>
-                              </div>
-                          </div>
-                          <ng-template #elseBlock>
-                            <label><b>Activate Partner</b></label>
-                              <div class="col-auto" class="sbmt">
-                                  <button (click)="activate(partner.org,partner.email)" class="btn btn-success mb-2">Activate</button>
-                              </div>
-                          </ng-template>
-                      </div>
-                  </div>
-                  
-              </form>
-            </div>
-          </div>
+      <div class="profile">
+        <ul>
+          <li><b>User Name: </b>{{show_user_profile.username}}</li>
+          <li><b>First Name: </b>{{show_user_profile.fname}}</li>
+          <li><b>Last Name: </b>{{show_user_profile.lname}}</li>
+          <li><b>Email: </b>{{show_user_profile.useremail}}</li>
+        </ul>
       </div>
+
+      <!-- ==================== PASSWORD ============================ -->
+
+      <div class="changepass">
+        <form [formGroup]="passForm" (ngSubmit)="onPassSubmit()">
+          <label> Current Password</label>
+          <input class="form-control" type="password" placeholder="Enter Current Password" formControlName="old">
+
+          <label> New Password</label>
+          <input class="form-control" type="password" placeholder="Enter New Password" formControlName="new">
+
+          <label> Re-Type New Password</label>
+          <input class="form-control" type="password" placeholder="Re-Type New Password" formControlName="renew">
+
+          <button class="btn btn-primary" style="margin-top: 15px;"> Change Password</button>
+        </form>
+      </div>
+
+      <!-- ==================== PENDING REQUESTS ============================ -->
+      <div class="pendingreq">
+        <table>
+          <tr>
+            <th>Partner</th>
+            <th>Accept</th>
+            <th>Decline</th>
+          </tr>
+          <tr *ngFor="let req of requests;let i = index">
+            <td>{{req.org}}</td>
+            <td><button class="accept btn btn-success" (click)="accept(i,req.org,req.email)"> Accept </button></td>
+            <td><button class="accept btn btn-danger" (click)="decline(i,req.org,req.email)"> Decline </button></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- ==================== PENDING DOCS ============================ -->
+      <div class="docs">
+        <table>
+          <tr>
+            <th>Partner</th>
+            <th>Documents</th>
+          </tr>
+          <tr *ngFor="let doc of docs;let i = index">
+            <td>{{doc.org}}</td>
+            <td><button class="accept btn btn-success" (click)="view_docs(doc.email,doc.org)"> View Documents </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- =============================== PARTNERS ================================ -->
+      <div class="partner">
+        <div *ngFor="let partner of partners" class="part">
+          <form [formGroup]="partnerForm" (ngSubmit)="onPartnerSubmit(partner.email,partner.name)">
+            <div class="card">
+              <div class="card-header"
+                [ngClass]="{'card-header-active':partner.active, 'card-header-revoked':!partner.active}">
+                Organization : {{partner.org}}
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-6">
+                        <label>Total Hits:</label>
+                      </div>
+                      <div class="col-lg-6">
+                        <input class="form-control" type="text" placeholder="{{partner.amnt}}" formControlName="amnt">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-6">
+                        <label> Successful hits:</label>
+                      </div>
+                      <div class="col-lg-6">
+                        <input class="form-control" type="text" placeholder="{{partner.freq}}" formControlName="freq">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-6">
+                        <label>Failures:</label>
+                      </div>
+                      <div class="col-lg-6">
+                        <input class="form-control" type="text" placeholder="{{partner.accno}}" formControlName="accno">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-6">
+                        <label> Amount Transferred:</label>
+                      </div>
+                      <div class="col-lg-6">
+                        <input class="form-control" type="text" placeholder="{{partner.mid}}" formControlName="mid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-6">
+                        <label>Approver ID:</label>
+                      </div>
+                      <div class="col-lg-6">
+                        <input class="form-control" type="text" placeholder="{{partner.appid}}" formControlName="appid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-6">
+                        <label>Checker ID:</label>
+                      </div>
+                      <div class="col-lg-6">
+                        <input class="form-control" type="text" placeholder="{{partner.cid}}" formControlName="cid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="partner.active; else elseBlock" class="form-row align-items-center">
+                  <label><b>Revoke Partner</b></label>
+                  <div class="col-auto" class="sbmt">
+                    <button (click)="revoke(partner.org,partner.email)" class="btn btn-danger mb-2">Revoke</button>
+                  </div>
+                </div>
+                <ng-template #elseBlock>
+                  <label><b>Activate Partner</b></label>
+                  <div class="col-auto" class="sbmt">
+                    <button (click)="activate(partner.org,partner.email)" class="btn btn-success mb-2">Activate</button>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
