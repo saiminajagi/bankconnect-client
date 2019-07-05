@@ -78,7 +78,7 @@ setTimeout(() => {
         runLoop(data);
     })
     .catch(err => {
-        console.log(err);
+        console.log('err at 81:index.js');
     })
 
 }, 30000)
@@ -86,7 +86,7 @@ setTimeout(() => {
 /* to refer more about aync & await visit : https://www.geeksforgeeks.org/using-async-await-in-node-js/  */
 
 //first declare the function which you want to run synchronously as 'async'.
-//inside the function declare the part as 'await' which you want to complete before you go to next loop. 
+//inside the function declare the part as 'await' which you want to complete before you go to next loop.
 runLoop = async (transactions)=>{
     for(var tran of transactions){
         //check whether the transation already exists
@@ -106,10 +106,10 @@ runLoop = async (transactions)=>{
                 newtransaction.save();
             }
         })
-        
+
     }
 }
 
-    
+
 app.listen(5000);
 console.log("listening to port 5000");

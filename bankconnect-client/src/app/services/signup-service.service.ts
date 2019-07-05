@@ -227,9 +227,9 @@ export class SignupServiceService {
     })
   }
 
-  // a dummy service call...to just populate the api response
-  getDummyResponse(){
-    return this.http.get('https://reqres.in/api/users/2',{
+  // a service call...to just populate the api response
+  getDummyResponse():Observable<any>{
+    return this.http.post('https://api.us.apiconnect.ibmcloud.com/cts-dev-dev/sb/payment/post',{
       headers :
       new HttpHeaders({ 'Content-Type': 'application/json'})
     });

@@ -38,43 +38,50 @@
 <div class="how-it-works">
   <h2>How it works</h2>
 </div>
-<div class="row" style="background-color: #e9ecef; padding-top: 10px;">
+<div class="row" style="background-color: #e9ecef; padding-top: 20px;">
   <div class="col-sm-3">
     <div class="how-it-works-text">
-        <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
-        <p>
-          Product Name and Account ID<br><small>Get an overview of your customer’s available accounts, identifiers, and account status—great for aggregation use cases.&nbsp;</small>
-        </p>
+      <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
+      <p>
+        Product Name and Account ID<br><small>Get an overview of your customer’s available accounts, identifiers, and account status—great for aggregation use cases.&nbsp;</small>
+      </p>
     </div>
-    <br>
+  </div>
+  <div class="col-sm-1"></div>
+  <div class="col-sm-3">
     <div class="how-it-works-text">
-        <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
-        <p>
-            Account Balance and Credit Limit<br><small>Retrieve your customer’s available funds. Use balances and limits to display budget alerts, personalized recommendations, and more.&nbsp;</small>
-        </p>
+      <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
+      <p>
+          Account Balance and Credit Limit<br><small>Retrieve your customer’s available funds. Use balances and limits to display budget alerts, personalized recommendations, and more.&nbsp;</small>
+      </p>
     </div>
-    <br>
+  </div>
+  <div class="col-sm-1"></div>
+  <div class="col-sm-3">
     <div class="how-it-works-text">
-        <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
-        <p>
-            Payment Due Date<br><small>Help your customer avoid late payments. Send notifications about upcoming due dates, or notify them ahead of time with automatic notifications.&nbsp;</small>
-        </p>
+      <img src="../../assets/li-icon.svg" width="40px;" height="40px;">
+      <p>
+          Payment Due Date<br><small>Help your customer avoid late payments. Send notifications about upcoming due dates, or notify them ahead of time with automatic notifications.&nbsp;</small>
+      </p>
     </div>
+  </div>
+  <div class="col-sm-1"></div>
+</div>
+<div class="row" style="background-color: #e9ecef;">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-6">
+    <div class="test-api">
+        <button type="button" (click)="apiTestResponse();" class="btn btn-primary">Test this API</button>
+    </div>
+    <div class="highlight">
+        <pre class="highlight"> <code class="s2">{{ '{' }}<br>    "Data": {{ '{' }}<br>        "PaymentId": "REPLACE WITH SMAE VALUE FROM INTENT",<br>        "Initiation": {{ '{' }}<br>            "InstructionIdentification": "REPLACE WITH SAME VALUE FROM INTENT",<br>            "EndToEndIdentification": "FRESCO.21302.GFX.20",<br>            "InstructedAmount": {{ '{' }}<br>                "Amount": "55.60",<br>                "Currency": "ZAR"<br>            {{ '}' }},<br>            "CreditorAgent": {{ '{' }}<br>                "SchemeName": "ZASortCode",<br>                "Identification": "470010"<br>            {{ '}' }},<br>            "CreditorAccount": {{ '{' }}<br>                "SchemeName": "BBAN",<br>                "Identification": "1028232942",<br>                "Name": "ACME Inc",<br>                "SecondaryIdentification": "0002"<br>            {{ '}' }},<br>            "RemittanceInformation": {{ '{' }}<br>                "Unstructured": "Internal ops code 5120101",<br>                "Reference": "FRESCO-101"<br>            {{ '}' }}<br>        {{ '}' }}<br>    {{ '}' }},<br>    "Risk": {{ '{' }}<br>        "PaymentContextCode": "Other",<br>        "MerchantCategoryCode": "5967",<br>        "MerchantCustomerIdentification": "053598653254",<br>        "DeliveryAddress": {{ '{' }}<br>            "AddressLine": [<br>                "Flat 7"<br>            ],<br>            "StreetName": "Acacia Avenue",<br>            "BuildingNumber": "27",<br>            "PostCode": "GU31 2ZZ",<br>            "TownName": "Sparsholt",<br>            "Country": "UK"<br>        {{ '}' }}<br>    {{ '}' }}<br>{{ '}' }}</code></pre></div>
   </div>
   <div class="col-sm-5">
-      <div class="highlight">
-              <pre class="highlight"> <code class="s2">{{ '{' }}<br> "accountGroupSummary" : [ <br>    {{ '{' }}   "accountGroup": "CREDIT",<br>        "accounts" : [<br>        {{ '{' }}<br>            "creditCardAccountSummary" : {{ '{' }}<br>                "productName" : "Bank Platinum Visa",<br>                "accountNickname" : "TRAVEL CARD",<br>                "displayAccountNumber" :"XXXXXXXXXXXX0364",<br>                "accountId" :"XXXXXXXXXXXXXXXXXX343d",<br>                "currencyCode" :"AUD",<br>                "accountStatus" : "ACTIVE",<br>                "creditLimit" : 25000.25,<br>                "minimumDueAmount" :256.5,<br>                "alternateCurrency" :"USD",<br>                "alternateCurrencyCurrentBalance" :1534.25,<br>                "cardHolderType" : "PRIMARY" <br>            {{ '}' }} <br>        {{ '}' }}] <br>    {{ '}' }}]<br>{{ '}' }}</code> </pre>
-      </div>
-      <div class="test-api">
-        <button type="button" (click)="apiTestResponse();" class="btn btn-primary">Test this API</button>
-      </div>
-  </div>
-  <div class="col-sm-4">
     <div *ngIf="onPressTestAPIbutton" class="highlight1">
       <div class="alert alert-primary" role="alert">
           <strong> API Response</strong> - check it out!
       </div>
-      <pre class="highlight1"> <code class="s2">{{ '{' }}<br>    "data": {{ '{' }}<br>        "id": "{{ testAPIres.data.id }}",<br>        "email": "{{ testAPIres.data.email }}",<br>        "first_name": "{{ testAPIres.data.first_name }}",<br>        "last_name": "{{ testAPIres.data.last_name }}",<br>        "displayAccountNumber" :"XXXX876520364",<br>        "accountStatus" : "ACTIVE",<br>        "accountNickname" : "TRAVEL CARD",<br>    {{ '}' }}<br>{{ '}' }}</code> </pre>
+      <pre class="highlight1"> <code class="s2">{{ '{' }}<br>    "Data": {{ '{' }}<br>        "PaymentSubmissionId": "{{ testAPIres.Data.PaymentSubmissionId }}",<br>        "PaymentId": "{{ testAPIres.Data.PaymentId }}",<br>        "Status": "{{ testAPIres.Data.Status }}",<br>        "CreationDateTime": "{{ testAPIres.Data.CreationDateTime }}"<br>    {{ '}' }},<br>    "Links": {{ '{' }}<br>        "self": "{{ testAPIres.Links.self }}"<br>    {{ '}' }},<br>    "Meta": {{ '{' }}<br>        "total-pages": {{ testAPIres.Meta["total-pages"] }}<br>    {{ '}' }}<br>{{ '}' }}</code> </pre>
     </div>
   </div>
 </div>
