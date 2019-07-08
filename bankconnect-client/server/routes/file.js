@@ -1,4 +1,4 @@
-var express = require('express'); 
+var express = require('express');
 var nodemailer = require('nodemailer');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -68,7 +68,7 @@ files.route('/upload')
         }
 
         MongoClient.connect('mongodb://localhost:27017/bcclient',{ useNewUrlParser: true },(err,client)=>{
-            if(err){ 
+            if(err){
                 console.log("Please check you db connection parameters");
             }else{
                 var db = client.db('bcclient');
@@ -80,7 +80,7 @@ files.route('/upload')
         })
 
         MongoClient.connect('mongodb://localhost:27017/bcclient',{ useNewUrlParser: true },(err,client)=>{
-            if(err){ 
+            if(err){
                 console.log("Please check you db connection parameters");
             }else{
                 var db = client.db('bcclient');
@@ -126,15 +126,17 @@ files.route('/acceptdoc')
                 files: true,
                 token: doc[0].token
             });
-    
+
             newpartner.save();
+
+            //send a mail saying that he has been onboarded succesfully
+            var sub = "IDBP Partner Portal";
+            var bankname = `${sess.bank}`
+            var msg = `<p> Hello partner! you have successfully onboarded as a partner by BANK CONNECT</p>`;
+            var pemail = sess.docemail;
+            sendRequestMailAccept(pemail, sub, bankname, msg, doc[0].token);
+
         })
-		//send a mail saying that he has been onboarded succesfully
-		var sub = "IDBP Partner Portal";
-		var bankname = `${sess.bank}`
-		var msg = `<p> Hello partner! you have successfully onboarded as a partner by BANK CONNECT</p>`;
-		var pemail = sess.docemail;
-		sendRequestMailAccept(pemail, sub, bankname, msg, doc[0].token);
 
 		res.redirect('/profile');
 	});

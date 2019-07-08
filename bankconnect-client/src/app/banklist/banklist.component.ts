@@ -8,69 +8,69 @@ import { SignupServiceService } from '../services/signup-service.service';
   styleUrls: ['./banklist.component.scss']
 })
 export class BanklistComponent implements OnInit {
-  confirmed:Number = 1;
+  confirmed: Number = 1;
   banklist: Array<String> = [];
-  active:Boolean;
+  active: Boolean;
   email: String;
-  org : String;
+  org: String;
   public onboardclick = false;
-
   // onboardClass = {
   //   "Overview" : false
   // }
 
-  constructor(private router: Router,private route: ActivatedRoute,private signservice : SignupServiceService) {
+  constructor(private router: Router, private route: ActivatedRoute, private signservice: SignupServiceService) {
     this.signservice.getConfirmation()
-    .subscribe((data) => {
-      console.log(data);
-      this.confirmed = data;
-    },(err)=> console.log(err));
-   }
+      .subscribe((data) => {
+        console.log(data);
+        this.confirmed = data;
+      }, (err) => console.log(err));
+  }
 
   ngOnInit() {
     this.signservice.getBanks()
-    .subscribe((data)=>{
-      console.log("data is: "+JSON.stringify(data));
-      this.banklist = data;
-    },(err)=> console.log(err));
+      .subscribe((data) => {
+        console.log("data is: " + JSON.stringify(data));
+        this.banklist = data;
+      }, (err) => console.log(err));
 
     this.signservice.getPartnerDetails()
-    .subscribe((data)=>{
-      console.log(data);
-      this.org = data.org;
-      this.email = data.email;
-      this.active = data.active;
-    },(err)=>console.log(err));
+      .subscribe((data) => {
+        console.log(data);
+        this.org = data.org;
+        this.email = data.email;
+        this.active = data.active;
+      }, (err) => console.log(err));
 
   }
 
-  setBank(bankname){
+  setBank(bankname) {
     this.router.navigateByUrl(`/apilist/${bankname}`);
   }
 
-  onboard(i, bankname, element, text){
-    console.log("onboarding to :"+bankname);
+  onboard(i, bankname, element, text) {
+    console.log("onboarding to :" + bankname);
 
-    (document.querySelectorAll('.Onboard')[i] as HTMLElement).setAttribute('disabled','');
+    (document.querySelectorAll('.Onboard')[i] as HTMLElement).setAttribute('disabled', '');
 
     var myObj = {
-      org : this.org,
-      email : this.email,
+      org: this.org,
+      email: this.email,
     }
-    // to disable the onboard button and show approval pending text
-    element.textContent = text;
-    element.disabled = true;
 
-    //to display submit action completed
+    // to display submit action completed
     this.onboardclick = true;
-   //wait 3 Seconds and hide
-    setTimeout(function() {
-       this.onboardclick = false;
-       console.log(this.submitted);
+    // wait 3 Seconds and hide
+    setTimeout(function () {
+      this.onboardclick = false;
     }.bind(this), 3000);
 
     this.signservice.sendReq(myObj)
-    .subscribe((data)=>console.log(data),(err)=>console.log(err));
+      .subscribe((data) => {
+        console.log(data);
+        // to disable the onboard button and show approval pending text
+        element.textContent = data;
+        element.disabled = true;
+      }, (err) => console.log(err));
 
 
   }

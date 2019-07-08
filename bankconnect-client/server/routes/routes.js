@@ -570,27 +570,32 @@ routes.route('/subscribeApi')
         });
         newsubapi.save();
 
+        res.json("API subscribed successfully!");
       } else {
         //check whether the api is already subscribed
         for(var i=0;i<doc[0].apis.length;++i){
           if(api == doc[0].apis[i]){
-            res.json("api has already been subscribed");
+            break;
           }
         }
-        
-        var oldapis = [];
-        oldapis = doc[0].apis;
-        oldapis.push(api);
+        console.log(i);
+        if(i != doc[0].apis.length){
+          //api already exists
+          res.json("API already subscribed!");
+        }else{
+          var oldapis = [];
+          oldapis = doc[0].apis;
+          oldapis.push(api);
 
-        subapi.findOneAndUpdate({ email: sess.email, bank: bank }, { $set: { apis: oldapis } }, { new: true }, (err, doc) => {
-          // the api list is updated
-          if(err) console.log(err);
-        });
+          subapi.findOneAndUpdate({ email: sess.email, bank: bank }, { $set: { apis: oldapis } }, { new: true }, (err, doc) => {
+            // the api list is updated
+            if(err) console.log(err);
+          });
+          res.json("API subscribed successfully!");
+        }
       }
-
     })
 
-    res.json("api has been subscribed successfully");
   })
 
   .get((req, res) => {
@@ -630,7 +635,7 @@ routes.route('/subscribeApi')
             var transaction_list = [];
             for(var i=0;i<doc.length;++i)
                 transaction_list.push(doc[i]);
-            
+
             for (let trans of transaction_list) {
               //search for the fintech to which this transaction belongs to
               for (let fintech of fintech_list) {
@@ -643,13 +648,13 @@ routes.route('/subscribeApi')
             }
             res.json(fintech_list);
           }
-  
+
         })
       }else{
         res.json("no fintech found");
       }
     })
-    
+
   })
 
   routes.route('/setTransactions')
@@ -682,7 +687,7 @@ routes.route('/subscribeApi')
     var myObj = {
       msg : 'this is response from setTransactions'
     }
-    
+
     res.json(myObj);
 
   })

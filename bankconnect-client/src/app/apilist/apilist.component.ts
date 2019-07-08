@@ -10,9 +10,10 @@ import { SignupServiceService } from '../services/signup-service.service';
 export class ApilistComponent implements OnInit {
 
   bank: String;
-  public subscribed;
-  subscribetext;
-
+  public subscribed;  // for subscribe button
+  subscribetext;    // for text display on subcribe button
+  public subscribedStatus = false;    // for subscription status msg
+  subscribedStatusmsg: any;
   fintech: Number;
   Apilist: Array<String> = [];
 
@@ -37,15 +38,15 @@ export class ApilistComponent implements OnInit {
         }, (err) => console.log(err));
 
       this.signservice.getUserType()
-      .subscribe((data)=>{
-        console.log(data);
-        if(data == "fintech")
-          this.fintech = 1;
-        else
-          this.fintech = 0;
-      },(err)=>console.log(err));
+        .subscribe((data) => {
+          console.log(data);
+          if (data == "fintech"){
+            this.fintech = 1;
+          } else {
+            this.fintech = 0;}
+        }, (err) => console.log(err));
 
-    })
+    });
 
     this.subscribed = false;
     this.subscribetext = 'Subscribe';
@@ -65,35 +66,37 @@ export class ApilistComponent implements OnInit {
     this.router.navigateByUrl(`/overview/${apiname}`);
   }
 
-  subscribe(i,apiname) {
+  subscribe(i, apiname) {
 
-    (document.querySelectorAll('.Subscribe')[i] as HTMLElement).setAttribute('disabled','');
+    (document.querySelectorAll('.Subscribe')[i] as HTMLElement).setAttribute('disabled', '');
 
     var myObj = {
-      api : apiname,
-      bank : this.bank
+      api: apiname,
+      bank: this.bank
     }
 
     this.subscribed = true;
     this.subscribetext = 'Subscribed';
 
-    //should he request for the approval?
+    // should he request for the approval?
     this.signservice.subscribeApi(myObj)
-    .subscribe((data)=>{
-      console.log(data);
-    },(err)=>console.log(err));
+      .subscribe((data) => {
+        console.log(data);
+        this.subscribedStatusmsg = data;
+        this.subscribedStatus = true;
+      }, (err) => console.log(err));
 
-    var myObj2={
-      api : apiname,
-      bank : this.bank,
+    var myObj2 = {
+      api: apiname,
+      bank: this.bank,
       email: this.email
     }
 
-    //send this to business manager as well
+    // send this to business manager as well
     this.signservice.addSubscribeApi(myObj2)
-    .subscribe((data)=>{
-      console.log(data);
-    },(err)=>console.log(err))
+      .subscribe((data) => {
+        console.log(data);
+      }, (err) => console.log(err))
 
   }
 }

@@ -1,17 +1,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="row">
+  <div *ngIf="subscribedStatus" class="alert alert-success box-msg" role="alert">
+    <strong>{{ subscribedStatusmsg }}</strong>
+  </div>
   <div class="col-sm-4" *ngFor=" let api of Apilist;let i = index">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{api | uppercase}}</h5>
-        <span class="state">{{state}}</span>
         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <button *ngIf="fintech" class="Subscribe btn btn-primary" type="button" (click)="subscribe(i,api)">  Subscribe </button>
+        <button *ngIf="fintech" class="Subscribe btn btn-primary" type="button" (click)="subscribe(i,api)"><i [ngClass] ="{'fa fa-bookmark-o':!subscribed, 'fa fa-bookmark':subscribed}"></i>  {{subscribetext}} </button>
         <button class="Overview btn btn-primary" type="button" (click)="setApi(api)"><i class="fa fa-eye"></i>  Overview </button>
       </div>
     </div>
   </div>
 </div>
-
-<!-- <i [ngClass] ="{'fa fa-bookmark-o':!subscribed, 'fa fa-bookmark':subscribed}"></i> -->
