@@ -13,10 +13,8 @@ export class BanklistComponent implements OnInit {
   active: Boolean;
   email: String;
   org: String;
+  role: Number;
   public onboardclick = false;
-  // onboardClass = {
-  //   "Overview" : false
-  // }
 
   constructor(private router: Router, private route: ActivatedRoute, private signservice: SignupServiceService) {
     this.signservice.getConfirmation()
@@ -33,13 +31,23 @@ export class BanklistComponent implements OnInit {
         this.banklist = data;
       }, (err) => console.log(err));
 
-    this.signservice.getPartnerDetails()
+    this.signservice.getUserType()
       .subscribe((data) => {
-        console.log(data);
-        this.org = data.org;
-        this.email = data.email;
-        this.active = data.active;
+        if(data == 'admin'){
+          this.role = 1;
+        }else{
+          this.role = 0;
+          this.signservice.getPartnerDetails()
+            .subscribe((data) => {
+              console.log(data);
+              this.org = data.org;
+              this.email = data.email;
+              this.active = data.active;
+            }, (err) => console.log(err));
+        }
       }, (err) => console.log(err));
+
+    
 
   }
 

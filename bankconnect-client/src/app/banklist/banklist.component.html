@@ -1,31 +1,58 @@
-<div *ngIf="!confirmed;else elseBlock">
-  Please Login to see all the banks
-</div>
-
-<ng-template #elseBlock>
-  <div *ngIf="!active;else elseblock">
-    You have been revoked. You cannot view banks.
+<div *ngIf="!role; else Else">
+  <div *ngIf="!confirmed;else elseBlock">
+    Please Login to see all the banks
   </div>
-  <ng-template #elseblock>
-    <div *ngIf="onboardclick" class="alert alert-success box-msg" role="alert">
-      <strong>Request sent to bank.</strong>Approval pending.
+
+  <ng-template #elseBlock>
+    <div *ngIf="!active;else elseblock">
+      You have been revoked. You cannot view banks.
     </div>
-    <div class="row">
-      <div class="col-sm-4" *ngFor=" let bank of banklist;let i=index">
-        <div class="card">
-          <div class="card-body">
-            <div class="img-class">
-              <img src="../../assets/icon-acquirers-one-color.svg" class="icon">
+    <ng-template #elseblock>
+      <div *ngIf="onboardclick" class="alert alert-success box-msg" role="alert">
+        <strong>Request sent to bank.</strong>Approval pending.
+      </div>
+      <div class="row">
+        <div class="col-sm-4" *ngFor=" let bank of banklist;let i=index">
+          <div class="card">
+            <div class="card-body">
+              <div class="img-class">
+                <img src="../../assets/icon-acquirers-one-color.svg" class="icon">
+              </div>
+              <h5 class="card-title">{{bank.bankname | uppercase}}</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <button class="Overview btn" type="button" (click)="setBank(bank.bankname)"> See Services </button>
+              <button style="float:right" class="Onboard btn" type="button"
+                (click)="onboard(i, bank.bankname, $event.target, 'text')"> On Board </button>
             </div>
-            <h5 class="card-title">{{bank.bankname | uppercase}}</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <button class="Overview btn" type="button" (click)="setBank(bank.bankname)"> See Services </button>
-            <button style="float:right" class="Onboard btn" type="button"
-              (click)="onboard(i, bank.bankname, $event.target, 'text')"> On Board </button>
           </div>
         </div>
       </div>
-    </div>
+    </ng-template>
+  
   </ng-template>
+</div>
 
+<ng-template #Else>
+  <div *ngIf="onboardclick" class="alert alert-success box-msg" role="alert">
+    <strong>Request sent to bank.</strong>Approval pending.
+  </div>
+  <div class="row">
+    <div class="col-sm-4" *ngFor=" let bank of banklist;let i=index">
+      <div class="card">
+        <div class="card-body">
+          <div class="img-class">
+            <img src="../../assets/icon-acquirers-one-color.svg" class="icon">
+          </div>
+          <h5 class="card-title">{{bank.bankname | uppercase}}</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <button class="Overview btn" type="button" (click)="setBank(bank.bankname)"> See Services </button>
+          <button style="float:right" class="Onboard btn" type="button"
+            (click)="onboard(i, bank.bankname, $event.target, 'text')"> On Board </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
+
+
+
