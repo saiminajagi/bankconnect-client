@@ -10,9 +10,7 @@ import { SignupServiceService } from '../services/signup-service.service';
 export class ApilistComponent implements OnInit {
 
   bank: String;
-  public subscribed;  // for subscribe button
-  subscribetext;    // for text display on subcribe button
-  public subscribedStatus = false;    // for subscription status msg
+  public subscribedStatus = false;    // flag for subscription status msg
   subscribedStatusmsg: any;
   fintech: Number;
   Apilist: Array<String> = [];
@@ -47,9 +45,6 @@ export class ApilistComponent implements OnInit {
         }, (err) => console.log(err));
 
     });
-
-    this.subscribed = false;
-    this.subscribetext = 'Subscribe';
   }
 
   ngOnInit() {
@@ -75,15 +70,15 @@ export class ApilistComponent implements OnInit {
       bank: this.bank
     }
 
-    this.subscribed = true;
-    this.subscribetext = 'Subscribed';
-
     // should he request for the approval?
     this.signservice.subscribeApi(myObj)
       .subscribe((data) => {
         console.log(data);
         this.subscribedStatusmsg = data;
         this.subscribedStatus = true;
+        setTimeout(function() {
+          this.subscribedStatus = false;
+        }.bind(this), 3000);
       }, (err) => console.log(err));
 
     var myObj2 = {

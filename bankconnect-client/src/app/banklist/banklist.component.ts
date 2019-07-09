@@ -15,6 +15,7 @@ export class BanklistComponent implements OnInit {
   org: String;
   role: Number;
   public onboardclick = false;
+  public onboardStatusmsg: any;
 
   constructor(private router: Router, private route: ActivatedRoute, private signservice: SignupServiceService) {
     this.signservice.getConfirmation()
@@ -58,17 +59,13 @@ export class BanklistComponent implements OnInit {
   onboard(i, bankname, element, text) {
     console.log("onboarding to :" + bankname);
 
-    (document.querySelectorAll('.Onboard')[i] as HTMLElement).setAttribute('disabled', '');
-
     var myObj = {
       org: this.org,
       email: this.email,
     }
 
-    // to display submit action completed
     this.onboardclick = true;
-    // wait 3 Seconds and hide
-    setTimeout(function () {
+    setTimeout(function() {
       this.onboardclick = false;
     }.bind(this), 3000);
 
@@ -76,6 +73,7 @@ export class BanklistComponent implements OnInit {
       .subscribe((data) => {
         console.log(data);
         // to disable the onboard button and show approval pending text
+        this.onboardStatusmsg = data;
         element.textContent = data;
         element.disabled = true;
       }, (err) => console.log(err));

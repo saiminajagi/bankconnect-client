@@ -9,7 +9,7 @@
     </div>
     <ng-template #elseblock>
       <div *ngIf="onboardclick" class="alert alert-success box-msg" role="alert">
-        <strong>Request sent to bank.</strong>Approval pending.
+        <strong> {{ onboardStatusmsg }} </strong>
       </div>
       <div class="row">
         <div class="col-sm-4" *ngFor=" let bank of banklist;let i=index">
