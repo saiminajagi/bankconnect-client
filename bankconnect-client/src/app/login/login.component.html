@@ -5,7 +5,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6 login-form-1">
       <div class="card">
-        <header class="card-header">
+        <header class="card-header ch1">
           <h4 class="card-title mt-2">Log In - Fintech/Bank</h4>
         </header>
         <article class="card-body">
@@ -22,7 +22,7 @@
                 placeholder="Enter Password">
             </div>
 
-            <button type="submit" class="btn btn-primary sbmt">Submit</button>
+            <button type="submit" class="btn btn-primary sbmt1">Log In</button>
           </form>
         </article> <!-- card-body end .// -->
         <div class="border-top card-body text-center">Don't have an account? <a routerLink="/signup">Sign Up</a></div>
@@ -35,21 +35,21 @@
           <header class="card-header ch2">
             <h4 class="card-title mt-2">Log In - Regulatory board</h4>
           </header>
-          <article class="card-body">
+          <article class="card-body cb2">
             <form [formGroup]="loginForm2" (ngSubmit)="onSubmit(2)">
               <div class="form-group">
-                <label for="exampleInputEmail2">Email address</label>
+                <label for="exampleInputEmail2" style="color:white;">Email address</label>
                 <input type="email" class="form-control" formControlName="email2" id="exampleInputEmail2"
                   aria-describedby="emailHelp" placeholder="Enter email">
               </div>
 
               <div class="form-group">
-                <label for="exampleInputPass2">Password</label>
+                <label for="exampleInputPass2" style="color:white;">Password</label>
                 <input type="password" class="form-control" formControlName="pass2" id="exampleInputPass2"
                   placeholder="Enter Password">
               </div>
 
-              <button type="submit" class="btn btn-primary sbmt">Submit</button>
+              <button type="submit" class="btn btn-primary sbmt">Log In</button>
             </form>
           </article> <!-- card-body end .// -->
           <div class="border-top card-body text-center">Govt body <a routerLink="/signup">Terms and conditions.</a></div>

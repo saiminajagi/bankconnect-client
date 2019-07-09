@@ -16,7 +16,40 @@ input:focus{
   box-shadow: none !important;
 }
 
+.ch1{
+  color: #143f8c;
+}
+
 .ch2{
   background:#143f8c;
   color: white;
+}
+
+.cb2{
+  background: #0062cc
+}
+
+button{
+  border-radius: 16px; 
+  padding-left: 45px !important;
+  padding-right: 45px !important;
+}
+
+button:focus{
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.sbmt{
+  background-color: white !important;
+  color: #0062cc !important;
+}
+
+.sbmt1{
+  background-color: #0062cc !important;
+  border-color: #0062cc !important; 
+}
+
+h1{
+  color: #0062cc;
 }
