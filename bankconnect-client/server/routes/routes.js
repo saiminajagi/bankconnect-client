@@ -744,10 +744,17 @@ routes.route('/showDocs/:email/:org')
 routes.route('/getRevokedPartners')
   .post(urlencodedParser,(req, res) => {
     partner.find({token:doc[0].token}, (err, doc) => {
-      var myObj = {
-        status: true
+      if(doc[0].active){
+        var myObj = {
+          status: true
+        }
+        res.json(myObj);
+      }else{
+        var myObj = {
+          status: false
+        }
+        res.json(myObj);
       }
-      res.json(myObj);
     })
   })
 
