@@ -765,13 +765,15 @@ routes.route('/getSecurityToken')
       if(doc.length){
         var myObj = {
           token : doc[0].token,
-          msg : "token found"
+          msg : "token found",
+          active: doc[0].active
         }
         res.json(myObj);
       }else{
         var myObj = {
           token : "",
-          msg : "token not found"
+          msg : "token not found",
+          active: false
         }
         res.json(myObj);
       }
