@@ -232,11 +232,20 @@ export class SignupServiceService {
     })
   }
 
+  getSecurityToken(){
+    return this.http.get('/route/getSecurityToken',{
+      headers :
+      new HttpHeaders({ 'Content-Type':'application/json'})
+    })
+  }
+
   // a service call...to just populate the api response
-  getDummyResponse():Observable<any>{
+  getDummyResponse(token):Observable<any>{
     return this.http.post('https://api.us.apiconnect.ibmcloud.com/cts-dev-dev/sb/payment/post',{
       headers :
-      new HttpHeaders({ 'Content-Type': 'application/json'})
+      new HttpHeaders({ 'Content-Type': 'application/json',
+                        'Authorization' : `Bearer ${token}`,
+                      })
     });
   }
 
