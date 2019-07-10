@@ -265,7 +265,7 @@ export class SignupServiceService {
 
   setToken(obj):Observable<any>{
     return this.http.post<any>('/route/setToken', obj, {
-        headers: 
+        headers:
         new HttpHeaders({ 'Content-Type': 'application/json'})
     })
   }
