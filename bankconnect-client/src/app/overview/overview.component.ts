@@ -44,12 +44,18 @@ export class OverviewComponent implements OnInit {
   }
 
   apiTestResponse(){
-    this.signservice.getDummyResponse()
-    .subscribe((data) => {
+    this.signservice.getSecurityToken()
+    .subscribe((data)=>{
       console.log(data);
-      this.testAPIres = data;
-      this.onPressTestAPIbutton = true;
-    });
+      var token = data;
+      this.signservice.getDummyResponse(token)
+      .subscribe((data) => {
+        console.log(data);
+        this.testAPIres = data;
+        this.onPressTestAPIbutton = true;
+      });
+    })
+
   }
 
 }

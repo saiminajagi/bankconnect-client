@@ -756,6 +756,26 @@ routes.route('/getRevokedPartners')
     res.json(myObj);
   })
 
+routes.route('/getSecurityToken')
+  .get((req,res)=>{
+    var sess = req.session;
+    partner.find({email: sess.email},(err,doc)=>{
+      if(doc.length){
+        var myObj = {
+          token : doc[0].token,
+          msg : "token found"
+        }
+        res.json(myObj);
+      }else{
+        var myObj = {
+          token : "",
+          msg : "token not found"
+        }
+        res.json(myObj);
+      }
+    })
+  })
+
 //    ************************************************************************************
 
 //    ==============================END OF ROUTING =======================================
