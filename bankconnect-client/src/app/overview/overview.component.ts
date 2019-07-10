@@ -17,8 +17,6 @@ export class OverviewComponent implements OnInit {
   use_cases = [];
   apiDetails: any;
   testAPIres: any;
-  active: Boolean;
-  revoked: Boolean;
 
   public onPressTestAPIbutton = false;
 
@@ -46,36 +44,24 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
   }
 
+  // this function is yet to finalize to use
+  // apiTestResponse() {
+  //   this.signservice.getSecurityToken()
+  //     .subscribe((data) => {
+  //       var token = data;
+  //       console.log("token is: "+ data);
+
+  //       this.signservice.getDummyResponse(token)
+  //         .subscribe((data) => {
+  //           console.log(data);
+  //           this.testAPIres = data;
+  //           this.onPressTestAPIbutton = true;
+  //         });
+  //     });
+  // }
+
   apiTestResponse() {
-    this.signservice.getSecurityToken()
-      .subscribe((data) => {
-        var token = data[0].token;
-        var active = data[0].active;
-
-
-        if(active){
-          this.signservice.getDummyResponse(token)
-          .subscribe((data) => {
-            console.log(data);
-            this.testAPIres = data;
-            this.onPressTestAPIbutton = true;
-            this.active = true;
-            this.revoked = false;
-          });
-        }else{
-          var errObj = {
-            httpCode: 401,
-            httpMessage:"Unauthorized",
-            messageInformation: "token has been revoked. API access denied"
-          }
-          this.testAPIres = errObj;
-          this.onPressTestAPIbutton = true;
-          this.active = true;
-          this.revoked = false;
-        }
-        
-      });
-
+    this.onPressTestAPIbutton = true;
   }
 
 }

@@ -130,7 +130,7 @@ files.route('/acceptdoc')
             newpartner.save();
 
             //send a mail saying that he has been onboarded succesfully
-            var sub = "IDBP Partner Portal";
+            var sub = "IDRBT Portal";
             var bankname = `${sess.bank}`
             var msg = `<p> Hello partner! you have successfully onboarded as a partner by BANK CONNECT</p>`;
             var pemail = sess.docemail;
@@ -161,7 +161,7 @@ function sendRequestMailAccept(email, sub, bankname, msg, token) {
         auth: {
             // user: process.env.GMAIL_USER,
             // pass: process.env.GMAIL_PASS
-            user: 'ibm.idbp@gmail.com',
+            user: 'ibm.bankconnect@gmail.com',
             pass: 'Modified@2017'
         }
     });

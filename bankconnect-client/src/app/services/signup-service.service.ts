@@ -243,11 +243,18 @@ export class SignupServiceService {
   getDummyResponse(token):Observable<any>{
     return this.http.post('https://api.us.apiconnect.ibmcloud.com/cts-dev-dev/sb/payment/post',{
       headers :
-      new HttpHeaders({ 'Content-Type': 'application/json',
-                        'Authorization' : `Bearer ${token}`,
+      new HttpHeaders({ Authorization : `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                       })
     });
   }
+
+  // getres(){
+  //   return this.http.get<any>('https://reqres.in/api/users?page=2',{
+  //     headers :
+  //     new HttpHeaders({ 'Content-Type': 'application/json'})
+  //   })
+  // }
 
   getPendingDocs(){
     return this.http.get<any>('/route/getPendingDocs',{
