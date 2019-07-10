@@ -3,8 +3,8 @@
 <div *ngIf="fintech; else elseBlock">
   <div class="container">
     <div class="row">
-      <div class="col-3"></div>
-      <div class="col-6">
+      <div class="col-2"></div>
+      <div class="col-8">
           <div class="step1">
             <br>
             <h4>Your account Details</h4>
@@ -14,6 +14,9 @@
                   <li><b>Last Name: </b>{{show_admin_profile.lname}}</li>
                   <li><b>Your Email: </b>{{show_admin_profile.useremail}}</li>
               </ul>
+              <h5>Security Token</h5>
+              <small>Keep it confidential.</small>
+              <p class="token">{{ show_security_token.token }}</p>
               <h5>Subscriptions</h5>
               <div *ngFor="let data of ApiSubscriptionDetails">
                 <h6><b>Bank: {{data.bank}}</b></h6>
@@ -24,7 +27,7 @@
             </div>
           </div>
       </div>
-      <div class="col-3"></div>
+      <div class="col-2"></div>
     </div>
   </div>
 </div>

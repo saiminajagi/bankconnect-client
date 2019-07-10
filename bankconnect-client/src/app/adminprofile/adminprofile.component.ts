@@ -16,6 +16,7 @@ export class AdminprofileComponent implements OnInit {
   public fintech = false;
   show_admin_profile:any;
   ApiSubscriptionDetails = [];
+  show_security_token: any;
 
   constructor(private signservice: SignupServiceService, private route: ActivatedRoute) {
     this.show_admin_profile = this.route.snapshot.data['admin_profile'];
@@ -35,6 +36,12 @@ export class AdminprofileComponent implements OnInit {
         this.ApiSubscriptionDetails.push(data[i]);
       }
     },(err)=>console.log(err));
+
+    this.signservice.getSecurityToken()
+      .subscribe((data) => {
+        console.log(data);
+        this.show_security_token = data;
+      }, (err) => console.log(err));
   }
 
 }
