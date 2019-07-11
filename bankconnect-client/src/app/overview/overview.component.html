@@ -81,8 +81,8 @@
       <div class="alert alert-primary" role="alert">
           <strong> API Response</strong> - check it out!
       </div>
-      <pre class="highlight1" *ngIf=""> <code class="s2">{{ '{' }}<br>    "Data": {{ '{' }}<br>        "PaymentSubmissionId": "{{ testAPIres.Data.PaymentSubmissionId }}",<br>        "PaymentId": "{{ testAPIres.Data.PaymentId }}",<br>        "Status": "{{ testAPIres.Data.Status }}",<br>        "CreationDateTime": "{{ testAPIres.Data.CreationDateTime }}"<br>    {{ '}' }},<br>    "Links": {{ '{' }}<br>        "self": "{{ testAPIres.Links.self }}"<br>    {{ '}' }},<br>    "Meta": {{ '{' }}<br>        "total-pages": {{ testAPIres.Meta["total-pages"] }}<br>    {{ '}' }}<br>{{ '}' }}</code> </pre>
-      <pre class="highlight1" *ngIf=""> <code class="s2">{{ '{' }}<br>  "Data": {{ '{' }}<br>    "httpCode": "401",<br>    "httpMessage": "Unauthorized",<br>    "messageInformation": "Token has been revoked. API access denied"<br>  {{ '}' }}<br>{{ '}' }}</code> </pre>
+      <!-- <pre class="highlight1"> <code class="s2">{{ '{' }}<br>    "Data": {{ '{' }}<br>        "PaymentSubmissionId": "{{ testAPIres.Data.PaymentSubmissionId }}",<br>        "PaymentId": "{{ testAPIres.Data.PaymentId }}",<br>        "Status": "{{ testAPIres.Data.Status }}",<br>        "CreationDateTime": "{{ testAPIres.Data.CreationDateTime }}"<br>    {{ '}' }},<br>    "Links": {{ '{' }}<br>        "self": "{{ testAPIres.Links.self }}"<br>    {{ '}' }},<br>    "Meta": {{ '{' }}<br>        "total-pages": {{ testAPIres.Meta["total-pages"] }}<br>    {{ '}' }}<br>{{ '}' }}</code> </pre> -->
+      <pre class="highlight1"> <code class="s2">{{ '{' }}<br>    "Data": {{ '{' }}<br>        "PaymentSubmissionId": "35254575",<br>        "PaymentId": "30492933-4811-4d59-8671-8ae155c23ee8",<br>        "Status": "AcceptedSettlementCompleted",<br>        "CreationDateTime": "2019-04-11T00:00:00.000Z"<br>    {{ '}' }},<br>    "Links": {{ '{' }}<br>        "self": "http://0.0.0.0:3000/api/open-banking/payment-submissions/35254575"<br>    {{ '}' }},<br>    "Meta": {{ '{' }}<br>        "total-pages": 1<br>    {{ '}' }}<br>{{ '}' }}</code> </pre>
     </div>
   </div>
 </div>

@@ -67,7 +67,7 @@ setInterval(() => {
             }
         }
     });
-}, 12000);
+}, 5000);
 
 setTimeout(() => {
     //here we have just the port number to recognise the bank but we need complete url later.
@@ -93,10 +93,13 @@ runLoop = async (transactions)=>{
         //check whether the transation already exists
         //before we go to next loop we want this function to complete its execution.
         await transaction.find({ $and: [{ bank: tran.bank }, { org: tran.org }] }, (err, doc) => {
+          // console.log(tran.bank+" "+tran.org);
             if(doc.length){
+              // console.log("old");
                 transaction.findOneAndUpdate({ $and: [{ bank: tran.bank }, { org: tran.org }] },{hits: tran.hits, success: tran.success, fail: tran.fail},{new: true},(err,doc)=>{
                 })
             }else{
+              // console.log("new");
                 var newtransaction = new transaction({
                     bank: tran.bank,
                     org: tran.org,

@@ -48,7 +48,7 @@ export class BanklistComponent implements OnInit {
         }
       }, (err) => console.log(err));
 
-    
+
 
   }
 

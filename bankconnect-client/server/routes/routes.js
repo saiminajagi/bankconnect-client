@@ -468,7 +468,7 @@ routes.route('/checklogin')
       if (sess.fintech) {
         console.log("fintech here");
         usermodel.find({ email: sess.email }, (err, doc) => {
-          res.json(doc[0].fname);
+          res.json(doc[0].org);
         })
       } else if (sess.admin) {
         console.log("Regulatory board admin here");
@@ -639,7 +639,8 @@ routes.route('/subscribeApi')
             for (let trans of transaction_list) {
               //search for the fintech to which this transaction belongs to
               for (let fintech of fintech_list) {
-                if (fintech.partnername == trans.org) {
+                //console.log(fintech.partnername.toUpperCase()+" "+trans.org.toUpperCase());
+                if (fintech.partnername.toUpperCase() == trans.org.toUpperCase()) {
                   //push this transaction to fintechs transaction list
                   fintech.transactions.push(trans);
                   break;
@@ -743,6 +744,7 @@ routes.route('/showDocs/:email/:org')
 
 routes.route('/getRevokedPartners')
   .post(urlencodedParser,(req, res) => {
+    console.lof("came here");
     partner.find({token:doc[0].token}, (err, doc) => {
       if(doc[0].active){
         var myObj = {
@@ -763,19 +765,8 @@ routes.route('/getSecurityToken')
     var sess = req.session;
     partner.find({email: sess.email},(err,doc)=>{
       if(doc.length){
-        var myObj = {
-          token : doc[0].token,
-          msg : "token found",
-          active: doc[0].active
-        }
-        res.json(myObj);
-      }else{
-        var myObj = {
-          token : "",
-          msg : "token not found",
-          active: false
-        }
-        res.json(myObj);
+        var token = doc[0].token;
+        res.json(token);
       }
     })
   })
@@ -872,7 +863,7 @@ function sendmailtopartner(pemail, org) {
     var mailOptions = {
       from: 'ibm.bankconnect@gmail.com',
       to: `${pemail}`,
-      subject: 'Approval from Bank Connect Admin',
+      subject: 'Approval from IDRBT Admin',
       text: 'That was easy!',
       html: htmlToSend
     };
