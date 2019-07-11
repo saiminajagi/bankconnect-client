@@ -82,7 +82,7 @@ setTimeout(() => {
         console.log('err at 81:index.js');
     })
 
-}, 30000)
+}, 3000)
 
 /* to refer more about aync & await visit : https://www.geeksforgeeks.org/using-async-await-in-node-js/  */
 
