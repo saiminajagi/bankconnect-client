@@ -49,8 +49,8 @@ export class OverviewComponent implements OnInit {
   apiTestResponse() {
     this.signservice.getSecurityToken()
       .subscribe((data) => {
-        var token = data[0].token;
-        var active = data[0].active;
+        var token = data.token;
+        var active = data.active;
 
 
         if(active){
